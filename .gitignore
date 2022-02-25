@@ -1,0 +1,8 @@
+/logs
+
+/EJBActivosFijos/build
+/EJBActivosFijos/dist
+/EJBActivosFijos/nbproject
+/EJBActivosFijos/build
+build.xml
+persistence.xml
