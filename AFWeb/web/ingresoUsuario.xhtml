@@ -1,0 +1,43 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+    <h:head>
+        <title>ingresoUsuario</title>
+    </h:head>
+        <h:body>
+            <h:form>
+                <p:panelGrid columns="2">
+                    <h:outputText value="auApellido: "/>
+                    <p:inputText value="#{JSFManaged.afUsuario.auApellido}"/>                    
+ 
+                    <h:outputText value="auCargo: "/>
+                    <p:inputText value="#{JSFManaged.afUsuario.auCargo}"/>
+ 
+                    <h:outputText value="auCedula "/>
+                    <p:inputText value="#{JSFManaged.afUsuario.auCedula}"/>
+                    
+                    <h:outputText value="auConsecutivo "/>
+                    <p:inputText value="#{JSFManaged.afUsuario.auConsecutivo}"/>
+
+                    <h:outputText value="auFechaNacimiento "/>
+                    <p:inputText value="#{JSFManaged.afUsuario.auFechaNacimiento}"/>
+
+                    <h:outputText value="auLogin "/>
+                    <p:inputText value="#{JSFManaged.afUsuario.auLogin}"/>
+                    
+                    <h:outputText value="auNombre "/>
+                    <p:inputText value="#{JSFManaged.afUsuario.auNombre}"/>                    
+
+                    <h:outputText value="auClave "/>
+                    <p:inputText value="#{JSFManaged.afUsuario.auClave}"/>    
+                    
+                    <p:commandButton value="Grabar" id="btnGrabar" action="#{JSFManaged.grabarAfUsuario()}"/>
+                </p:panelGrid>
+            </h:form>
+        </h:body>
+</html>
+

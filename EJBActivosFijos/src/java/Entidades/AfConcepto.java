@@ -46,8 +46,9 @@ public class AfConcepto implements Serializable {
     @Size(max = 1)
     @Column(name = "ac_depreciable")
     private String acDepreciable;
+    @Size(max = 1)
     @Column(name = "ac_estado")
-    private Character acEstado;
+    private String acEstado;
     @OneToMany(mappedBy = "acAfConcepto")
     private Collection<AfActivoFijo> afActivoFijoCollection;
 
@@ -82,11 +83,11 @@ public class AfConcepto implements Serializable {
         this.acDepreciable = acDepreciable;
     }
 
-    public Character getAcEstado() {
+    public String getAcEstado() {
         return acEstado;
     }
 
-    public void setAcEstado(Character acEstado) {
+    public void setAcEstado(String acEstado) {
         this.acEstado = acEstado;
     }
 

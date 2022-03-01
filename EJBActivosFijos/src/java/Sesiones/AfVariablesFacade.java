@@ -4,17 +4,17 @@
  */
 package Sesiones;
 
-import Entidades.AfEjemplo;
+import Entidades.AfVariables;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
 /**
  *
- * @author alejo
+ * @author mpaucar
  */
 @Stateless
-public class AfEjemploFacade extends AbstractFacade<AfEjemplo> implements AfEjemploFacadeLocal {
+public class AfVariablesFacade extends AbstractFacade<AfVariables> implements AfVariablesFacadeLocal {
     @PersistenceContext(unitName = "EJBActivosFijosPU")
     private EntityManager em;
 
@@ -23,8 +23,8 @@ public class AfEjemploFacade extends AbstractFacade<AfEjemplo> implements AfEjem
         return em;
     }
 
-    public AfEjemploFacade() {
-        super(AfEjemplo.class);
+    public AfVariablesFacade() {
+        super(AfVariables.class);
     }
     
 }
