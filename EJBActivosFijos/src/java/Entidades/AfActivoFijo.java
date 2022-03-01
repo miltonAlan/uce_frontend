@@ -5,7 +5,6 @@
 package Entidades;
 
 import java.io.Serializable;
-import java.util.Collection;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -15,12 +14,11 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -48,8 +46,9 @@ public class AfActivoFijo implements Serializable {
     @NotNull
     @Column(name = "af_consecutivo")
     private Double afConsecutivo;
+    @Size(max = 1)
     @Column(name = "af_estado")
-    private Character afEstado;
+    private String afEstado;
     @Size(max = 100)
     @Column(name = "af_marca")
     private String afMarca;
@@ -74,8 +73,8 @@ public class AfActivoFijo implements Serializable {
     @JoinColumn(name = "ac_af_concepto", referencedColumnName = "ac_concepto")
     @ManyToOne
     private AfConcepto acAfConcepto;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "afActivoFijo")
-    private Collection<AfHistorico> afHistoricoCollection;
+    @OneToOne(cascade = CascadeType.ALL, mappedBy = "afActivoFijo")
+    private AfHistorico afHistorico;
 
     public AfActivoFijo() {
     }
@@ -92,11 +91,11 @@ public class AfActivoFijo implements Serializable {
         this.afConsecutivo = afConsecutivo;
     }
 
-    public Character getAfEstado() {
+    public String getAfEstado() {
         return afEstado;
     }
 
-    public void setAfEstado(Character afEstado) {
+    public void setAfEstado(String afEstado) {
         this.afEstado = afEstado;
     }
 
@@ -172,13 +171,12 @@ public class AfActivoFijo implements Serializable {
         this.acAfConcepto = acAfConcepto;
     }
 
-    @XmlTransient
-    public Collection<AfHistorico> getAfHistoricoCollection() {
-        return afHistoricoCollection;
+    public AfHistorico getAfHistorico() {
+        return afHistorico;
     }
 
-    public void setAfHistoricoCollection(Collection<AfHistorico> afHistoricoCollection) {
-        this.afHistoricoCollection = afHistoricoCollection;
+    public void setAfHistorico(AfHistorico afHistorico) {
+        this.afHistorico = afHistorico;
     }
 
     @Override

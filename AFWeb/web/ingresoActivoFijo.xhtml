@@ -1,0 +1,55 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+    <h:head>
+        <title>ingresoActivoFijo</title>
+    </h:head>
+    <h:body>
+        <h:form>
+            <p:panelGrid columns="2">
+                <h:outputText value="afCodigoBarras"/>
+                <p:inputText value="#{JSFManaged.afActivoFijo.afCodigoBarras}"/>    
+                
+                <h:outputText value="afConsecutivo"/>
+                <p:inputText value="#{JSFManaged.afActivoFijo.afConsecutivo}"/>    
+                
+                <h:outputText value="afDepAcum"/>
+                <p:inputText value="#{JSFManaged.afActivoFijo.afDepAcum}"/>   
+                
+                <h:outputText value="afEstado"/>
+                <p:inputText value="#{JSFManaged.afActivoFijo.afEstado}"/>                   
+                
+                <h:outputText value="afFechaCreacion"/>
+                <p:inputText value="#{JSFManaged.afActivoFijo.afFechaCreacion}"/>  
+                
+                <h:outputText value="afMarca"/>
+                <p:inputText value="#{JSFManaged.afActivoFijo.afMarca}"/>       
+                
+                <h:outputText value="afModelo"/>
+                <p:inputText value="#{JSFManaged.afActivoFijo.afModelo}"/>      
+                
+                <h:outputText value="afPeriodoDep"/>
+                <p:inputText value="#{JSFManaged.afActivoFijo.afPeriodoDep}"/>                      
+
+                <h:outputText value="afValor"/>
+                <p:inputText value="#{JSFManaged.afActivoFijo.afValor}"/>    
+                
+                <h:outputText value="afValor"/>
+                <p:inputText value="#{JSFManaged.afActivoFijo.afValor}"/>                      
+                
+                <h:outputText value="codCliente"/>
+                <p:inputText value="#{JSFManaged.codCliente}"/>     
+                
+                <h:outputText value="codConcepto"/>
+                <p:inputText value="#{JSFManaged.codConcepto}"/>                     
+                
+                <p:commandButton value="Grabar" id="btnGrabar" action="#{JSFManaged.grabarActivoFijo()}"/>
+            </p:panelGrid>
+        </h:form>
+    </h:body>
+</html>
+

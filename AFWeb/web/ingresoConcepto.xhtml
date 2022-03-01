@@ -1,0 +1,31 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+    <h:head>
+        <title>ingresoConcepto</title>
+    </h:head>
+        <h:body>
+            <h:form>
+                <p:panelGrid columns="2">
+                    <h:outputText value="acConcepto "/>
+                    <p:inputText value="#{JSFManaged.afConcepto.acConcepto}"/>
+                    
+                    <h:outputText value="acConsecutivo "/>
+                    <p:inputText value="#{JSFManaged.afConcepto.acConsecutivo}"/>                    
+
+                    <h:outputText value="acDepreciable "/>
+                    <p:inputText value="#{JSFManaged.afConcepto.acDepreciable}"/>  
+                    
+                    <h:outputText value="acEstado "/>
+                    <p:inputText value="#{JSFManaged.afConcepto.acEstado}"/>    
+                    
+                    <p:commandButton value="Grabar" id="btnGrabar" action="#{JSFManaged.grabarAfConcepto()}"/>
+                </p:panelGrid>
+            </h:form>
+        </h:body>
+</html>
+

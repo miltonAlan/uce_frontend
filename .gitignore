@@ -1,8 +1,8 @@
 /logs
 
-/EJBActivosFijos/build
-/EJBActivosFijos/dist
-/EJBActivosFijos/nbproject
-/EJBActivosFijos/build
+*/build
+*/dist
+*/nbproject
+*/build
 build.xml
 persistence.xml
