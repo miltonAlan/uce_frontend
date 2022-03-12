@@ -8,24 +8,30 @@
     <h:head>
         <title>ingresoConcepto</title>
     </h:head>
-        <h:body>
-            <h:form>
-                <p:panelGrid columns="2">
-                    <h:outputText value="acConcepto "/>
-                    <p:inputText value="#{JSFManaged.afConcepto.acConcepto}"/>
-                    
-                    <h:outputText value="acConsecutivo "/>
-                    <p:inputText value="#{JSFManaged.afConcepto.acConsecutivo}"/>                    
+    <h:body>
+        
+        <h:form>
+            <p:panelGrid columns="2">
+                <h:outputText value="acConcepto "/>
+                <p:inputText value="#{JSFManaged.afConcepto.acConcepto}"/>
 
-                    <h:outputText value="acDepreciable "/>
-                    <p:inputText value="#{JSFManaged.afConcepto.acDepreciable}"/>  
-                    
-                    <h:outputText value="acEstado "/>
-                    <p:inputText value="#{JSFManaged.afConcepto.acEstado}"/>    
-                    
-                    <p:commandButton value="Grabar" id="btnGrabar" action="#{JSFManaged.grabarAfConcepto()}"/>
-                </p:panelGrid>
-            </h:form>
-        </h:body>
+                <p:outputLabel value="acDepreciable "/>
+                <p:selectOneMenu id="option" value="#{JSFManaged.afConcepto.acDepreciable}">                    
+                    <f:selectItem itemLabel="SI" itemValue="SI"/>
+                    <f:selectItem itemLabel="NO" itemValue="NO"/>
+                </p:selectOneMenu>
+
+                <h:outputText value="acEstado "/>
+                <h:outputText value="Vigente"/>
+
+                <div class="card">
+                    <p:growl id="growl" showDetail="true" />
+                    <p:commandButton value="Grabar" id="btnGrabar" actionListener ="#{JSFManaged.grabarAfConcepto()}"
+                                     update="growl" 
+                                     styleClass="p-mr-2"/>
+                </div>
+            </p:panelGrid>
+        </h:form>
+    </h:body>
 </html>
 

@@ -16,8 +16,12 @@ import java.io.Serializable;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
+import javax.faces.context.FacesContext;
+import org.primefaces.event.CellEditEvent;
+import org.primefaces.event.RowEditEvent;
 
 @ManagedBean(name = "JSFManaged")
 @SessionScoped
@@ -30,6 +34,7 @@ public class JSFManaged implements Serializable {
     @EJB
     private AfConceptoFacadeLocal manejadorAfConcepto;
     private AfConcepto afConcepto;
+    private List<AfConcepto> listaAfConceptos;
     @EJB
     private AfActivoFijoFacadeLocal manejadorAfActivoFijo;
     private AfActivoFijo afActivoFijo;
@@ -48,7 +53,15 @@ public class JSFManaged implements Serializable {
     }
 
     public void grabarAfConcepto() {
-        manejadorAfConcepto.create(afConcepto);
+        if (manejadorAfConcepto.buscarPorConcepto(afConcepto.getAcConcepto()) == null) {
+            afConcepto.setAcEstado("Vigente");
+            manejadorAfConcepto.create(afConcepto);
+            if (manejadorAfConcepto.buscarPorConcepto(afConcepto.getAcConcepto()) != null) {
+                addMessage(FacesMessage.SEVERITY_INFO, "Informacion", "Registro guardado exitosamente");
+            }
+        } else {
+            addMessage(FacesMessage.SEVERITY_WARN, "Advertencia", "Un concepto con la misma descripción ya existe");
+        }
     }
 
     public void grabarActivoFijo() {
@@ -67,6 +80,17 @@ public class JSFManaged implements Serializable {
         setListaAfUsuarios(manejadorAfUsuario.findAll());
     }
 
+    public void listarAfConceptos() {
+        this.setListaAfConceptos(manejadorAfConcepto.findAll());
+    }
+
+    public void editarConcepto(AfConcepto concepto) {
+        manejadorAfConcepto.edit(concepto);
+        FacesContext.getCurrentInstance().
+                addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Informacion", "Registro modificado exitosamente"));
+
+    }
+
     @PostConstruct
     private void inicio() {
         afUsuario = new AfUsuario();
@@ -74,6 +98,7 @@ public class JSFManaged implements Serializable {
         afActivoFijo = new AfActivoFijo();
         afHistorico = new AfHistorico();
         listarAfUsuarios();
+        listarAfConceptos();
     }
 
     public AfUsuario getAfUsuario() {
@@ -138,5 +163,18 @@ public class JSFManaged implements Serializable {
 
     public void setCodActivoFijo(double codActivoFijo) {
         this.codActivoFijo = codActivoFijo;
+    }
+
+    public void addMessage(FacesMessage.Severity severity, String summary, String detail) {
+        FacesContext.getCurrentInstance().
+                addMessage(null, new FacesMessage(severity, summary, detail));
+    }
+
+    public List<AfConcepto> getListaAfConceptos() {
+        return listaAfConceptos;
+    }
+
+    public void setListaAfConceptos(List<AfConcepto> listaAfConceptos) {
+        this.listaAfConceptos = listaAfConceptos;
     }
 }
