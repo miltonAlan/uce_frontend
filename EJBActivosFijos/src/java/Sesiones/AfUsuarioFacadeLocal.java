@@ -28,5 +28,4 @@ public interface AfUsuarioFacadeLocal {
     List<AfUsuario> findRange(int[] range);
 
     int count();
-    
 }

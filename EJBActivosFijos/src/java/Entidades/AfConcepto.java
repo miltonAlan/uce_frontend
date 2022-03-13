@@ -5,23 +5,20 @@
 package Entidades;
 
 import java.io.Serializable;
-import java.util.Collection;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author mpaucar
+ * @author User
  */
 @Entity
 @Table(name = "af_concepto")
@@ -34,36 +31,33 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "AfConcepto.findByAcEstado", query = "SELECT a FROM AfConcepto a WHERE a.acEstado = :acEstado")})
 public class AfConcepto implements Serializable {
     private static final long serialVersionUID = 1L;
-    // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Id
     @Basic(optional = false)
     @NotNull
     @Column(name = "ac_consecutivo")
-    private Double acConsecutivo;
+    private Integer acConsecutivo;
     @Size(max = 255)
     @Column(name = "ac_concepto")
     private String acConcepto;
-    @Size(max = 1)
+    @Size(max = 255)
     @Column(name = "ac_depreciable")
     private String acDepreciable;
-    @Size(max = 1)
+    @Size(max = 255)
     @Column(name = "ac_estado")
     private String acEstado;
-    @OneToMany(mappedBy = "acAfConcepto")
-    private Collection<AfActivoFijo> afActivoFijoCollection;
 
     public AfConcepto() {
     }
 
-    public AfConcepto(Double acConsecutivo) {
+    public AfConcepto(Integer acConsecutivo) {
         this.acConsecutivo = acConsecutivo;
     }
 
-    public Double getAcConsecutivo() {
+    public Integer getAcConsecutivo() {
         return acConsecutivo;
     }
 
-    public void setAcConsecutivo(Double acConsecutivo) {
+    public void setAcConsecutivo(Integer acConsecutivo) {
         this.acConsecutivo = acConsecutivo;
     }
 
@@ -89,15 +83,6 @@ public class AfConcepto implements Serializable {
 
     public void setAcEstado(String acEstado) {
         this.acEstado = acEstado;
-    }
-
-    @XmlTransient
-    public Collection<AfActivoFijo> getAfActivoFijoCollection() {
-        return afActivoFijoCollection;
-    }
-
-    public void setAfActivoFijoCollection(Collection<AfActivoFijo> afActivoFijoCollection) {
-        this.afActivoFijoCollection = afActivoFijoCollection;
     }
 
     @Override

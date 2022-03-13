@@ -29,4 +29,6 @@ public interface AfConceptoFacadeLocal {
 
     int count();
     
+   AfConcepto buscarPorConcepto(String concepto);
+    
 }

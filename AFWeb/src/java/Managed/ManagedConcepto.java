@@ -23,9 +23,9 @@ import javax.faces.context.FacesContext;
 import org.primefaces.event.CellEditEvent;
 import org.primefaces.event.RowEditEvent;
 
-@ManagedBean(name = "JSFManaged")
+@ManagedBean(name = "ManagedConcepto")
 @SessionScoped
-public class JSFManaged implements Serializable {
+public class ManagedConcepto implements Serializable {
 
     @EJB
     private AfUsuarioFacadeLocal manejadorAfUsuario;
@@ -45,22 +45,36 @@ public class JSFManaged implements Serializable {
     private AfHistorico afHistorico;
     private double codActivoFijo;
 
-    public JSFManaged() {
+    public ManagedConcepto() {
     }
 
     public void grabarAfUsuario() {
         manejadorAfUsuario.create(afUsuario);
     }
 
+    public double buscarUltimo(List list) {
+        return 0;
+    }
+
+    public void asignarConsecutivo() {
+        this.afConcepto.setAcConsecutivo(this.listaAfConceptos.get(this.listaAfConceptos.size() - 1).getAcConsecutivo() + 1);
+
+    }
+
     public void grabarAfConcepto() {
+//        this.inicio();
+//        System.out.println("XXXXXXXX: " + afConcepto.getAcConcepto());
         if (manejadorAfConcepto.buscarPorConcepto(afConcepto.getAcConcepto()) == null) {
             afConcepto.setAcEstado("Vigente");
+            asignarConsecutivo();
+//            System.out.println("XXXXXXXX: " + afConcepto.getAcConcepto());
+//            System.out.println("XXXXXXXX: " + afConcepto.getAcDepreciable());
             manejadorAfConcepto.create(afConcepto);
-            if (manejadorAfConcepto.buscarPorConcepto(afConcepto.getAcConcepto()) != null) {
-                addMessage(FacesMessage.SEVERITY_INFO, "Informacion", "Registro guardado exitosamente");
-            }
+            this.setListaAfConceptos(manejadorAfConcepto.findAll());
+            addMessage(FacesMessage.SEVERITY_INFO, "Informacion", "Registro guardado exitosamente");
+
         } else {
-            addMessage(FacesMessage.SEVERITY_WARN, "Advertencia", "Un concepto con la misma descripción ya existe");
+            addMessage(FacesMessage.SEVERITY_WARN, "Advertencia", "Un concepto con la misma descripción ya existe mamaverga");
         }
     }
 
@@ -93,11 +107,8 @@ public class JSFManaged implements Serializable {
 
     @PostConstruct
     private void inicio() {
-        afUsuario = new AfUsuario();
         afConcepto = new AfConcepto();
-        afActivoFijo = new AfActivoFijo();
-        afHistorico = new AfHistorico();
-        listarAfUsuarios();
+//        afUsuario = new AfUsuario();
         listarAfConceptos();
     }
 
