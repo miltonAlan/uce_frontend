@@ -20,8 +20,6 @@ import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
-import org.primefaces.event.CellEditEvent;
-import org.primefaces.event.RowEditEvent;
 
 @ManagedBean(name = "ManagedConcepto")
 @SessionScoped
@@ -62,15 +60,12 @@ public class ManagedConcepto implements Serializable {
     }
 
     public void grabarAfConcepto() {
-//        this.inicio();
-//        System.out.println("XXXXXXXX: " + afConcepto.getAcConcepto());
         if (manejadorAfConcepto.buscarPorConcepto(afConcepto.getAcConcepto()) == null) {
             afConcepto.setAcEstado("Vigente");
             asignarConsecutivo();
-//            System.out.println("XXXXXXXX: " + afConcepto.getAcConcepto());
-//            System.out.println("XXXXXXXX: " + afConcepto.getAcDepreciable());
             manejadorAfConcepto.create(afConcepto);
             this.setListaAfConceptos(manejadorAfConcepto.findAll());
+            afConcepto = new AfConcepto();
             addMessage(FacesMessage.SEVERITY_INFO, "Informacion", "Registro guardado exitosamente");
 
         } else {
