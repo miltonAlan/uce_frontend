@@ -60,32 +60,27 @@ public class JSFManaged implements Serializable {
     }
 
     public void grabarAfUsuario() {
-        System.out.println("xxxxxxxxx" + manejadorAfUsuario.buscarPorUsuario(afUsuario.getAuCedula())==null);
         SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
         String date = sdf.format(fecha);
         afUsuario.setAuFechaNacimiento(date);
-        
+
         try {
-            if (manejadorAfUsuario.buscarPorUsuario(afUsuario.getAuCedula())==null) {
-               
+            if (manejadorAfUsuario.buscarPorUsuario(afUsuario.getAuCedula()) == null) {
+
                 asignarConsecutivo();
-                System.out.println("xxxxxxxxxxxequis" + afUsuario.getAuConsecutivo());
-                    this.afUsuario.setAuConsecutivo(this.listaAfUsuarios.get(this.listaAfUsuarios.size() - 1).getAuConsecutivo() + 1);
                 manejadorAfUsuario.create(afUsuario);
-                 FacesContext.getCurrentInstance().
-                addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Informacion", "Registro modificado exitosamente"));
-                }
-            else{
-                FacesContext.getCurrentInstance().
-                addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Advertencia!", "El registro ya existe"));
+                this.setListaAfUsuarios(manejadorAfUsuario.findAll());
+                afUsuario = new AfUsuario();
+                FacesContext.getCurrentInstance().addMessage(null,
+                        new FacesMessage(FacesMessage.SEVERITY_INFO, "Informacion", "Registro guardado exitosamente"));
+            } else {
+                FacesContext.getCurrentInstance().addMessage(null,
+                        new FacesMessage(FacesMessage.SEVERITY_ERROR, "Advertencia!", "El registro ya existe"));
             }
-      
+
         } catch (Exception e) {
-       
         }
 
-       
-    
     }
 
     public void grabarAfConcepto() {
@@ -122,8 +117,8 @@ public class JSFManaged implements Serializable {
 
     public void editarConcepto(AfConcepto concepto) {
         manejadorAfConcepto.edit(concepto);
-        FacesContext.getCurrentInstance().
-                addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Informacion", "Registro modificado exitosamente"));
+        FacesContext.getCurrentInstance().addMessage(null,
+                new FacesMessage(FacesMessage.SEVERITY_INFO, "Informacion", "Registro modificado exitosamente"));
 
     }
 
@@ -136,14 +131,13 @@ public class JSFManaged implements Serializable {
         listarAfUsuarios();
         listarAfConceptos();
     }
-    
-    public void asignarConsecutivo() {
-//        this.afConcepto.setAcConsecutivo(this.listaAfConceptos.get(this.listaAfConceptos.size() - 1).getAcConsecutivo() + 1);
 
-        this.afUsuario.setAuConsecutivo(this.listaAfUsuarios.get(this.listaAfUsuarios.size() - 1).getAuConsecutivo() + 1);
+    public void asignarConsecutivo() {
+
+        this.afUsuario
+                .setAuConsecutivo(this.listaAfUsuarios.get(this.listaAfUsuarios.size() - 1).getAuConsecutivo() + 1);
 
     }
-    
 
     public AfUsuario getAfUsuario() {
         return afUsuario;
@@ -210,8 +204,7 @@ public class JSFManaged implements Serializable {
     }
 
     public void addMessage(FacesMessage.Severity severity, String summary, String detail) {
-        FacesContext.getCurrentInstance().
-                addMessage(null, new FacesMessage(severity, summary, detail));
+        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(severity, summary, detail));
     }
 
     public List<AfConcepto> getListaAfConceptos() {
