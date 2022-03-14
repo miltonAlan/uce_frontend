@@ -13,8 +13,6 @@ import Sesiones.AfConceptoFacadeLocal;
 import Sesiones.AfHistoricoFacadeLocal;
 import Sesiones.AfUsuarioFacadeLocal;
 import java.io.Serializable;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
@@ -22,12 +20,10 @@ import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
-import org.primefaces.event.CellEditEvent;
-import org.primefaces.event.RowEditEvent;
 
-@ManagedBean(name = "JSFManaged")
+@ManagedBean(name = "ManagedConcepto")
 @SessionScoped
-public class JSFManaged implements Serializable {
+public class ManagedConcepto implements Serializable {
 
     @EJB
     private AfUsuarioFacadeLocal manejadorAfUsuario;
@@ -46,57 +42,34 @@ public class JSFManaged implements Serializable {
     private AfHistoricoFacadeLocal manejadorAfHistorico;
     private AfHistorico afHistorico;
     private double codActivoFijo;
-    private Date fecha;
 
-    public Date getFecha() {
-        return fecha;
-    }
-
-    public void setFecha(Date fecha) {
-        this.fecha = fecha;
-    }
-
-    public JSFManaged() {
+    public ManagedConcepto() {
     }
 
     public void grabarAfUsuario() {
-        System.out.println("xxxxxxxxx" + manejadorAfUsuario.buscarPorUsuario(afUsuario.getAuCedula())==null);
-        SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
-        String date = sdf.format(fecha);
-        afUsuario.setAuFechaNacimiento(date);
-        
-        try {
-            if (manejadorAfUsuario.buscarPorUsuario(afUsuario.getAuCedula())==null) {
-               
-                asignarConsecutivo();
-                System.out.println("xxxxxxxxxxxequis" + afUsuario.getAuConsecutivo());
-                    this.afUsuario.setAuConsecutivo(this.listaAfUsuarios.get(this.listaAfUsuarios.size() - 1).getAuConsecutivo() + 1);
-                manejadorAfUsuario.create(afUsuario);
-                 FacesContext.getCurrentInstance().
-                addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Informacion", "Registro modificado exitosamente"));
-                }
-            else{
-                FacesContext.getCurrentInstance().
-                addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Advertencia!", "El registro ya existe"));
-            }
-      
-        } catch (Exception e) {
-       
-        }
+        manejadorAfUsuario.create(afUsuario);
+    }
 
-       
-    
+    public double buscarUltimo(List list) {
+        return 0;
+    }
+
+    public void asignarConsecutivo() {
+        this.afConcepto.setAcConsecutivo(this.listaAfConceptos.get(this.listaAfConceptos.size() - 1).getAcConsecutivo() + 1);
+
     }
 
     public void grabarAfConcepto() {
         if (manejadorAfConcepto.buscarPorConcepto(afConcepto.getAcConcepto()) == null) {
             afConcepto.setAcEstado("Vigente");
+            asignarConsecutivo();
             manejadorAfConcepto.create(afConcepto);
-            if (manejadorAfConcepto.buscarPorConcepto(afConcepto.getAcConcepto()) != null) {
-                addMessage(FacesMessage.SEVERITY_INFO, "Informacion", "Registro guardado exitosamente");
-            }
+            this.setListaAfConceptos(manejadorAfConcepto.findAll());
+            afConcepto = new AfConcepto();
+            addMessage(FacesMessage.SEVERITY_INFO, "Informacion", "Registro guardado exitosamente");
+
         } else {
-            addMessage(FacesMessage.SEVERITY_WARN, "Advertencia", "Un concepto con la misma descripción ya existe");
+            addMessage(FacesMessage.SEVERITY_WARN, "Advertencia", "Un concepto con la misma descripción ya existe mamaverga");
         }
     }
 
@@ -129,21 +102,10 @@ public class JSFManaged implements Serializable {
 
     @PostConstruct
     private void inicio() {
-        afUsuario = new AfUsuario();
         afConcepto = new AfConcepto();
-        afActivoFijo = new AfActivoFijo();
-        afHistorico = new AfHistorico();
-        listarAfUsuarios();
+//        afUsuario = new AfUsuario();
         listarAfConceptos();
     }
-    
-    public void asignarConsecutivo() {
-//        this.afConcepto.setAcConsecutivo(this.listaAfConceptos.get(this.listaAfConceptos.size() - 1).getAcConsecutivo() + 1);
-
-        this.afUsuario.setAuConsecutivo(this.listaAfUsuarios.get(this.listaAfUsuarios.size() - 1).getAuConsecutivo() + 1);
-
-    }
-    
 
     public AfUsuario getAfUsuario() {
         return afUsuario;

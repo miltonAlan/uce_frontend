@@ -5,27 +5,100 @@
       xmlns:f="http://java.sun.com/jsf/core"
       xmlns:ui="http://java.sun.com/jsf/facelets"
       xmlns:p="http://primefaces.org/ui">
+    <h:outputStylesheet name="primeicons/primeicons.css" library="primefaces"/>
+    <h:outputStylesheet name="primeicons/primeicons.css" library="primefaces" />
     <h:head>
         <title>ingresoConcepto</title>
     </h:head>
-        <h:body>
-            <h:form>
-                <p:panelGrid columns="2">
-                    <h:outputText value="acConcepto "/>
-                    <p:inputText value="#{JSFManaged.afConcepto.acConcepto}"/>
-                    
-                    <h:outputText value="acConsecutivo "/>
-                    <p:inputText value="#{JSFManaged.afConcepto.acConsecutivo}"/>                    
 
-                    <h:outputText value="acDepreciable "/>
-                    <p:inputText value="#{JSFManaged.afConcepto.acDepreciable}"/>  
-                    
-                    <h:outputText value="acEstado "/>
-                    <p:inputText value="#{JSFManaged.afConcepto.acEstado}"/>    
-                    
-                    <p:commandButton value="Grabar" id="btnGrabar" action="#{JSFManaged.grabarAfConcepto()}"/>
-                </p:panelGrid>
-            </h:form>
-        </h:body>
+    <h:body>
+        <h:form>
+            <p:commandButton type="reset" icon="ui-icon-plusthick" value="Nuevo" onclick="wdialogo.show()" 
+                             />
+
+            <p:dialog id="dialogo" widgetVar="wdialogo" resizable="false" draggable="false" header="Ingreso de nuevo concepto">
+                <h:form>
+                    <p:panelGrid id ="panelConceptos" columns="2">
+                        <h:outputText id="idConcepto" value="acConcepto "/>
+                        <p:inputText value="#{ManagedConcepto.afConcepto.acConcepto}"/>
+
+                        <p:outputLabel value="acDepreciable "/>
+                        <p:selectOneMenu id="option" value="#{ManagedConcepto.afConcepto.acDepreciable}">                    
+                            <f:selectItem itemLabel="SI" itemValue="SI"/>
+                            <f:selectItem itemLabel="NO" itemValue="NO"/>
+                        </p:selectOneMenu>
+
+                        <h:outputText value="acEstado "/>
+                        <h:outputText value="Vigente"/>
+                        <h:column/> 
+                        <h:column>
+                            <div class="card">
+                                <p:growl id="growl" showDetail="true" />
+                                <p:commandButton value="Grabar" id="btnGrabar" actionListener ="#{ManagedConcepto.grabarAfConcepto()}"
+                                                 update=":formPrincipal:conceptos" icon="ui-icon-check" 
+                                                 oncomplete="wdialogo.hide()">
+                                </p:commandButton>
+                                <p:commandButton value="Cancelar" id="btnCancelar" immediate="true" 
+                                                 onclick="wdialogo.hide()"/>
+                            </div>
+                        </h:column>
+                    </p:panelGrid>
+                </h:form>
+            </p:dialog>
+        </h:form>
+        <h:form id="formPrincipal">
+            <div class="card crud-demo">
+                <p:growl id="msgs" showDetail="true" autoUpdate="true"/>
+                <p:dataTable id="conceptos" widgetVar="dtProducts" var="concepto" value="#{ManagedConcepto.listaAfConceptos}"
+                             styleClass="products-table" 
+                             paginator="true"
+                             rows="10"  paginatorPosition="bottom" editable="true" sortBy="#{concepto.acConsecutivo}">
+
+
+                    <p:column headerText="Consecutivo" filterBy="#{concepto.acConsecutivo}" sortBy="#{concepto.acConsecutivo}">
+                        <h:outputText value="#{concepto.acConsecutivo}"/>
+                    </p:column>
+
+                    <p:column headerText="Descripcion" filterBy="#{concepto.acConcepto}"> 
+                        <p:cellEditor>
+                            <f:facet name="output"><h:outputText value="#{concepto.acConcepto}"/></f:facet>
+                            <f:facet name="input"><p:inputText id="modelInput" value="#{concepto.acConcepto}"
+                                                               style="width:100%"/></f:facet>
+                        </p:cellEditor>
+                    </p:column>
+
+                    <p:column headerText="Depreciable" filterBy="#{concepto.acDepreciable}"> 
+                        <p:cellEditor>
+                            <f:facet name="output"><h:outputText value="#{concepto.acDepreciable}"/></f:facet>
+                            <f:facet name="input">
+                                <p:selectOneMenu id="opcionDepreciable" value="#{concepto.acDepreciable}" style="width:100%">                    
+                                    <f:selectItem itemLabel="SI" itemValue="SI"/>
+                                    <f:selectItem itemLabel="NO" itemValue="NO"/>
+                                </p:selectOneMenu>
+                            </f:facet>
+                        </p:cellEditor>
+                    </p:column>       
+
+                    <p:column headerText="Estado" filterBy="#{concepto.acEstado}"> 
+                        <p:cellEditor>
+                            <f:facet name="output"><h:outputText value="#{concepto.acEstado}"/></f:facet>
+                            <f:facet name="input">
+                                <p:selectOneMenu id="opcionEstado" value="#{concepto.acEstado}" style="width:100%">                    
+                                    <f:selectItem itemLabel="Vigente" itemValue="Vigente"/>
+                                    <f:selectItem itemLabel="No Vigente" itemValue="No Vigente"/>
+                                </p:selectOneMenu>
+                            </f:facet>
+                        </p:cellEditor>
+                    </p:column> 
+
+                    <p:column style="width:32px">
+                        <p:rowEditor/>
+                    </p:column>
+                    <p:ajax event="rowEdit" listener="#{ManagedConcepto.editarConcepto(concepto)}" update="conceptos"/>
+                </p:dataTable>
+
+            </div>
+        </h:form>
+    </h:body>
 </html>
 

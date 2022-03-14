@@ -30,4 +30,5 @@ public interface AfUsuarioFacadeLocal {
     int count();
     
      AfUsuario buscarPorUsuario(String cedula);
+
 }

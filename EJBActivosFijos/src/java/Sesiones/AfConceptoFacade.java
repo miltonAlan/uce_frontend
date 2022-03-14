@@ -15,6 +15,7 @@ import javax.persistence.PersistenceContext;
  */
 @Stateless
 public class AfConceptoFacade extends AbstractFacade<AfConcepto> implements AfConceptoFacadeLocal {
+
     @PersistenceContext(unitName = "EJBActivosFijosPU")
     private EntityManager em;
 
@@ -26,5 +27,16 @@ public class AfConceptoFacade extends AbstractFacade<AfConcepto> implements AfCo
     public AfConceptoFacade() {
         super(AfConcepto.class);
     }
-    
+
+    @Override
+    public AfConcepto buscarPorConcepto(String concepto) {
+        AfConcepto afConcepto = null;
+        try {
+            afConcepto = (AfConcepto) em.createNamedQuery("AfConcepto.findByAcConcepto", AfConcepto.class)
+                    .setParameter("acConcepto", concepto).getSingleResult();
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return afConcepto;
+    }
 }
