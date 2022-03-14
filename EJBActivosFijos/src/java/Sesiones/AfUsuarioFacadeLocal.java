@@ -28,4 +28,7 @@ public interface AfUsuarioFacadeLocal {
     List<AfUsuario> findRange(int[] range);
 
     int count();
+    
+     AfUsuario buscarPorUsuario(String cedula);
+
 }

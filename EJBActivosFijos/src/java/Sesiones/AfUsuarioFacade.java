@@ -26,5 +26,17 @@ public class AfUsuarioFacade extends AbstractFacade<AfUsuario> implements AfUsua
     public AfUsuarioFacade() {
         super(AfUsuario.class);
     }
+ 
+@Override
+    public AfUsuario buscarPorUsuario(String cedula) {
+        AfUsuario afUsuario = null;
+        try {
+            afUsuario = (AfUsuario) em.createNamedQuery("AfUsuario.findByAuCedula", AfUsuario.class)
+                    .setParameter("auCedula", cedula).getSingleResult();
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return afUsuario;
+    }
     
 }
