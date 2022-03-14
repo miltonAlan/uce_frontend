@@ -13,11 +13,15 @@ import Sesiones.AfConceptoFacadeLocal;
 import Sesiones.AfHistoricoFacadeLocal;
 import Sesiones.AfUsuarioFacadeLocal;
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
+import javax.faces.context.FacesContext;
 
 @ManagedBean(name = "JSFManaged")
 @SessionScoped
@@ -39,12 +43,46 @@ public class JSFManaged implements Serializable {
     private AfHistoricoFacadeLocal manejadorAfHistorico;
     private AfHistorico afHistorico;
     private double codActivoFijo;
+    private Date fecha;
+
+    public Date getFecha() {
+        return fecha;
+    }
+
+    public void setFecha(Date fecha) {
+        this.fecha = fecha;
+    }
 
     public JSFManaged() {
     }
 
     public void grabarAfUsuario() {
-        manejadorAfUsuario.create(afUsuario);
+        System.out.println("xxxxxxxxx" + manejadorAfUsuario.buscarPorUsuario(afUsuario.getAuCedula())==null);
+        SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
+        String date = sdf.format(fecha);
+        afUsuario.setAuFechaNacimiento(date);
+        
+        try {
+            if (manejadorAfUsuario.buscarPorUsuario(afUsuario.getAuCedula())==null) {
+               
+                asignarConsecutivo();
+                System.out.println("xxxxxxxxxxxequis" + afUsuario.getAuConsecutivo());
+                    this.afUsuario.setAuConsecutivo(this.listaAfUsuarios.get(this.listaAfUsuarios.size() - 1).getAuConsecutivo() + 1);
+                manejadorAfUsuario.create(afUsuario);
+                 FacesContext.getCurrentInstance().
+                addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Informacion", "Registro modificado exitosamente"));
+                }
+            else{
+                FacesContext.getCurrentInstance().
+                addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Advertencia!", "El registro ya existe"));
+            }
+      
+        } catch (Exception e) {
+       
+        }
+
+       
+    
     }
 
     public void grabarAfConcepto() {
@@ -75,6 +113,14 @@ public class JSFManaged implements Serializable {
         afHistorico = new AfHistorico();
         listarAfUsuarios();
     }
+    
+    public void asignarConsecutivo() {
+//        this.afConcepto.setAcConsecutivo(this.listaAfConceptos.get(this.listaAfConceptos.size() - 1).getAcConsecutivo() + 1);
+
+        this.afUsuario.setAuConsecutivo(this.listaAfUsuarios.get(this.listaAfUsuarios.size() - 1).getAuConsecutivo() + 1);
+
+    }
+    
 
     public AfUsuario getAfUsuario() {
         return afUsuario;
