@@ -6,7 +6,6 @@ package Entidades;
 
 import java.io.Serializable;
 import javax.persistence.Basic;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -14,7 +13,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -73,8 +71,6 @@ public class AfActivoFijo implements Serializable {
     @JoinColumn(name = "ac_af_concepto", referencedColumnName = "ac_consecutivo")
     @ManyToOne
     private AfConcepto acAfConcepto;
-    @OneToOne(cascade = CascadeType.ALL, mappedBy = "afActivoFijo")
-    private AfHistorico afHistorico;
 
     public AfActivoFijo() {
     }
@@ -169,14 +165,6 @@ public class AfActivoFijo implements Serializable {
 
     public void setAcAfConcepto(AfConcepto acAfConcepto) {
         this.acAfConcepto = acAfConcepto;
-    }
-
-    public AfHistorico getAfHistorico() {
-        return afHistorico;
-    }
-
-    public void setAfHistorico(AfHistorico afHistorico) {
-        this.afHistorico = afHistorico;
     }
 
     @Override
