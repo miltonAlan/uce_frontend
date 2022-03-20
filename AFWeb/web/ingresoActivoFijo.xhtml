@@ -6,49 +6,154 @@
       xmlns:ui="http://java.sun.com/jsf/facelets"
       xmlns:p="http://primefaces.org/ui">
     <h:head>
-        <title>ingresoActivoFijo</title>
+        <title>Listar Activos Fijos</title>
     </h:head>
-    <h:body>
-        <h:form>
-            <p:panelGrid columns="2">
-                <h:outputText value="afCodigoBarras"/>
-                <p:inputText value="#{JSFManaged.afActivoFijo.afCodigoBarras}"/>    
+    <h:body> <h:form>
+            
+            <p:commandButton value="New" icon="pi pi-plus" actionListener="#{crudView.openNew}"
+                                 update=":form:manage-product-content" oncomplete="PF('manageProductDialog').show()"
+                                 styleClass="ui-button-success" style="margin-right: .5rem">
+                    <p:resetInput target=":form:manage-product-content"/>
+                </p:commandButton>
                 
-                <h:outputText value="afConsecutivo"/>
-                <p:inputText value="#{JSFManaged.afActivoFijo.afConsecutivo}"/>    
-                
-                <h:outputText value="afDepAcum"/>
-                <p:inputText value="#{JSFManaged.afActivoFijo.afDepAcum}"/>   
-                
-                <h:outputText value="afEstado"/>
-                <p:inputText value="#{JSFManaged.afActivoFijo.afEstado}"/>                   
-                
-                <h:outputText value="afFechaCreacion"/>
-                <p:inputText value="#{JSFManaged.afActivoFijo.afFechaCreacion}"/>  
-                
-                <h:outputText value="afMarca"/>
-                <p:inputText value="#{JSFManaged.afActivoFijo.afMarca}"/>       
-                
-                <h:outputText value="afModelo"/>
-                <p:inputText value="#{JSFManaged.afActivoFijo.afModelo}"/>      
-                
-                <h:outputText value="afPeriodoDep"/>
-                <p:inputText value="#{JSFManaged.afActivoFijo.afPeriodoDep}"/>                      
+            
+            <p:commandButton type="reset" icon="ui-icon-plusthick" value="Nuevo" onclick="wdialogo.show()" 
+                             />
 
-                <h:outputText value="afValor"/>
-                <p:inputText value="#{JSFManaged.afActivoFijo.afValor}"/>    
-                
-                <h:outputText value="afValor"/>
-                <p:inputText value="#{JSFManaged.afActivoFijo.afValor}"/>                      
-                
-                <h:outputText value="codCliente"/>
-                <p:inputText value="#{JSFManaged.codCliente}"/>     
-                
-                <h:outputText value="codConcepto"/>
-                <p:inputText value="#{JSFManaged.codConcepto}"/>                     
-                
-                <p:commandButton value="Grabar" id="btnGrabar" action="#{JSFManaged.grabarActivoFijo()}"/>
-            </p:panelGrid>
+            <p:dialog id="dialogo" widgetVar="wdialogo" resizable="false" draggable="false" header="Ingreso de nuevo concepto">
+                <h:form>
+                    <p:panelGrid id ="panelConceptos" columns="2">
+                        <h:column>
+                            <h:outputText id="idConcepto" value="Concepto"/>
+                        </h:column>
+                        <h:column>
+                            <p:selectOneMenu   value="#{ManagedActivoFijo.nombreConcepto}" style="width:100%">
+                                <f:selectItems value="#{ManagedActivoFijo.nombresConceptos}"/>
+                            </p:selectOneMenu>     
+                        </h:column>
+
+                        <h:column>
+                            <h:outputText id="idResponsable" value="Responsable"/>
+                        </h:column>
+                        <h:column>
+                            <p:selectOneMenu  value="#{ManagedActivoFijo.nombreResponsable}" style="width:100%">
+                                <f:selectItems value="#{ManagedActivoFijo.nombresUsuarios}"/>
+                            </p:selectOneMenu>     
+                        </h:column>
+
+                        <h:column>
+                            <p:outputLabel value="Marca"/>    
+                        </h:column>
+                        <h:column>
+                            <p:inputText value="#{ManagedActivoFijo.afActivoFijo.afMarca}" />    
+                        </h:column>
+
+                        <h:column>
+                            <p:outputLabel value="Modelo"/>    
+                        </h:column>
+                        <h:column>
+                            <p:inputText value="#{ManagedActivoFijo.afActivoFijo.afModelo}"/>    
+                        </h:column>
+
+                        <h:column>
+                            <p:outputLabel value="Valor"/>    
+                        </h:column>
+                        <h:column>
+                            <p:inputText value="#{ManagedActivoFijo.afActivoFijo.afValor}">
+                            </p:inputText>
+                            <small >En este campo solamente se digitan números.</small>
+                        </h:column>
+
+                        <h:column>
+                            <p:outputLabel value="Código de barras"/>    
+                        </h:column>
+                        <h:column>
+                            <p:inputText value="#{ManagedActivoFijo.afActivoFijo.afCodigoBarras}">
+                            </p:inputText>
+                        </h:column>
+
+                        <div class="card">
+                            <p:growl id="growl" showDetail="true" />
+                            <p:commandButton value="Grabar" id="btnGrabar" actionListener ="#{ManagedActivoFijo.grabarActivoFijo()}"
+                                             update=":formPrincipal:tableActivos" icon="ui-icon-check" 
+                                             oncomplete="wdialogo.hide()">
+                            
+                            </p:commandButton>
+                            <p:commandButton value="Cancelar" id="btnCancelar" immediate="true" 
+                                             onclick="wdialogo.hide()"/>
+                        </div>
+
+
+                    </p:panelGrid>
+                </h:form>
+            </p:dialog>
+        </h:form>
+        <h:form id="formPrincipal">
+            <div class="card crud-demo">
+                <p:growl id="msgs" showDetail="true" autoUpdate="true"/>
+                <p:dataTable id="tableActivos" widgetVar="dtProducts" var="activos" value="#{ManagedActivoFijo.listaActivosFijos}"
+                             styleClass="products-table" 
+                             paginator="true"
+                             rows="15"  paginatorPosition="bottom" editable="true" sortBy="#{activos.auAfConsecutivo.auConsecutivo}"
+                             scrollable="true" scrollRows="3" scrollHeight="250" scrollWidth="1300">
+                    <p:column headerText="Propietario" filterBy="#{ManagedActivoFijo.buscarUsuario(activos.auAfConsecutivo)}" 
+                              sortBy="#{ManagedActivoFijo.buscarUsuario(activos.auAfConsecutivo)}" width="150">
+                        <h:outputText value="#{ManagedActivoFijo.buscarUsuario(activos.auAfConsecutivo)}"/>
+                    </p:column>
+                    <p:column headerText="Concepto" filterBy="#{ManagedActivoFijo.buscarConcepto(activos.acAfConcepto)}" 
+                              sortBy="#{ManagedActivoFijo.buscarConcepto(activos.acAfConcepto)}" width="100">
+                        <p:cellEditor>
+                            <f:facet name="output">
+                                <h:outputText value="#{ManagedActivoFijo.buscarConcepto(activos.acAfConcepto)}"/></f:facet>
+                            <f:facet name="input">
+                                <p:selectOneMenu id="lazy" value="#{ManagedActivoFijo.nombreConcepto}" style="width:100%">
+                                    <f:selectItems value="#{ManagedActivoFijo.nombresConceptos}"/>
+                                </p:selectOneMenu>
+                            </f:facet>
+                        </p:cellEditor>
+                    </p:column>
+                    <p:column headerText="Descipción" filterBy="#{activos.afModelo}" 
+                              sortBy="#{activos.afModelo}" width="200">
+                        <p:cellEditor>
+                            <f:facet name="output"><h:outputText value="#{activos.afModelo}"/></f:facet>
+                            <f:facet name="input"><p:inputText value="#{activos.afModelo}"
+                                                               style="width:100%"/></f:facet>
+                        </p:cellEditor>
+                    </p:column>
+                    <p:column headerText="Marca" filterBy="#{activos.afMarca}" 
+                              sortBy="#{activos.afMarca}" width="100">
+                        <p:cellEditor>
+                            <f:facet name="output"><h:outputText value="#{activos.afMarca}"/></f:facet>
+                            <f:facet name="input"><p:inputText  value="#{activos.afMarca}"
+                                                                style="width:100%"/></f:facet>
+                        </p:cellEditor>
+                    </p:column>
+                    <p:column headerText="Valor" filterBy="#{activos.afValor}" 
+                              sortBy="#{activos.afValor}" width="100">
+                        <h:outputText value="#{activos.afValor}">
+                            <f:convertNumber type="currency" currencySymbol="$"/>
+                        </h:outputText>    
+                    </p:column>
+                    <p:column headerText="Fecha de Ingreso" filterBy="#{activos.afFechaCreacion}" 
+                              sortBy="#{activos.afFechaCreacion}" width="150">
+                        <h:outputText value="#{activos.afFechaCreacion}">
+                            <f:convertDateTime pattern="dd/mm/yyyy"/>
+                        </h:outputText>
+                    </p:column>
+                    <p:column headerText="Código de barras" filterBy="#{activos.afCodigoBarras}" 
+                              sortBy="#{activos.afCodigoBarras}" width="150">
+                        <h:outputText value="#{activos.afCodigoBarras}"/>
+                    </p:column>
+                    
+                    <p:column headerText="Editar" style="width:50px">
+                        <p:rowEditor/>
+                    </p:column>
+                    <p:ajax event="rowEdit" listener="#{ManagedActivoFijo.editarActivo(activos)}" update="tableActivos"/>
+                    <p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" icon="pi pi-check"/>
+                    
+                </p:dataTable>
+
+            </div>
         </h:form>
     </h:body>
 </html>
