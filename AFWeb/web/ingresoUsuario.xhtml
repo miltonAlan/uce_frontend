@@ -7,79 +7,80 @@
       xmlns:ui="http://java.sun.com/jsf/facelets"
       xmlns:p="http://primefaces.org/ui"
       xmlns:c="http://java.sun.com/jsp/jstl/core">
-    
+
     <h:head>
         <title>IngresoUsuario</title>
         <meta name="viewport" content="width=device-width, initial=scale=1.0"/>
     </h:head>
-    
+
     <body>
         <h:form>
             <p:messages id="mensaje" autoUpdate="false" />
             <p:fieldset legend="Datos Personales">
                 <h:panelGrid columns="3" id="pgDatos">
-            
-            <p:outputLabel for="txtNombre" value="Nombre "/> 
-                <p:inputText  id="txtNombre" value="#{JSFManaged.afUsuario.auNombre}" required="true" />
-                <p:message for="txtNombre" />
-            
-            <p:outputLabel for="txtApellido" value="Apellido "/> 
-                <p:inputText id="txtApellido" value="#{JSFManaged.afUsuario.auApellido}" required="true" />
-                <p:message for="txtApellido" />
-            
-            <p:outputLabel for="txtCargo" value="Cargo "/> 
-                <p:inputText id="txtCargo" value="#{JSFManaged.afUsuario.auCargo}" required="true" />
-                <p:message for="txtCargo" />
-            
-            
-            <p:outputLabel for="txtCedula" value="Cédula "/> 
-                <p:inputText id="txtCedula" value="#{JSFManaged.afUsuario.auCedula}" required="true" />
-                <p:message for="txtCedula" />
-            
-            
-            
-            <p:outputLabel for="txtFecha" value="Fecha "/> 
-            
-                <p:calendar id="txtFecha" value="#{JSFManaged.fecha}"/> 
-                <p:message for="txtFecha" />
-               
+
+                    <p:outputLabel for="txtNombre" value="Nombre "/> 
+                    <p:inputText  id="txtNombre" value="#{JSFManaged.afUsuario.auNombre}" required="true" />
+                    <p:message for="txtNombre" />
+
+                    <p:outputLabel for="txtApellido" value="Apellido "/> 
+                    <p:inputText id="txtApellido" value="#{JSFManaged.afUsuario.auApellido}" required="true" />
+                    <p:message for="txtApellido" />
+
+                    <p:outputLabel for="opcionEstado" value="Cargo "/> 
+                    <p:selectOneMenu id="opcionEstado" value="#{JSFManaged.afUsuario.auCargo}" style="width:100%">                    
+                            <f:selectItem itemLabel="Gerente" itemValue="Gerente"/>
+                            <f:selectItem itemLabel="Administrdor" itemValue="Administrador"/>
+                    </p:selectOneMenu>   
+                    <p:message for="opcionEstado" />
+
+                    <p:outputLabel for="txtCedula" value="Cédula "/> 
+                    <p:inputText id="txtCedula" value="#{JSFManaged.afUsuario.auCedula}" required="true" />
+                    <p:message for="txtCedula" />
+
+
+
+                    <p:outputLabel for="txtFecha" value="Fecha "/> 
+
+                    <p:calendar id="txtFecha" value="#{JSFManaged.fecha}"/> 
+                    <p:message for="txtFecha" />
+
                 </h:panelGrid>
             </p:fieldset>
-            
-            
-            
+
+
+
             <p:fieldset legend="Datos Cuenta" >
                 <h:panelGrid columns="3" id="pgCuenta">
-            
-            <p:outputLabel for="txtUsuario" value="Usuario "/> 
-                <p:inputText id="txtUsuario" value="#{JSFManaged.afUsuario.auLogin}" required="true"/>
-                <p:message for="txtUsuario" />
-            
-            <p:outputLabel for="clave1" value="Clave "/> 
-                <p:password id="clave1" value="#{JSFManaged.afUsuario.auClave}" required="true"
-                            validatorMessage="Las claves no coinciden" weakLabel="Débil" goodLabel="Bueno" strongLabel="Fueerte"
-                            match="clave2" feedback="true" promptLabel="Ingrese la clave" />
-                <p:message for="clave1" />
-            
-            <p:outputLabel for="clave2" value="Confirmar Clave "/> 
-                <p:password id="clave2" />
-                <p:message for="clave2" />
-                
+
+                    <p:outputLabel for="txtUsuario" value="Usuario "/> 
+                    <p:inputText id="txtUsuario" value="#{JSFManaged.afUsuario.auLogin}" required="true"/>
+                    <p:message for="txtUsuario" />
+
+                    <p:outputLabel for="clave1" value="Clave "/> 
+                    <p:password id="clave1" value="#{JSFManaged.afUsuario.auClave}" required="true"
+                                validatorMessage="Las claves no coinciden" weakLabel="Débil" goodLabel="Bueno" strongLabel="Fueerte"
+                                match="clave2" feedback="true" promptLabel="Ingrese la clave" />
+                    <p:message for="clave1" />
+
+                    <p:outputLabel for="clave2" value="Confirmar Clave "/> 
+                    <p:password id="clave2" />
+                    <p:message for="clave2" />
+
                 </h:panelGrid>
-                          
+
             </p:fieldset>
-            
-          
+
+
             <p:growl id="growl" showDetail="true" />
-                    <p:commandButton value="Grabar" id="btnGrabar" actionListener ="#{JSFManaged.grabarAfUsuario()}"
-                                     update="growl" 
-                                     styleClass="p-mr-2"/>
-                    
-                    <p:commandButton value="Limpiar" type="reset"
-                                     styleClass="p-mr-2"/>
+            <p:commandButton value="Grabar" id="btnGrabar" actionListener ="#{JSFManaged.grabarAfUsuario()}"
+                             update="growl" 
+                             styleClass="p-mr-2"/>
+
+            <p:commandButton value="Limpiar" type="reset"  styleClass="p-mr-2"/>
         </h:form>
     </body>
-    
-    
-    
+
+
+
 </html>
