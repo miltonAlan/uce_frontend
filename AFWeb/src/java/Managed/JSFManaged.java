@@ -103,7 +103,6 @@ public class JSFManaged implements Serializable {
     }
 
     public void grabarAfHistorico() {
-        this.afHistorico.setAfActivoFijo(manejadorAfActivoFijo.find(codActivoFijo));
         this.manejadorAfHistorico.create(afHistorico);
     }
 
