@@ -19,6 +19,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Timer;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
@@ -26,15 +27,32 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 
-@ManagedBean(name = "ManagedActivoFijo")
+@ManagedBean(name = "ManagedTraslado")
 @SessionScoped
-public class ManagedActivoFijo implements Serializable {
+public class ManagedTraslado implements Serializable {
 
     @EJB
     private AfUsuarioFacadeLocal manejadorAfUsuario;
     private AfUsuario afUsuario;
     private List<AfUsuario> listaAfUsuarios;
-    private String nombreResponsable;
+    private String nombreResponsableAct;
+
+    public String getNombreResponsableAct() {
+        return nombreResponsableAct;
+    }
+
+    public void setNombreResponsableAct(String nombreResponsableAct) {
+        this.nombreResponsableAct = nombreResponsableAct;
+    }
+
+    public String getNombreResponsableAnt() {
+        return nombreResponsableAnt;
+    }
+
+    public void setNombreResponsableAnt(String nombreResponsableAnt) {
+        this.nombreResponsableAnt = nombreResponsableAnt;
+    }
+    private String nombreResponsableAnt;
     private List<String> nombresUsuarios = new ArrayList<String>();
     private Map<String, Integer> mapUsuarios = new HashMap<String, Integer>();
 
@@ -49,14 +67,6 @@ public class ManagedActivoFijo implements Serializable {
             mapUsuarios.put((us.getAuNombre() + " " + us.getAuApellido()), us.getAuConsecutivo());
         }
     }
-
-    public String getNombreResponsable() {
-        return nombreResponsable;
-    }
-
-    public void setNombreResponsable(String nombreResponsable) {
-        this.nombreResponsable = nombreResponsable;
-    }
     @EJB
     private AfConceptoFacadeLocal manejadorAfConcepto;
     private AfConcepto afConcepto;
@@ -64,6 +74,8 @@ public class ManagedActivoFijo implements Serializable {
     private List<String> nombresConceptos = new ArrayList<String>();
     private String nombreConcepto;
     private Map<String, Integer> mapConceptos = new HashMap<String, Integer>();
+    private List<AfActivoFijo> listaAntResponsables;
+    private List<AfActivoFijo> listaActResponsables;
 
     public String getNombreConcepto() {
         return nombreConcepto;
@@ -95,7 +107,7 @@ public class ManagedActivoFijo implements Serializable {
     private AfActivoFijo afActivoFijo;
     private double codCliente;
     private double codConcepto;
-    private List<AfActivoFijo> listaActivosFijos;
+    private List<AfActivoFijo> listaActivosFijos = new ArrayList<AfActivoFijo>();
 
     public List<AfActivoFijo> getListaActivosFijos() {
         return listaActivosFijos;
@@ -109,7 +121,7 @@ public class ManagedActivoFijo implements Serializable {
     private AfHistorico afHistorico;
     private double codActivoFijo;
 
-    public ManagedActivoFijo() {
+    public ManagedTraslado() {
     }
 
     public void grabarAfUsuario() {
@@ -118,36 +130,7 @@ public class ManagedActivoFijo implements Serializable {
 
     public void asignarConsecutivo() {
         int next = this.listaActivosFijos.size();
-        this.afActivoFijo.setAfConsecutivo(next+1);
-    }
-
-    public void grabarActivoFijo() {
-        try {
-            asignarConsecutivo();
-            this.afActivoFijo.setAuAfConsecutivo(manejadorAfUsuario.find(mapUsuarios.get(nombreResponsable)));
-            this.afActivoFijo.setAcAfConcepto(manejadorAfConcepto.buscarPorConcepto(nombreConcepto));
-            afActivoFijo.setAfEstado("Vigente");
-            afActivoFijo.setAfDepAcum(0.0);
-            afActivoFijo.setAfPeriodoDep(0);
-            SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-            afActivoFijo.setAfFechaCreacion(sdf.format(new Date()));
-            System.out.println("afActivoFijo.getAfCodigoBarras " + afActivoFijo.getAfCodigoBarras());
-            System.out.println("afActivoFijo.getAfEstado" + afActivoFijo.getAfEstado());
-            System.out.println("afActivoFijo.getAfFechaCreacion" + afActivoFijo.getAfFechaCreacion());
-            System.out.println("afActivoFijo.getAfMarca" + afActivoFijo.getAfMarca());
-            System.out.println("afActivoFijo.getAfModelo" + afActivoFijo.getAfModelo());
-            System.out.println("afActivoFijo.getAcAfConcepto" + afActivoFijo.getAcAfConcepto());
-            System.out.println("afActivoFijo.getAfConsecutivo" + afActivoFijo.getAfConsecutivo());
-            System.out.println("afActivoFijo.getAfDepAcum" + afActivoFijo.getAfDepAcum());
-            System.out.println("afActivoFijo.getAfPeriodoDep" + afActivoFijo.getAfPeriodoDep());
-            System.out.println("afActivoFijo.getAfValor" + afActivoFijo.getAfValor());
-            System.out.println("afActivoFijo.getAuAfConsecutivo" + afActivoFijo.getAuAfConsecutivo());
-            this.manejadorAfActivoFijo.create(afActivoFijo);
-            this.setListaActivosFijos(manejadorAfActivoFijo.findAll());
-            addMessage(FacesMessage.SEVERITY_INFO, "Informacion", "Registro guardado exitosamente");
-        } catch (Exception e) {
-            addMessage(FacesMessage.SEVERITY_ERROR, "Informacion", "Falló el ingreso del Activo Fijo \n Consulte con el administrador");
-        }
+        this.afActivoFijo.setAfConsecutivo(next + 1);
     }
 
     public void addMessage(FacesMessage.Severity severity, String summary, String detail) {
@@ -160,7 +143,82 @@ public class ManagedActivoFijo implements Serializable {
     }
 
     public void listarActivosFijos() {
-        this.setListaActivosFijos(manejadorAfActivoFijo.findAll());
+    }
+
+    public void buscarResponsable() {
+        int tempuser = mapUsuarios.get(nombreResponsableAnt);
+        List<AfActivoFijo> listaTemp = manejadorAfActivoFijo.findAll();
+        listaAntResponsables = new ArrayList<AfActivoFijo>();
+        for (AfActivoFijo afActivoFijo1 : listaTemp) {
+            if (afActivoFijo1.getAuAfConsecutivo().getAuConsecutivo() == tempuser) {
+                listaAntResponsables.add(afActivoFijo1);
+            }
+        }
+        this.listaActivosFijos = listaAntResponsables;
+    }
+
+    public void asignarConsecutivoHistorico(AfHistorico historico) {
+        int tempSize = manejadorAfHistorico.findAll().size();
+        historico.setAfAhConsecutivo(tempSize + 1);
+    }
+
+    public void trasladarResponsable() {
+        if (listaAntResponsables != null) {
+            if (!nombreResponsableAct.equalsIgnoreCase(nombreResponsableAnt)) {
+                int tempuser = mapUsuarios.get(nombreResponsableAct);
+                AfUsuario nuevoResponsable = manejadorAfUsuario.find(tempuser);
+                List<AfActivoFijo> listaTemp = manejadorAfActivoFijo.findAll();
+                for (AfActivoFijo activoFijo : listaAntResponsables) {
+                    activoFijo.setAuAfConsecutivo(nuevoResponsable);
+                    SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+
+                    AfHistorico historicoTemp = new AfHistorico();
+                    asignarConsecutivoHistorico(historicoTemp);
+
+                    historicoTemp.setAhFecha(sdf.format(new Date()));
+                    historicoTemp.setAhResponsableAct(nombreResponsableAct);
+                    historicoTemp.setAhResponsableAnt(nombreResponsableAnt);
+                    historicoTemp.setAhMovimiento("Traslado de responsable-" + "Activo Fijo: "
+                            + activoFijo.getAfMarca() + " " + activoFijo.getAfModelo());
+                    historicoTemp.setAhPeriodo(0.0);
+                    historicoTemp.setAhValor(0.0);
+                    System.out.println("------------");
+                    System.out.println("XX:historicoTemp getAfAhConsecutivo" + historicoTemp.getAfAhConsecutivo());
+                    System.out.println("XX:historicoTemp getAhFecha" + historicoTemp.getAhFecha());
+                    System.out.println("XX:historicoTemp getAhMovimiento" + historicoTemp.getAhMovimiento());
+                    System.out.println("XX:historicoTemp getAhPeriodo" + historicoTemp.getAhPeriodo());
+                    System.out.println("XX:historicoTemp getAhValor" + historicoTemp.getAhValor());
+                    System.out.println("XX:historicoTemp getAhResponsableAct" + historicoTemp.getAhResponsableAct());
+                    System.out.println("XX:historicoTemp getAhResponsableAnt" + historicoTemp.getAhResponsableAnt());
+                    System.out.println("------------");
+                    manejadorAfHistorico.create(historicoTemp);
+                    manejadorAfActivoFijo.edit(activoFijo);
+
+                }
+                int tempuser2 = mapUsuarios.get(nombreResponsableAct);
+                List<AfActivoFijo> listaTemp2 = manejadorAfActivoFijo.findAll();
+                listaAntResponsables = new ArrayList<AfActivoFijo>();
+                for (AfActivoFijo afActivoFijo1 : listaTemp2) {
+                    if (afActivoFijo1.getAuAfConsecutivo().getAuConsecutivo() == tempuser2) {
+                        listaAntResponsables.add(afActivoFijo1);
+                    }
+                }
+                this.listaActivosFijos = listaAntResponsables;
+                FacesContext.getCurrentInstance().
+                        addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "", "Trasladando Activos fijos de " + nombreResponsableAnt
+                        + " hacia  " + nombreResponsableAct + "\n Por favor espere un momento..."));
+                FacesContext.getCurrentInstance().
+                        addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Información", "Traslado realizado exitosamente"));
+
+
+            } else {
+                FacesContext.getCurrentInstance().
+                        addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Aviso", "El responsable no puede ser el mismo"));
+            }
+        } else {
+            FacesContext.getCurrentInstance().
+                    addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Aviso", "El responsable no tiene Activos Fijos asignados"));
+        }
 
     }
 
@@ -171,6 +229,7 @@ public class ManagedActivoFijo implements Serializable {
     @PostConstruct
     private void inicio() {
         afActivoFijo = new AfActivoFijo();
+        afHistorico = new AfHistorico();
         listarActivosFijos();
         listarConceptos();
         listarUsuarios();
@@ -187,7 +246,7 @@ public class ManagedActivoFijo implements Serializable {
 
     public void editarActivo(AfActivoFijo activo) {
         try {
-//            activo.setAcAfConcepto(manejadorAfConcepto.buscarPorConcepto(nombreConcepto));
+            activo.setAcAfConcepto(manejadorAfConcepto.buscarPorConcepto(nombreConcepto));
             manejadorAfActivoFijo.edit(activo);
             FacesContext.getCurrentInstance().
                     addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Informacion", "Registro modificado exitosamente"));

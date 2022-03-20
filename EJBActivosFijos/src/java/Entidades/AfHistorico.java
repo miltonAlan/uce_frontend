@@ -9,10 +9,8 @@ import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -32,7 +30,8 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "AfHistorico.findByAhMovimiento", query = "SELECT a FROM AfHistorico a WHERE a.ahMovimiento = :ahMovimiento"),
     @NamedQuery(name = "AfHistorico.findByAhValor", query = "SELECT a FROM AfHistorico a WHERE a.ahValor = :ahValor"),
     @NamedQuery(name = "AfHistorico.findByAhPeriodo", query = "SELECT a FROM AfHistorico a WHERE a.ahPeriodo = :ahPeriodo"),
-    @NamedQuery(name = "AfHistorico.findByAhResponsable", query = "SELECT a FROM AfHistorico a WHERE a.ahResponsable = :ahResponsable")})
+    @NamedQuery(name = "AfHistorico.findByAhResponsableAnt", query = "SELECT a FROM AfHistorico a WHERE a.ahResponsableAnt = :ahResponsableAnt"),
+    @NamedQuery(name = "AfHistorico.findByAhResponsableAct", query = "SELECT a FROM AfHistorico a WHERE a.ahResponsableAct = :ahResponsableAct")})
 public class AfHistorico implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
@@ -47,7 +46,7 @@ public class AfHistorico implements Serializable {
     private String ahFecha;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 100)
+    @Size(min = 1, max = 200)
     @Column(name = "ah_movimiento")
     private String ahMovimiento;
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
@@ -56,11 +55,11 @@ public class AfHistorico implements Serializable {
     @Column(name = "ah_periodo")
     private Double ahPeriodo;
     @Size(max = 100)
-    @Column(name = "ah_responsable")
-    private String ahResponsable;
-    @JoinColumn(name = "af_ah_consecutivo", referencedColumnName = "af_consecutivo", insertable = false, updatable = false)
-    @OneToOne(optional = false)
-    private AfActivoFijo afActivoFijo;
+    @Column(name = "ah_responsable_ant")
+    private String ahResponsableAnt;
+    @Size(max = 100)
+    @Column(name = "ah_responsable_act")
+    private String ahResponsableAct;
 
     public AfHistorico() {
     }
@@ -115,20 +114,20 @@ public class AfHistorico implements Serializable {
         this.ahPeriodo = ahPeriodo;
     }
 
-    public String getAhResponsable() {
-        return ahResponsable;
+    public String getAhResponsableAnt() {
+        return ahResponsableAnt;
     }
 
-    public void setAhResponsable(String ahResponsable) {
-        this.ahResponsable = ahResponsable;
+    public void setAhResponsableAnt(String ahResponsableAnt) {
+        this.ahResponsableAnt = ahResponsableAnt;
     }
 
-    public AfActivoFijo getAfActivoFijo() {
-        return afActivoFijo;
+    public String getAhResponsableAct() {
+        return ahResponsableAct;
     }
 
-    public void setAfActivoFijo(AfActivoFijo afActivoFijo) {
-        this.afActivoFijo = afActivoFijo;
+    public void setAhResponsableAct(String ahResponsableAct) {
+        this.ahResponsableAct = ahResponsableAct;
     }
 
     @Override

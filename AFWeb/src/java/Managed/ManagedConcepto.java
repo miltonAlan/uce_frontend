@@ -80,10 +80,10 @@ public class ManagedConcepto implements Serializable {
 
     }
 
-    public void grabarAfHistorico() {
-        this.afHistorico.setAfActivoFijo(manejadorAfActivoFijo.find(codActivoFijo));
-        this.manejadorAfHistorico.create(afHistorico);
-    }
+//    public void grabarAfHistorico() {
+//        this.afHistorico.setAfActivoFijo(manejadorAfActivoFijo.find(codActivoFijo));
+//        this.manejadorAfHistorico.create(afHistorico);
+//    }
 
     public void listarAfUsuarios() {
         setListaAfUsuarios(manejadorAfUsuario.findAll());

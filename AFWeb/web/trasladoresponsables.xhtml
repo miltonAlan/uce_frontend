@@ -10,41 +10,65 @@
     </h:head>
     <h:body>
         <h:form>
-          <p:dataTable var="i" value="#{JSFManaged.listaAfUsuarios}">
-                    
-                    <f:facet name="Titulo">
-                        <h:outputText value ="Lista del Personal"/>                                                    
-                    </f:facet>
-                    
-                    <p:column sortBy="#{i.afConsecutivo}" filterBy="#{i.afConsecutivo}" headerText="ID_Activo_Fijo">
-                    <h:outputText />
+            <p:panelGrid id ="panelConceptos" columns="2">
+                <h:column>
+                    <h:outputText id="idResponsableAnt" value="Responsable Actual"/>
+                    <p:selectOneMenu   value="#{ManagedTraslado.nombreResponsableAnt}">
+                        <f:selectItems value="#{ManagedTraslado.nombresUsuarios}"/>
+                    </p:selectOneMenu>     
+                </h:column>
+                <h:column>
+                    <h:outputText id="idResponsableAct" value="Responsable Nuevo"/>
+                    <p:selectOneMenu   value="#{ManagedTraslado.nombreResponsableAct}">
+                        <f:selectItems value="#{ManagedTraslado.nombresUsuarios}"/>
+                    </p:selectOneMenu>     
+                </h:column>
+            </p:panelGrid>
+            <div class="card crud-demo">
+                <p:growl id="msgs" showDetail="true" autoUpdate="true"/>
+                <p:dataTable id="tableActivos" widgetVar="dtProducts" var="activos" value="#{ManagedTraslado.listaActivosFijos}"
+                             styleClass="products-table" 
+                             paginator="true"
+                             rows="15"  paginatorPosition="bottom" editable="true"
+                             scrollable="true" scrollRows="3" scrollHeight="250" scrollWidth="1300">
+                    <p:column headerText="Propietario" width="120">
+                        <h:outputText value="#{ManagedTraslado.buscarUsuario(activos.auAfConsecutivo)}"/>
                     </p:column>
-              
-                    <p:column sortBy="#{i.afMarca}" filterBy="#{i.afMarca}" headerText="Nombre_Activo_Fijo">
-                    <h:outputText />
+                    <p:column headerText="Concepto" width="100">                                                            
+                        <h:outputText value="#{ManagedTraslado.buscarConcepto(activos.acAfConcepto)}"/>
                     </p:column>
-              
-                    <p:column headerText="ID" filterBy="#{i.auConsecutivo}" sortBy="#{i.auConsecutivo}">
-                    <h:outputText value="#{i.auConsecutivo}"/>
-                    </p:column> 
-                    
-                    <p:column headerText="Nombre " filterBy="#{i.auNombre}" sortBy="#{i.auNombre}">
-                    <h:outputText value="#{i.auNombre}"/>
-                    </p:column>  
-                    
-                    <p:column filterBy="#{i.auApellido}" sortBy="#{i.auApellido}" headerText="Apellido">
-                    <h:outputText value="#{i.auApellido}"/>
+                    <p:column headerText="Descipción" width="200">
+                        <h:outputText value="#{activos.afModelo}"/>
                     </p:column>
-                                   
-                    <p:column sortBy="#{i.auCedula}" filterBy="#{i.auCedula}" headerText="Cedula">
-                    <h:outputText value="#{i.auCedula}"/>
+                    <p:column headerText="Marca" width="100">
+                        <h:outputText value="#{activos.afMarca}"/>
                     </p:column>
-              
-                    <p:column headerText="Traslado">
-                        <p:commandButton icon="ui-icon-pencil"/>
+                    <p:column headerText="Valor" width="100">
+                        <h:outputText value="#{activos.afValor}">
+                            <f:convertNumber type="currency" currencySymbol="$"/>
+                        </h:outputText>    
                     </p:column>
-              
+                    <p:column headerText="Fecha de Ingreso" width="150">
+                        <h:outputText value="#{activos.afFechaCreacion}">
+                            <f:convertDateTime pattern="dd/mm/yyyy"/>
+                        </h:outputText>
+                    </p:column>
+                    <p:column headerText="Código de barras" width="150">
+                        <h:outputText value="#{activos.afCodigoBarras}"/>
+                    </p:column>
+                    <h:outputText value="#{activos.afMarca}"/>
                 </p:dataTable>
+
+                <div class="card">
+                    <p:growl id="growl" showDetail="true" />
+                    <p:commandButton value="Buscar" id="btnBuscar" actionListener ="#{ManagedTraslado.buscarResponsable()}"
+                                     update="tableActivos">
+                    </p:commandButton>
+                    <p:commandButton value="Trasladar" id="btnTrasladar" actionListener ="#{ManagedTraslado.trasladarResponsable()}"
+                                     update="tableActivos">
+                    </p:commandButton>
+                </div>
+            </div>
         </h:form>
     </h:body>
 </html>

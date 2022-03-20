@@ -57,14 +57,14 @@ public class ManagedLogin implements Serializable {
         this.listaAfUsuarios = listaAfUsuarios;
     }
     
-    public void login (){
-        AfUsuario us;
-        String redireccion=null;
-        System.out.println("xxxxxxxxxantes: " + afUsuario.getAuClave() + "separador " + afUsuario.getAuLogin());
-        try {
-            us = manejadorAfUsuario.iniciarSesion(this.afUsuario);
-            System.out.println("xxxxxxxxxxxxdespues: " + us);
-        } catch (Exception e) {
-        }
-    }
+//    public void login (){
+//        AfUsuario us;
+//        String redireccion=null;
+//        System.out.println("xxxxxxxxxantes: " + afUsuario.getAuClave() + "separador " + afUsuario.getAuLogin());
+//        try {
+//            us = manejadorAfUsuario.iniciarSesion(this.afUsuario);
+//            System.out.println("xxxxxxxxxxxxdespues: " + us);
+//        } catch (Exception e) {
+//        }
+//    }
 }

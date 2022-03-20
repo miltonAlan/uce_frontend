@@ -13,25 +13,28 @@
             <p:panelGrid columns="2">
                 <h:outputText value="Periodo"/>
                 <p:inputText value="#{JSFManaged.afHistorico.ahPeriodo}"/>    
-                
-                <h:outputText value="Responsable"/>
-                <p:inputText value="#{JSFManaged.afHistorico.ahResponsable}"/>     
-                
+
+                <h:outputText value="ResponsableACT"/>
+                <p:inputText value="#{JSFManaged.afHistorico.ahResponsableAct}"/>  }
+
+                <h:outputText value="ahResponsableAnt"/>
+                <p:inputText value="#{JSFManaged.afHistorico.ahResponsableAnt}"/>     
+
                 <h:outputText value="Valor"/>
                 <p:inputText value="#{JSFManaged.afHistorico.ahValor}"/>                     
 
                 <h:outputText value="codActivoFijo"/>
                 <p:inputText value="#{JSFManaged.codActivoFijo}"/>    
-                
+
                 <h:outputText value="afConsecutivo"/>
                 <p:inputText value="#{JSFManaged.afHistorico.afAhConsecutivo}"/>                   
-                
+
                 <h:outputText value="Fecha"/>
                 <p:inputText value="#{JSFManaged.afHistorico.ahFecha}"/>    
-                
+
                 <h:outputText value="Movimiento"/>
                 <p:inputText value="#{JSFManaged.afHistorico.ahMovimiento}"/>                    
-                
+
                 <p:commandButton value="Grabar" id="btnGrabar" action="#{JSFManaged.grabarAfHistorico()}"/>
             </p:panelGrid>
         </h:form>
