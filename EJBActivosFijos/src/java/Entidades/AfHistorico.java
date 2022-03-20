@@ -35,12 +35,11 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "AfHistorico.findByAhResponsable", query = "SELECT a FROM AfHistorico a WHERE a.ahResponsable = :ahResponsable")})
 public class AfHistorico implements Serializable {
     private static final long serialVersionUID = 1L;
-    // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Id
     @Basic(optional = false)
     @NotNull
     @Column(name = "af_ah_consecutivo")
-    private Double afAhConsecutivo;
+    private Integer afAhConsecutivo;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 100)
@@ -51,6 +50,7 @@ public class AfHistorico implements Serializable {
     @Size(min = 1, max = 100)
     @Column(name = "ah_movimiento")
     private String ahMovimiento;
+    // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Column(name = "ah_valor")
     private Double ahValor;
     @Column(name = "ah_periodo")
@@ -65,21 +65,21 @@ public class AfHistorico implements Serializable {
     public AfHistorico() {
     }
 
-    public AfHistorico(Double afAhConsecutivo) {
+    public AfHistorico(Integer afAhConsecutivo) {
         this.afAhConsecutivo = afAhConsecutivo;
     }
 
-    public AfHistorico(Double afAhConsecutivo, String ahFecha, String ahMovimiento) {
+    public AfHistorico(Integer afAhConsecutivo, String ahFecha, String ahMovimiento) {
         this.afAhConsecutivo = afAhConsecutivo;
         this.ahFecha = ahFecha;
         this.ahMovimiento = ahMovimiento;
     }
 
-    public Double getAfAhConsecutivo() {
+    public Integer getAfAhConsecutivo() {
         return afAhConsecutivo;
     }
 
-    public void setAfAhConsecutivo(Double afAhConsecutivo) {
+    public void setAfAhConsecutivo(Integer afAhConsecutivo) {
         this.afAhConsecutivo = afAhConsecutivo;
     }
 

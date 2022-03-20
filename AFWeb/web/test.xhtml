@@ -1,0 +1,73 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+    <h:head>
+        <title>ingresoActivoFijo</title>
+    </h:head>
+    <h:body>
+        <h:form id="formPrincipal">
+            <div class="card crud-demo">
+                <p:growl id="msgs" showDetail="true" autoUpdate="true"/>
+                <p:dataTable id="tableActivos" widgetVar="dtProducts" var="activos" value="#{ManagedActivoFijo.listaActivosFijos}"
+                             styleClass="products-table" 
+                             paginator="true"
+                             rows="5"  paginatorPosition="bottom" editable="true" sortBy="#{activos.auAfConsecutivo.auConsecutivo}">
+
+
+                    <p:column headerText="Consecutivo" filterBy="#{activos.auAfConsecutivo.auConsecutivo}" sortBy="#{activos.auAfConsecutivo.auConsecutivo}">
+                        <h:outputText value="#{activos.auAfConsecutivo.auConsecutivo}"/>
+                    </p:column>
+                    <p:column headerText="acAfConcepto" filterBy="#{ManagedActivoFijo.buscarConcepto(activos.acAfConcepto)}" sortBy="#{ManagedActivoFijo.buscarConcepto(activos.acAfConcepto)}">
+                        <p:cellEditor>
+                            <f:facet name="output">
+                                <h:outputText value="#{ManagedActivoFijo.buscarConcepto(activos.acAfConcepto)}"/></f:facet>
+                            <f:facet name="input">
+                                <p:selectOneMenu id="lazy" value="#{ManagedActivoFijo.nombreConcepto}" style="width:100%">
+                                    
+                                    <f:selectItems value="#{ManagedActivoFijo.nombresConceptos}"/>
+                                </p:selectOneMenu>
+                            </f:facet>
+                        </p:cellEditor>
+                    </p:column>
+                    <p:column headerText="Propietario" filterBy="#{ManagedActivoFijo.buscarUsuario(activos.auAfConsecutivo)}" sortBy="#{ManagedActivoFijo.buscarUsuario(activos.auAfConsecutivo)}">
+                        <h:outputText value="#{ManagedActivoFijo.buscarUsuario(activos.auAfConsecutivo)}"/>
+                    </p:column>
+                    <p:column headerText="afCodigoBarras" filterBy="#{activos.afCodigoBarras}" sortBy="#{activos.afCodigoBarras}">
+                        <h:outputText value="#{activos.afCodigoBarras}"/>
+                    </p:column>
+                    <p:column headerText="afEstado" filterBy="#{activos.afEstado}" sortBy="#{activos.afEstado}">
+                        <h:outputText value="#{activos.afEstado}"/>
+                    </p:column>
+                    <p:column headerText="afFechaCreacion" filterBy="#{activos.afFechaCreacion}" sortBy="#{activos.afFechaCreacion}">
+                        <h:outputText value="#{activos.afFechaCreacion}"/>
+                    </p:column>
+                    <p:column headerText="afMarca" filterBy="#{activos.afMarca}" sortBy="#{activos.afMarca}">
+                        <h:outputText value="#{activos.afMarca}"/>
+                    </p:column>
+                    <p:column headerText="afModelo" filterBy="#{activos.afModelo}" sortBy="#{activos.afModelo}">
+                        <h:outputText value="#{activos.afModelo}"/>
+                    </p:column>
+                    <p:column headerText="afValor" filterBy="#{activos.afValor}" sortBy="#{activos.afValor}">
+                        <h:outputText value="#{activos.afValor}"/>
+                    </p:column>
+                    <p:column headerText="afPeriodoDep" filterBy="#{activos.afPeriodoDep}" sortBy="#{activos.afPeriodoDep}">
+                        <h:outputText value="#{activos.afPeriodoDep}"/>
+                    </p:column>
+                    <p:column headerText="afDepAcum" filterBy="#{activos.afDepAcum}" sortBy="#{activos.afDepAcum}">
+                        <h:outputText value="#{activos.afDepAcum}"/>
+                    </p:column>
+                    <p:column style="width:32px">
+                        <p:rowEditor/>
+                    </p:column>
+                    <p:ajax event="rowEdit" listener="#{ManagedActivoFijo.editarActivo(activos)}" update="tableActivos"/>
+                </p:dataTable>
+
+            </div>
+        </h:form>
+    </h:body>
+</html>
+
