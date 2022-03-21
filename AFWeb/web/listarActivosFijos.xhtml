@@ -139,6 +139,9 @@
                     </p:column>
                     <p:ajax event="rowEdit" listener="#{ManagedActivoFijo.editarActivo(activos)}" update="tableActivos"/>
                 </p:dataTable>
+                  <p:commandButton value="Prueba" ajax="False">
+                    <p:dataExporter type="pdf" target="tableActivos" fileName="Reporte" preProcessor="#{managedReporte.preProcessPDF(document)}" />
+                </p:commandButton>
 
             </div>
         </h:form>
