@@ -35,8 +35,11 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "AfUsuario.findByAuClave", query = "SELECT a FROM AfUsuario a WHERE a.auClave = :auClave"),
     @NamedQuery(name = "AfUsuario.findByAuLogin", query = "SELECT a FROM AfUsuario a WHERE a.auLogin = :auLogin"),
     @NamedQuery(name = "AfUsuario.findByAuCedula", query = "SELECT a FROM AfUsuario a WHERE a.auCedula = :auCedula"),
-    @NamedQuery(name = "AfUsuario.findByAuCargo", query = "SELECT a FROM AfUsuario a WHERE a.auCargo = :auCargo")})
+    @NamedQuery(name = "AfUsuario.findByAuCargo", query = "SELECT a FROM AfUsuario a WHERE a.auCargo = :auCargo"),
+    @NamedQuery(name = "AfUsuario.validarUsuario", query = "SELECT a FROM AfUsuario a WHERE a.auLogin = :auLogin AND a.auClave = :auClave")
+})
 public class AfUsuario implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
@@ -171,5 +174,4 @@ public class AfUsuario implements Serializable {
     public String toString() {
         return "Entidades.AfUsuario[ auConsecutivo=" + auConsecutivo + " ]";
     }
-    
 }

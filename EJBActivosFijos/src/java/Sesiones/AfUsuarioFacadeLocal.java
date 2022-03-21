@@ -31,6 +31,6 @@ public interface AfUsuarioFacadeLocal {
     
      AfUsuario buscarPorUsuario(String cedula);
      
-     AfUsuario iniciarSesion(AfUsuario us);
+     AfUsuario iniciarSesion(String clave, String login);
 
 }
