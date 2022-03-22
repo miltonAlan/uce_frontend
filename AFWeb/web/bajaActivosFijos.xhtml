@@ -1,0 +1,123 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+    <h:head>
+        <title>Baja de Activos Fijos</title>
+    </h:head>
+    <h:body> <h:form>
+
+            <p:dialog id="dialogo" widgetVar="wdialogo" resizable="false" draggable="false" header="Favor ingrese sus credenciales">
+                <h:form>
+                    <p:panelGrid id ="panelConceptos" columns="2">
+                        <h:column>
+                            <p:outputLabel value="Usuario"/>    
+                        </h:column>
+                        <h:column>
+                            <p:inputText value="#{ManagedBaja.usuario}"/>    
+                        </h:column>
+                        <h:column>
+                            <p:outputLabel value="Clave"/>    
+                        </h:column>
+                        <h:column>
+                            <p:password value="#{ManagedBaja.clave}"/>    
+                        </h:column>
+                        <h:column>
+                            <h:outputText id="idConcepto" value="Motivo"/>
+                        </h:column>
+                        <h:column>
+                            <p:selectOneMenu id="option" value="#{ManagedBaja.motivo}">                    
+                                <f:selectItem itemLabel="Destruido" itemValue="Destruido"/>
+                                <f:selectItem itemLabel="Donado" itemValue="Donado"/>
+                                <f:selectItem itemLabel="Vendido" itemValue="Vendido"/>
+                                <f:selectItem itemLabel="Chatarrización" itemValue="Chatarrización"/>
+                                <f:selectItem itemLabel="Perdido" itemValue="Perdido"/>
+                            </p:selectOneMenu>
+                        </h:column>
+                        <div class="card">
+                            <p:growl id="growl" showDetail="true"/>
+                            <p:commandButton value="Dar de Baja" id="btnGrabar" actionListener ="#{ManagedBaja.validaBaja()}"
+                                             update=":formPrincipal:tableActivos" icon="ui-icon-check" 
+                                             oncomplete="wdialogo.hide()">
+                            </p:commandButton>
+                            <p:commandButton value="Cancelar" id="btnCancelar" immediate="true" 
+                                             onclick="wdialogo.hide()"/>
+                        </div>
+
+
+                    </p:panelGrid>
+                </h:form>
+            </p:dialog>
+        </h:form>
+        <h:form id="formPrincipal">
+            <div class="card crud-demo">
+                <p:growl id="msgs" showDetail="true" autoUpdate="true"/>
+                <p:dataTable id="tableActivos" widgetVar="dtProducts" var="activos" value="#{ManagedBaja.listaActivosFijos}"
+                             styleClass="products-table" 
+                             paginator="true"
+                             rows="15"  paginatorPosition="bottom" editable="true" sortBy="#{activos.auAfConsecutivo.auConsecutivo}"
+                             scrollable="true" scrollRows="3" scrollHeight="250" scrollWidth="1300">
+                    <p:column headerText="Dar de baja"  width="100">
+                        <p:commandButton icon="ui-icon-arrowthick-1-s" value=" "  action ="#{ManagedBaja.setActivoTemp(activos)}"
+                                         onclick="wdialogo.show()"
+                                        />
+                    </p:column>
+                    <p:column headerText="Estado" 
+                              sortBy="#{activos.afEstado}" width="100">
+                        <h:outputText value="#{activos.afEstado}">
+                        </h:outputText>    
+                    </p:column>
+                    <p:column headerText="Propietario" filterBy="#{ManagedBaja.buscarUsuario(activos.auAfConsecutivo)}" 
+                              sortBy="#{ManagedBaja.buscarUsuario(activos.auAfConsecutivo)}" width="150">
+                        <h:outputText value="#{ManagedBaja.buscarUsuario(activos.auAfConsecutivo)}"/>
+                    </p:column>
+                    <p:column headerText="Concepto" filterBy="#{ManagedBaja.buscarConcepto(activos.acAfConcepto)}" 
+                              sortBy="#{ManagedBaja.buscarConcepto(activos.acAfConcepto)}" width="100">
+                        <p:cellEditor>
+                            <f:facet name="output">
+                                <h:outputText value="#{ManagedBaja.buscarConcepto(activos.acAfConcepto)}"/></f:facet>
+                            <f:facet name="input">
+                                <p:selectOneMenu id="lazy" value="#{ManagedBaja.nombreConcepto}" style="width:100%">
+                                    <f:selectItems value="#{ManagedBaja.nombresConceptos}"/>
+                                </p:selectOneMenu>
+                            </f:facet>
+                        </p:cellEditor>
+                    </p:column>
+                    <p:column headerText="Descipción" filterBy="#{activos.afModelo}" 
+                              sortBy="#{activos.afModelo}" width="200">
+                        <p:cellEditor>
+                            <f:facet name="output"><h:outputText value="#{activos.afModelo}"/></f:facet>
+                            <f:facet name="input"><p:inputText value="#{activos.afModelo}"
+                                                               style="width:100%"/></f:facet>
+                        </p:cellEditor>
+                    </p:column>
+                    <p:column headerText="Marca" filterBy="#{activos.afMarca}" 
+                              sortBy="#{activos.afMarca}" width="100">
+                        <p:cellEditor>
+                            <f:facet name="output"><h:outputText value="#{activos.afMarca}"/></f:facet>
+                            <f:facet name="input"><p:inputText  value="#{activos.afMarca}"
+                                                                style="width:100%"/></f:facet>
+                        </p:cellEditor>
+                    </p:column>
+                    <p:column headerText="Valor" filterBy="#{activos.afValor}" 
+                              sortBy="#{activos.afValor}" width="100">
+                        <h:outputText value="#{activos.afValor}">
+                            <f:convertNumber type="currency" currencySymbol="$"/>
+                        </h:outputText>    
+                    </p:column>
+                    <p:column headerText="Fecha de Ingreso" filterBy="#{activos.afFechaCreacion}" 
+                              sortBy="#{activos.afFechaCreacion}" width="150">
+                        <h:outputText value="#{activos.afFechaCreacion}">
+                            <f:convertDateTime pattern="dd/mm/yyyy"/>
+                        </h:outputText>
+                    </p:column>
+                </p:dataTable>
+
+            </div>
+        </h:form>
+    </h:body>
+</html>
+
