@@ -19,7 +19,6 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Timer;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
@@ -27,9 +26,9 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 
-@ManagedBean(name = "ManagedBaja")
+@ManagedBean(name = "ManagedDepreciacion")
 @SessionScoped
-public class ManagedBaja implements Serializable {
+public class ManagedDepreciacion implements Serializable {
 
     @EJB
     private AfUsuarioFacadeLocal manejadorAfUsuario;
@@ -40,6 +39,32 @@ public class ManagedBaja implements Serializable {
     private String modelo;
     private String usuario, clave, motivo;
     private AfActivoFijo activoTemp;
+    private String descDepre, descReva;
+    public double valorDepreApre;
+
+    public double getValorDepreApre() {
+        return valorDepreApre;
+    }
+
+    public void setValorDepreApre(double valorDepreApre) {
+        this.valorDepreApre = valorDepreApre;
+    }
+
+    public String getDescDepre() {
+        return descDepre;
+    }
+
+    public void setDescDepre(String descDepre) {
+        this.descDepre = descDepre;
+    }
+
+    public String getDescReva() {
+        return descReva;
+    }
+
+    public void setDescReva(String descReva) {
+        this.descReva = descReva;
+    }
 
     public String getUsuario() {
         return usuario;
@@ -109,6 +134,70 @@ public class ManagedBaja implements Serializable {
 //        System.out.println("XX: nombreResponsableAnt" + nombreResponsableAnt);
     }
 
+    public void revalorizar() {
+        System.out.println("XX : activoTemp" + this.activoTemp);
+        System.out.println("XX:descReva  " + this.descReva);
+        System.out.println("XX:  valorDepreApre" + this.valorDepreApre);
+        AfUsuario userTemp = manejadorAfUsuario.iniciarSesion(clave, usuario);
+        if (userTemp != null) {
+            System.out.println("XX: " + userTemp.getAuNombre());
+            System.out.println("XX: " + userTemp.getAuApellido());
+            System.out.println("XX:activoTemp " + activoTemp);
+//            activoTemp.setAfDepAcum(valorDepreApre + activoTemp.getAfDepAcum());
+            if (filtro == 0) // Depreciacion
+            {
+                activoTemp.setAfDepAcum(activoTemp.getAfDepAcum() - valorDepreApre);
+            }
+            if (filtro == 1) // Apreciación
+            {
+                activoTemp.setAfDepAcum(activoTemp.getAfDepAcum() + valorDepreApre);
+            }
+            System.out.println("XX: " + activoTemp.getAfDepAcum());
+            manejadorAfActivoFijo.edit(activoTemp);
+            SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+
+            AfHistorico historicoTemp = new AfHistorico();
+            asignarConsecutivoHistorico(historicoTemp);
+
+            historicoTemp.setAhFecha(sdf.format(new Date()));
+            if (filtro == 0) // Depreciacion
+            {
+                historicoTemp.setAhMovimiento("Depreciación-User: " + usuario + "Activo Fijo: "
+                        + activoTemp.getAfMarca() + " " + activoTemp.getAfModelo());
+            }
+            if (filtro == 1) // Apreciación
+            {
+                historicoTemp.setAhMovimiento("Revalorización-User: " + usuario + "Activo Fijo: "
+                        + activoTemp.getAfMarca() + " " + activoTemp.getAfModelo());
+            }
+
+            historicoTemp.setAhPeriodo(0.0);
+            historicoTemp.setAhValor(valorDepreApre);
+            System.out.println("------------");
+            System.out.println("XX:historicoTemp getAfAhConsecutivo" + historicoTemp.getAfAhConsecutivo());
+            System.out.println("XX:historicoTemp getAhFecha" + historicoTemp.getAhFecha());
+            System.out.println("XX:historicoTemp getAhMovimiento" + historicoTemp.getAhMovimiento());
+            System.out.println("XX:historicoTemp getAhPeriodo" + historicoTemp.getAhPeriodo());
+            System.out.println("XX:historicoTemp getAhValor" + historicoTemp.getAhValor());
+            System.out.println("XX:historicoTemp getAhResponsableAct" + historicoTemp.getAhResponsableAct());
+            System.out.println("XX:historicoTemp getAhResponsableAnt" + historicoTemp.getAhResponsableAnt());
+            System.out.println("------------");
+            manejadorAfHistorico.create(historicoTemp);
+            FacesContext.getCurrentInstance().
+                    addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Informacion", "Credenciales Correctas!\n Depreciación/Revalorización del Activo Fijo correcta"));
+
+
+        } else {
+            FacesContext.getCurrentInstance().
+                    addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Informacion", "Credenciales incorrectas \n Usted no tiene privilegios para depreciar o revalorizar un Activo Fijo"));
+        }
+    }
+
+//    public void depreciar() {
+//        System.out.println("XX : activoTemp" + this.activoTemp);
+//        System.out.println("XX:descReva  " + this.descDepre);
+//        System.out.println("XX:  valorDepreApre" + this.valorDepreApre);
+//    }
     public void setNombresUsuarios() {
 
         for (AfUsuario us : this.listaAfUsuarios) {
@@ -180,7 +269,7 @@ public class ManagedBaja implements Serializable {
     private double codActivoFijo;
     private String temp;
 
-    public ManagedBaja() {
+    public ManagedDepreciacion() {
     }
 
     public void grabarAfUsuario() {
@@ -342,7 +431,7 @@ public class ManagedBaja implements Serializable {
                 activoTemp.setAfEstado("Dado de Baja");
                 manejadorAfActivoFijo.edit(activoTemp);
                 FacesContext.getCurrentInstance().
-                        addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Informacion", "Credenciales Correctas!\n\n Activo dado de baja correctamente"));
+                        addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Informacion", "Credenciales Correctas!"));
             }
 
         } else {
@@ -350,10 +439,35 @@ public class ManagedBaja implements Serializable {
                     addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Informacion", "Credenciales incorrectas \n Usted no tiene privilegios para realizar la baja de un Activo Fijo"));
         }
     }
+    private String textoBoton;
+    private int filtro;
 
-    public void setActivoTemp(AfActivoFijo activo) {
-//        System.out.println("setActivoTemp: " + activo);
+    public int getFiltro() {
+        return filtro;
+    }
+
+    public void setFiltro(int filtro) {
+        this.filtro = filtro;
+    }
+
+    public String getTextoBoton() {
+        return textoBoton;
+    }
+
+    public void setTextoBoton(String textoBoton) {
+        this.textoBoton = textoBoton;
+    }
+
+    public void setActivoTemp(AfActivoFijo activo, int filtro) {
         this.activoTemp = activo;
+        this.setFiltro(filtro);
+        System.out.println("XX: filtro: " + filtro);
+        if (filtro == 0) {
+            this.textoBoton = "Depreciar";
+        }
+        if (filtro == 1) {
+            this.textoBoton = "Revalorizar";
+        }
     }
 
     public String buscarUsuario(AfUsuario usuario) {
