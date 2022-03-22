@@ -6,9 +6,13 @@
       xmlns:ui="http://java.sun.com/jsf/facelets"
       xmlns:p="http://primefaces.org/ui">
     <h:head>
+        <style>               
+            .Bimage{background-image:url("resources/images/bk1.jpg");}        
+        </style> 
         <title>Depreciación de Activos Fijos</title>
     </h:head>
-    <h:body>        
+    <h:body styleClass="Bimage">  
+        <img src="img\dyr.jpg" height="85" width="1270"/>
         <h:form>
             <p:dialog id="dialogo" widgetVar="wdialogo" resizable="false" draggable="false" header="Favor ingrese sus credenciales">
                 <h:form>
@@ -124,6 +128,9 @@
                 </p:dataTable>
 
             </div>
+            <p:dock position="bottom">
+                <p:menuitem value="Menú Principal" icon="img\cat.png" url="Menu.xhtml" />
+            </p:dock>
         </h:form>
     </h:body>
 </html>
