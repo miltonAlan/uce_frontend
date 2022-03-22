@@ -6,10 +6,20 @@
       xmlns:ui="http://java.sun.com/jsf/facelets"
       xmlns:p="http://primefaces.org/ui">
     <h:head>
-        <title>Baja de Activos Fijos</title>
-    </h:head>
-    <h:body> <h:form>
 
+        <style>               
+            .Bimage{background-image:url("resources/images/bk1.jpg");}        
+        </style> 
+        
+        <title>Baja de Activos Fijos</title>
+
+    </h:head>
+    <h:body styleClass="Bimage"> <h:form>
+
+
+            <img src="img\baf.jpg" height="85" width="1250"/>
+
+            <br></br>
             <p:dialog id="dialogo" widgetVar="wdialogo" resizable="false" draggable="false" header="Favor ingrese sus credenciales">
                 <h:form>
                     <p:panelGrid id ="panelConceptos" columns="2">
@@ -63,7 +73,7 @@
                     <p:column headerText="Dar de baja"  width="100">
                         <p:commandButton icon="ui-icon-arrowthick-1-s" value=" "  action ="#{ManagedBaja.setActivoTemp(activos)}"
                                          onclick="wdialogo.show()"
-                                        />
+                                         />
                     </p:column>
                     <p:column headerText="Estado" 
                               sortBy="#{activos.afEstado}" width="100">
@@ -117,7 +127,12 @@
                 </p:dataTable>
 
             </div>
+
+            <p:dock position="bottom">
+                <p:menuitem value="Menú Principal" icon="img\cat.png" url="Menu.xhtml" />
+            </p:dock>
         </h:form>
+
     </h:body>
 </html>
 

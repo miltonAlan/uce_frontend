@@ -7,15 +7,19 @@
       xmlns:p="http://primefaces.org/ui">
 
     <h:head>
-        <title>Listar Activos Fijos</title>
+        <style>               
+            .Bimage{background-image:url("resources/images/bk1.jpg");}        
+        </style> 
+
+        <title>Ingreso Activos Fijos</title>
     </h:head>
-    <h:body> 
+    <h:body styleClass="Bimage"> 
         <h:form>
 
             <p:toolbar>
-                
+
                 <p:toolbarGroup>
-                    <img src="img\saf1.jpg" height="100" width="1250"/>
+                    <img src="img\iaf.jpg" height="100" width="1250"/>
                     <br></br>
                     <p:commandButton type="reset" value="Nuevo" icon="ui-icon-plusthick" onclick="wdialogo.show()"
                                      update=":form:manage-product-content" oncomplete="PF('manageProductDialog').show()"
@@ -181,11 +185,11 @@
 
             </p:panelGrid>
 
-
+            <p:dock position="bottom">
+                <p:menuitem value="Menú Principal" icon="img\cat.png" url="Menu.xhtml" />
+            </p:dock>  
         </h:form>
-        <p:dock position="bottom">
-            <p:menuitem value="Menú Principal" icon="img\cat.png" url="Menu.xhtml" />
-        </p:dock>  
+
     </h:body>
 </html>
 
