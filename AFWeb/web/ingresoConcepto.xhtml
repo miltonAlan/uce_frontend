@@ -13,22 +13,36 @@
 
     <h:body>
         <h:form>
-            <p:commandButton type="reset" icon="ui-icon-plusthick" value="Nuevo" onclick="wdialogo.show()" 
-                             />
+
+            <p:toolbar>
+
+                <p:toolbarGroup>
+                    <img src="img\saf1.jpg" height="100" width="1250"/>
+                    <br></br>
+                    <p:commandButton type="reset" value="Nuevo" icon="ui-icon-plusthick" onclick="wdialogo.show()"
+                                     update=":form:manage-product-content" oncomplete="PF('manageProductDialog').show()"
+                                     styleClass="ui-button-success" style="margin-right: .5rem">
+                        <p:resetInput target=":form:manage-product-content"/>
+                    </p:commandButton>
+                </p:toolbarGroup>
+            </p:toolbar>
+
 
             <p:dialog id="dialogo" widgetVar="wdialogo" resizable="false" draggable="false" header="Ingreso de nuevo concepto">
                 <h:form>
                     <p:panelGrid id ="panelConceptos" columns="2">
-                        <h:outputText id="idConcepto" value="acConcepto "/>
+                        <h:outputText id="idConcepto" value="Concepto "/>
                         <p:inputText value="#{ManagedConcepto.afConcepto.acConcepto}"/>
 
-                        <p:outputLabel value="acDepreciable "/>
+                        <p:outputLabel value="Depreciable "/>
                         <p:selectOneMenu id="option" value="#{ManagedConcepto.afConcepto.acDepreciable}">                    
                             <f:selectItem itemLabel="SI" itemValue="SI"/>
                             <f:selectItem itemLabel="NO" itemValue="NO"/>
                         </p:selectOneMenu>
 
-                        <h:outputText value="acEstado "/>
+
+
+                        <h:outputText value="Estado "/>
                         <h:outputText value="Vigente"/>
                         <h:column/> 
                         <h:column>
@@ -39,7 +53,8 @@
                                                  oncomplete="wdialogo.hide()">
                                 </p:commandButton>
                                 <p:commandButton value="Cancelar" id="btnCancelar" immediate="true" 
-                                                 onclick="wdialogo.hide()"/>
+                                                 onclick="wdialogo.hide()" icon="pi pi-times">
+                                </p:commandButton>
                             </div>
                         </h:column>
                     </p:panelGrid>
@@ -55,7 +70,8 @@
                              rows="10"  paginatorPosition="bottom" editable="true" sortBy="#{concepto.acConsecutivo}">
 
 
-                    <p:column headerText="Consecutivo" filterBy="#{concepto.acConsecutivo}" sortBy="#{concepto.acConsecutivo}">
+                    <p:column headerText="Consecutivo" filterBy="#{concepto.acConsecutivo}" sortBy="#{concepto.acConsecutivo}"
+                              width="50">
                         <h:outputText value="#{concepto.acConsecutivo}"/>
                     </p:column>
 
@@ -91,7 +107,7 @@
                         </p:cellEditor>
                     </p:column> 
 
-                    <p:column style="width:32px">
+                    <p:column >
                         <p:rowEditor/>
                     </p:column>
                     <p:ajax event="rowEdit" listener="#{ManagedConcepto.editarConcepto(concepto)}" update="conceptos"/>
@@ -99,6 +115,10 @@
 
             </div>
         </h:form>
+        <p:dock position="bottom">
+            <p:menuitem value="Menú Principal" icon="img\cat.png" url="Menu.xhtml" />
+        </p:dock>      
+
     </h:body>
 </html>
 

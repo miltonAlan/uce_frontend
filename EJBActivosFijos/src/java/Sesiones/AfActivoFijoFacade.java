@@ -5,9 +5,12 @@
 package Sesiones;
 
 import Entidades.AfActivoFijo;
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
+
 
 /**
  *
@@ -25,6 +28,16 @@ public class AfActivoFijoFacade extends AbstractFacade<AfActivoFijo> implements 
 
     public AfActivoFijoFacade() {
         super(AfActivoFijo.class);
+    }
+    
+    public List<AfActivoFijo> listar(){
+        
+        Query q=em.createNativeQuery("select ac_af_concepto,af_estado from af_activo_fijo;", AfActivoFijo.class);
+        
+        
+        return q.getResultList();
+    
+    
     }
     
 }

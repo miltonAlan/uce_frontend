@@ -25,6 +25,7 @@ import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
+import org.primefaces.model.chart.PieChartModel;
 
 @ManagedBean(name = "ManagedActivoFijo")
 @SessionScoped
@@ -37,6 +38,7 @@ public class ManagedActivoFijo implements Serializable {
     private String nombreResponsable;
     private List<String> nombresUsuarios = new ArrayList<String>();
     private Map<String, Integer> mapUsuarios = new HashMap<String, Integer>();
+    private PieChartModel torta;
 
     public List<String> getNombresUsuarios() {
         return nombresUsuarios;
@@ -52,6 +54,26 @@ public class ManagedActivoFijo implements Serializable {
 
     public String getNombreResponsable() {
         return nombreResponsable;
+    }
+    
+    public void graficar(){
+    torta=new PieChartModel();
+    
+        // for(AfActivoFijo afa: afFacade.listar()){
+           for(AfActivoFijo afa: manejadorAfActivoFijo.findAll()){
+         torta.set(afa.getAfMarca(), afa.getAfConsecutivo());
+               System.out.println("xxxxx :" + afa);
+           }
+        
+        //torta.set("Estadistica de concepto");
+    }
+
+    public PieChartModel getTorta() {
+        return torta;
+    }
+
+    public void setTorta(PieChartModel torta) {
+        this.torta = torta;
     }
 
     public void setNombreResponsable(String nombreResponsable) {
@@ -118,7 +140,7 @@ public class ManagedActivoFijo implements Serializable {
 
     public void asignarConsecutivo() {
         int next = this.listaActivosFijos.size();
-        this.afActivoFijo.setAfConsecutivo(next+1);
+        this.afActivoFijo.setAfConsecutivo(next + 1);
     }
 
     public void grabarActivoFijo() {

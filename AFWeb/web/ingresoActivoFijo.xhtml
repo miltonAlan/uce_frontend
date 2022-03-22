@@ -5,28 +5,36 @@
       xmlns:f="http://java.sun.com/jsf/core"
       xmlns:ui="http://java.sun.com/jsf/facelets"
       xmlns:p="http://primefaces.org/ui">
+
     <h:head>
         <title>Listar Activos Fijos</title>
     </h:head>
-    <h:body> <h:form>
-            
-            <p:commandButton value="New" icon="pi pi-plus" actionListener="#{crudView.openNew}"
-                                 update=":form:manage-product-content" oncomplete="PF('manageProductDialog').show()"
-                                 styleClass="ui-button-success" style="margin-right: .5rem">
-                    <p:resetInput target=":form:manage-product-content"/>
-                </p:commandButton>
-                
-            
-            <p:commandButton type="reset" icon="ui-icon-plusthick" value="Nuevo" onclick="wdialogo.show()" 
-                             />
+    <h:body> 
+        <h:form>
 
-            <p:dialog id="dialogo" widgetVar="wdialogo" resizable="false" draggable="false" header="Ingreso de nuevo concepto">
+            <p:toolbar>
+                
+                <p:toolbarGroup>
+                    <img src="img\saf1.jpg" height="100" width="1250"/>
+                    <br></br>
+                    <p:commandButton type="reset" value="Nuevo" icon="ui-icon-plusthick" onclick="wdialogo.show()"
+                                     update=":form:manage-product-content" oncomplete="PF('manageProductDialog').show()"
+                                     styleClass="ui-button-success" style="margin-right: .5rem">
+                        <p:resetInput target=":form:manage-product-content"/>
+                    </p:commandButton>
+                </p:toolbarGroup>
+            </p:toolbar>
+
+
+
+            <p:dialog  id="dialogo" widgetVar="wdialogo" resizable="false" draggable="false" header="Ingreso de nuevo concepto">
                 <h:form>
                     <p:panelGrid id ="panelConceptos" columns="2">
                         <h:column>
                             <h:outputText id="idConcepto" value="Concepto"/>
                         </h:column>
                         <h:column>
+
                             <p:selectOneMenu   value="#{ManagedActivoFijo.nombreConcepto}" style="width:100%">
                                 <f:selectItems value="#{ManagedActivoFijo.nombresConceptos}"/>
                             </p:selectOneMenu>     
@@ -45,23 +53,25 @@
                             <p:outputLabel value="Marca"/>    
                         </h:column>
                         <h:column>
-                            <p:inputText value="#{ManagedActivoFijo.afActivoFijo.afMarca}" />    
+                            <p:inputText id="Marca" value="#{ManagedActivoFijo.afActivoFijo.afMarca}" />    
+                            <p:watermark for="Marca" value="Marca del activo fijo"  />
                         </h:column>
 
                         <h:column>
                             <p:outputLabel value="Modelo"/>    
                         </h:column>
                         <h:column>
-                            <p:inputText value="#{ManagedActivoFijo.afActivoFijo.afModelo}"/>    
+                            <p:inputText id="Modelo" value="#{ManagedActivoFijo.afActivoFijo.afModelo}"/>    
+                            <p:watermark for="Modelo" value="Especificación"  />
                         </h:column>
 
                         <h:column>
                             <p:outputLabel value="Valor"/>    
                         </h:column>
                         <h:column>
-                            <p:inputText value="#{ManagedActivoFijo.afActivoFijo.afValor}">
+                            <p:inputText id="Valor" value="#{ManagedActivoFijo.afActivoFijo.afValor}"  onkeyup="$(this).val($(this).val().replace(/[^0-9]/g, ''));" >
                             </p:inputText>
-                            <small >En este campo solamente se digitan números.</small>
+                            <p:watermark for="Valor" value="($) Solo valores numéricos"  /> 
                         </h:column>
 
                         <h:column>
@@ -77,10 +87,12 @@
                             <p:commandButton value="Grabar" id="btnGrabar" actionListener ="#{ManagedActivoFijo.grabarActivoFijo()}"
                                              update=":formPrincipal:tableActivos" icon="ui-icon-check" 
                                              oncomplete="wdialogo.hide()">
-                            
+
                             </p:commandButton>
                             <p:commandButton value="Cancelar" id="btnCancelar" immediate="true" 
-                                             onclick="wdialogo.hide()"/>
+                                             onclick="wdialogo.hide()" icon="pi pi-times">
+
+                            </p:commandButton>
                         </div>
 
 
@@ -88,9 +100,12 @@
                 </h:form>
             </p:dialog>
         </h:form>
+
+
         <h:form id="formPrincipal">
             <div class="card crud-demo">
                 <p:growl id="msgs" showDetail="true" autoUpdate="true"/>
+
                 <p:dataTable id="tableActivos" widgetVar="dtProducts" var="activos" value="#{ManagedActivoFijo.listaActivosFijos}"
                              styleClass="products-table" 
                              paginator="true"
@@ -101,7 +116,7 @@
                         <h:outputText value="#{ManagedActivoFijo.buscarUsuario(activos.auAfConsecutivo)}"/>
                     </p:column>
                     <p:column headerText="Concepto" filterBy="#{ManagedActivoFijo.buscarConcepto(activos.acAfConcepto)}" 
-                              sortBy="#{ManagedActivoFijo.buscarConcepto(activos.acAfConcepto)}" width="100">
+                              sortBy="#{ManagedActivoFijo.buscarConcepto(activos.acAfConcepto)}" width="88">
                         <p:cellEditor>
                             <f:facet name="output">
                                 <h:outputText value="#{ManagedActivoFijo.buscarConcepto(activos.acAfConcepto)}"/></f:facet>
@@ -112,8 +127,9 @@
                             </f:facet>
                         </p:cellEditor>
                     </p:column>
-                    <p:column headerText="Descipción" filterBy="#{activos.afModelo}" 
-                              sortBy="#{activos.afModelo}" width="200">
+
+                    <p:column headerText="Descripción" filterBy="#{activos.afModelo}" 
+                              sortBy="#{activos.afModelo}" width="190">
                         <p:cellEditor>
                             <f:facet name="output"><h:outputText value="#{activos.afModelo}"/></f:facet>
                             <f:facet name="input"><p:inputText value="#{activos.afModelo}"
@@ -129,7 +145,7 @@
                         </p:cellEditor>
                     </p:column>
                     <p:column headerText="Valor" filterBy="#{activos.afValor}" 
-                              sortBy="#{activos.afValor}" width="100">
+                              sortBy="#{activos.afValor}" width="95">
                         <h:outputText value="#{activos.afValor}">
                             <f:convertNumber type="currency" currencySymbol="$"/>
                         </h:outputText>    
@@ -141,20 +157,35 @@
                         </h:outputText>
                     </p:column>
                     <p:column headerText="Código de barras" filterBy="#{activos.afCodigoBarras}" 
-                              sortBy="#{activos.afCodigoBarras}" width="150">
+                              sortBy="#{activos.afCodigoBarras}" width="140">
                         <h:outputText value="#{activos.afCodigoBarras}"/>
                     </p:column>
-                    
+
                     <p:column headerText="Editar" style="width:50px">
-                        <p:rowEditor/>
+                        <p:rowEditor />
                     </p:column>
-                    <p:ajax event="rowEdit" listener="#{ManagedActivoFijo.editarActivo(activos)}" update="tableActivos"/>
-                    <p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" icon="pi pi-check"/>
-                    
+                    <p:ajax event="rowEdit" listener="#{ManagedActivoFijo.editarActivo(activos)}" update="tableActivos" />
+                    <p:commandButton value="Yes" type="button" styleClass="ui-confirmdialog-yes" icon="pi pi-check" />
+
                 </p:dataTable>
 
+
             </div>
+
+
+
+            <p:commandButton value="Graficar" id="Graficar" actionListener="#{ManagedActivoFijo.graficar()}" update="grafico"/>
+            <p:panelGrid id="grafico">
+
+                <p:pieChart value="#{ManagedActivoFijo.torta}" style="width: 1000px; height: 1000px" rendered="#{ManagedActivoFijo.torta !=null}"/>
+
+            </p:panelGrid>
+
+
         </h:form>
+        <p:dock position="bottom">
+            <p:menuitem value="Menú Principal" icon="img\cat.png" url="Menu.xhtml" />
+        </p:dock>  
     </h:body>
 </html>
 

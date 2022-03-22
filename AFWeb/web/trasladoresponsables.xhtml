@@ -11,6 +11,9 @@
     <h:body>
         <h:form>
             <p:panelGrid id ="panelConceptos" columns="2">
+                <f:facet name="header">
+                        <img src="img\saf1.jpg" height="100" width="1250"/>
+                    </f:facet>
                 <h:column>
                     <h:outputText id="idResponsableAnt" value="Responsable Actual"/>
                     <p:selectOneMenu   value="#{ManagedTraslado.nombreResponsableAnt}">
@@ -70,6 +73,10 @@
                 </div>
             </div>
         </h:form>
+                     <p:dock position="bottom">
+                <p:menuitem value="Menú Principal" icon="img\cat.png" url="Menu.xhtml" />
+            </p:dock>      
+        
     </h:body>
 </html>
 
