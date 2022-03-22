@@ -100,6 +100,7 @@ public class ManagedActivoFijo implements Serializable {
     }
 
     public void setNombresConceptos() {
+         this.setListaAfConceptos(manejadorAfConcepto.findAll());
         for (AfConcepto afConcepto : this.listaAfConceptos) {
             nombresConceptos.add(afConcepto.getAcConcepto());
             mapConceptos.put(afConcepto.getAcConcepto(), afConcepto.getAcConsecutivo());

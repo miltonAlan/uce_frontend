@@ -6,48 +6,52 @@
       xmlns:ui="http://java.sun.com/jsf/facelets"
       xmlns:p="http://primefaces.org/ui">
     <h:head>
-        <title>Baja de Activos Fijos</title>
+        <title>Depreciación de Activos Fijos</title>
     </h:head>
-    <h:body> <h:form>
-
+    <h:body>        
+        <h:form>
             <p:dialog id="dialogo" widgetVar="wdialogo" resizable="false" draggable="false" header="Favor ingrese sus credenciales">
                 <h:form>
                     <p:panelGrid id ="panelConceptos" columns="2">
                         <h:column>
+                            <p:outputLabel value="Depreciación/Revalorización manual"/>    
+                        </h:column>
+                        <h:column>
+                            
+                        </h:column>
+                        <h:column>
                             <p:outputLabel value="Usuario"/>    
                         </h:column>
                         <h:column>
-                            <p:inputText value="#{ManagedBaja.usuario}"/>    
+                            <p:inputText value="#{ManagedDepreciacion.usuario}"/>    
                         </h:column>
                         <h:column>
                             <p:outputLabel value="Clave"/>    
                         </h:column>
                         <h:column>
-                            <p:password value="#{ManagedBaja.clave}"/>    
+                            <p:password value="#{ManagedDepreciacion.clave}"/>    
                         </h:column>
                         <h:column>
-                            <h:outputText id="idConcepto" value="Motivo"/>
+                            <p:outputLabel value="Descripción específica"/>    
                         </h:column>
                         <h:column>
-                            <p:selectOneMenu id="option" value="#{ManagedBaja.motivo}">                    
-                                <f:selectItem itemLabel="Destruido" itemValue="Destruido"/>
-                                <f:selectItem itemLabel="Donado" itemValue="Donado"/>
-                                <f:selectItem itemLabel="Vendido" itemValue="Vendido"/>
-                                <f:selectItem itemLabel="Chatarrización" itemValue="Chatarrización"/>
-                                <f:selectItem itemLabel="Perdido" itemValue="Perdido"/>
-                            </p:selectOneMenu>
+                            <p:inputText value="#{ManagedDepreciacion.descDepre}"/>    
+                        </h:column>
+                        <h:column>
+                            <p:outputLabel value="Valor"/>    
+                        </h:column>
+                        <h:column>
+                            <p:inputText value="#{ManagedDepreciacion.valorDepreApre}"/>    
                         </h:column>
                         <div class="card">
                             <p:growl id="growl" showDetail="true"/>
-                            <p:commandButton value="Dar de Baja" id="btnGrabar" actionListener ="#{ManagedBaja.validaBaja()}"
+                            <p:commandButton value="Aceptar" id="btnGrabar" actionListener ="#{ManagedDepreciacion.revalorizar()}"
                                              update=":formPrincipal:tableActivos" icon="ui-icon-check" 
                                              oncomplete="wdialogo.hide()">
                             </p:commandButton>
                             <p:commandButton value="Cancelar" id="btnCancelar" immediate="true" 
                                              onclick="wdialogo.hide()"/>
                         </div>
-
-
                     </p:panelGrid>
                 </h:form>
             </p:dialog>
@@ -55,38 +59,36 @@
         <h:form id="formPrincipal">
             <div class="card crud-demo">
                 <p:growl id="msgs" showDetail="true" autoUpdate="true"/>
-                <p:dataTable id="tableActivos" widgetVar="dtProducts" var="activos" value="#{ManagedBaja.listaActivosFijos}"
+                <p:dataTable id="tableActivos" widgetVar="dtProducts" var="activos" value="#{ManagedDepreciacion.listaActivosFijos}"
                              styleClass="products-table" 
                              paginator="true"
                              rows="15"  paginatorPosition="bottom" editable="true" sortBy="#{activos.auAfConsecutivo.auConsecutivo}"
                              scrollable="true" scrollRows="3" scrollHeight="250" scrollWidth="1300">
-                    <p:column headerText="Dar de baja"  width="100">
-                        <p:commandButton icon="ui-icon-circle-arrow-s" value=" "  action ="#{ManagedBaja.setActivoTemp(activos)}"
-                                         onclick="wdialogo.show()"
-                                        />
+                    <p:column headerText="Revalorización"  width="110" >
+                        <p:commandButton icon=" ui-icon-plusthick"  action ="#{ManagedDepreciacion.setActivoTemp(activos,1)}"
+                                         onclick="wdialogo.show()"/>
                     </p:column>
-                    <p:column headerText="Estado" 
-                              sortBy="#{activos.afEstado}" width="100">
-                        <h:outputText value="#{activos.afEstado}">
-                        </h:outputText>    
+                    <p:column headerText="Depreciación"  width="100">
+                        <p:commandButton icon="ui-icon-circle-minus"   action ="#{ManagedDepreciacion.setActivoTemp(activos,0)}"
+                                         onclick="wdialogo.show()"/>
                     </p:column>
-                    <p:column headerText="Propietario" filterBy="#{ManagedBaja.buscarUsuario(activos.auAfConsecutivo)}" 
-                              sortBy="#{ManagedBaja.buscarUsuario(activos.auAfConsecutivo)}" width="150">
-                        <h:outputText value="#{ManagedBaja.buscarUsuario(activos.auAfConsecutivo)}"/>
+                    <p:column headerText="Propietario" filterBy="#{ManagedDepreciacion.buscarUsuario(activos.auAfConsecutivo)}" 
+                              sortBy="#{ManagedDepreciacion.buscarUsuario(activos.auAfConsecutivo)}" width="150">
+                        <h:outputText value="#{ManagedDepreciacion.buscarUsuario(activos.auAfConsecutivo)}"/>
                     </p:column>
-                    <p:column headerText="Concepto" filterBy="#{ManagedBaja.buscarConcepto(activos.acAfConcepto)}" 
-                              sortBy="#{ManagedBaja.buscarConcepto(activos.acAfConcepto)}" width="100">
+                    <p:column headerText="Concepto" filterBy="#{ManagedDepreciacion.buscarConcepto(activos.acAfConcepto)}" 
+                              sortBy="#{ManagedDepreciacion.buscarConcepto(activos.acAfConcepto)}" width="100">
                         <p:cellEditor>
                             <f:facet name="output">
-                                <h:outputText value="#{ManagedBaja.buscarConcepto(activos.acAfConcepto)}"/></f:facet>
+                                <h:outputText value="#{ManagedDepreciacion.buscarConcepto(activos.acAfConcepto)}"/></f:facet>
                             <f:facet name="input">
-                                <p:selectOneMenu id="lazy" value="#{ManagedBaja.nombreConcepto}" style="width:100%">
-                                    <f:selectItems value="#{ManagedBaja.nombresConceptos}"/>
+                                <p:selectOneMenu id="lazy" value="#{ManagedDepreciacion.nombreConcepto}" style="width:100%">
+                                    <f:selectItems value="#{ManagedDepreciacion.nombresConceptos}"/>
                                 </p:selectOneMenu>
                             </f:facet>
                         </p:cellEditor>
                     </p:column>
-                    <p:column headerText="Descipción" filterBy="#{activos.afModelo}" 
+                    <p:column headerText="Descripción" filterBy="#{activos.afModelo}" 
                               sortBy="#{activos.afModelo}" width="200">
                         <p:cellEditor>
                             <f:facet name="output"><h:outputText value="#{activos.afModelo}"/></f:facet>
@@ -108,11 +110,16 @@
                             <f:convertNumber type="currency" currencySymbol="$"/>
                         </h:outputText>    
                     </p:column>
-                    <p:column headerText="Fecha de Ingreso" filterBy="#{activos.afFechaCreacion}" 
-                              sortBy="#{activos.afFechaCreacion}" width="150">
-                        <h:outputText value="#{activos.afFechaCreacion}">
-                            <f:convertDateTime pattern="dd/mm/yyyy"/>
-                        </h:outputText>
+                    <p:column headerText="Dep. Acumulada" filterBy="#{activos.afDepAcum}" 
+                              sortBy="#{activos.afDepAcum}" width="120">
+                        <h:outputText value="#{activos.afDepAcum}">
+                            <f:convertNumber type="currency" currencySymbol="$"/>
+                        </h:outputText>    
+                    </p:column>
+                    <p:column headerText="Período" filterBy="#{activos.afPeriodoDep}" 
+                              sortBy="#{activos.afPeriodoDep}" width="100">
+                        <h:outputText value="#{activos.afPeriodoDep}">                            
+                        </h:outputText>    
                     </p:column>
                 </p:dataTable>
 
