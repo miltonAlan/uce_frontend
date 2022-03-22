@@ -342,7 +342,7 @@ public class ManagedBaja implements Serializable {
                 activoTemp.setAfEstado("Dado de Baja");
                 manejadorAfActivoFijo.edit(activoTemp);
                 FacesContext.getCurrentInstance().
-                        addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Informacion", "Credenciales Correctas!"));
+                        addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Informacion", "Credenciales Correctas!\n\n Activo dado de baja correctamente"));
             }
 
         } else {
