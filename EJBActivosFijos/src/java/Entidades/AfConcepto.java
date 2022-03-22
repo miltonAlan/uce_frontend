@@ -34,35 +34,35 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "AfConcepto.findByAcEstado", query = "SELECT a FROM AfConcepto a WHERE a.acEstado = :acEstado")})
 public class AfConcepto implements Serializable {
     private static final long serialVersionUID = 1L;
-    // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Id
     @Basic(optional = false)
     @NotNull
     @Column(name = "ac_consecutivo")
-    private Double acConsecutivo;
+    private Integer acConsecutivo;
     @Size(max = 255)
     @Column(name = "ac_concepto")
     private String acConcepto;
-    @Size(max = 1)
+    @Size(max = 255)
     @Column(name = "ac_depreciable")
     private String acDepreciable;
+    @Size(max = 255)
     @Column(name = "ac_estado")
-    private Character acEstado;
+    private String acEstado;
     @OneToMany(mappedBy = "acAfConcepto")
     private Collection<AfActivoFijo> afActivoFijoCollection;
 
     public AfConcepto() {
     }
 
-    public AfConcepto(Double acConsecutivo) {
+    public AfConcepto(Integer acConsecutivo) {
         this.acConsecutivo = acConsecutivo;
     }
 
-    public Double getAcConsecutivo() {
+    public Integer getAcConsecutivo() {
         return acConsecutivo;
     }
 
-    public void setAcConsecutivo(Double acConsecutivo) {
+    public void setAcConsecutivo(Integer acConsecutivo) {
         this.acConsecutivo = acConsecutivo;
     }
 
@@ -82,11 +82,11 @@ public class AfConcepto implements Serializable {
         this.acDepreciable = acDepreciable;
     }
 
-    public Character getAcEstado() {
+    public String getAcEstado() {
         return acEstado;
     }
 
-    public void setAcEstado(Character acEstado) {
+    public void setAcEstado(String acEstado) {
         this.acEstado = acEstado;
     }
 

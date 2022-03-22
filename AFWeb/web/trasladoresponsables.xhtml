@@ -1,0 +1,82 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+    <h:head>
+        <title>Traslado de Activos Fijos</title>
+    </h:head>
+    <h:body>
+        <h:form>
+            <p:panelGrid id ="panelConceptos" columns="2">
+                <f:facet name="header">
+                        <img src="img\saf1.jpg" height="100" width="1250"/>
+                    </f:facet>
+                <h:column>
+                    <h:outputText id="idResponsableAnt" value="Responsable Actual"/>
+                    <p:selectOneMenu   value="#{ManagedTraslado.nombreResponsableAnt}">
+                        <f:selectItems value="#{ManagedTraslado.nombresUsuarios}"/>
+                    </p:selectOneMenu>     
+                </h:column>
+                <h:column>
+                    <h:outputText id="idResponsableAct" value="Responsable Nuevo"/>
+                    <p:selectOneMenu   value="#{ManagedTraslado.nombreResponsableAct}">
+                        <f:selectItems value="#{ManagedTraslado.nombresUsuarios}"/>
+                    </p:selectOneMenu>     
+                </h:column>
+            </p:panelGrid>
+            <div class="card crud-demo">
+                <p:growl id="msgs" showDetail="true" autoUpdate="true"/>
+                <p:dataTable id="tableActivos" widgetVar="dtProducts" var="activos" value="#{ManagedTraslado.listaActivosFijos}"
+                             styleClass="products-table" 
+                             paginator="true"
+                             rows="15"  paginatorPosition="bottom" editable="true"
+                             scrollable="true" scrollRows="3" scrollHeight="250" scrollWidth="1300">
+                    <p:column headerText="Propietario" width="120">
+                        <h:outputText value="#{ManagedTraslado.buscarUsuario(activos.auAfConsecutivo)}"/>
+                    </p:column>
+                    <p:column headerText="Concepto" width="100">                                                            
+                        <h:outputText value="#{ManagedTraslado.buscarConcepto(activos.acAfConcepto)}"/>
+                    </p:column>
+                    <p:column headerText="Descipción" width="200">
+                        <h:outputText value="#{activos.afModelo}"/>
+                    </p:column>
+                    <p:column headerText="Marca" width="100">
+                        <h:outputText value="#{activos.afMarca}"/>
+                    </p:column>
+                    <p:column headerText="Valor" width="100">
+                        <h:outputText value="#{activos.afValor}">
+                            <f:convertNumber type="currency" currencySymbol="$"/>
+                        </h:outputText>    
+                    </p:column>
+                    <p:column headerText="Fecha de Ingreso" width="150">
+                        <h:outputText value="#{activos.afFechaCreacion}">
+                            <f:convertDateTime pattern="dd/mm/yyyy"/>
+                        </h:outputText>
+                    </p:column>
+                    <p:column headerText="Código de barras" width="150">
+                        <h:outputText value="#{activos.afCodigoBarras}"/>
+                    </p:column>
+                    <h:outputText value="#{activos.afMarca}"/>
+                </p:dataTable>
+
+                <div class="card">
+                    <p:growl id="growl" showDetail="true" />
+                    <p:commandButton value="Buscar" id="btnBuscar" actionListener ="#{ManagedTraslado.buscarResponsable()}"
+                                     update="tableActivos">
+                    </p:commandButton>
+                    <p:commandButton value="Trasladar" id="btnTrasladar" actionListener ="#{ManagedTraslado.trasladarResponsable()}"
+                                     update="tableActivos">
+                    </p:commandButton>
+                </div>
+            </div>
+        </h:form>
+                     <p:dock position="bottom">
+                <p:menuitem value="Menú Principal" icon="img\cat.png" url="Menu.xhtml" />
+            </p:dock>      
+        
+    </h:body>
+</html>
+

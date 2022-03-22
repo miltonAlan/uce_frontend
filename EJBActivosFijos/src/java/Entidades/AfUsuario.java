@@ -38,12 +38,11 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "AfUsuario.findByAuCargo", query = "SELECT a FROM AfUsuario a WHERE a.auCargo = :auCargo")})
 public class AfUsuario implements Serializable {
     private static final long serialVersionUID = 1L;
-    // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Id
     @Basic(optional = false)
     @NotNull
     @Column(name = "au_consecutivo")
-    private Double auConsecutivo;
+    private Integer auConsecutivo;
     @Size(max = 100)
     @Column(name = "au_nombre")
     private String auNombre;
@@ -71,15 +70,15 @@ public class AfUsuario implements Serializable {
     public AfUsuario() {
     }
 
-    public AfUsuario(Double auConsecutivo) {
+    public AfUsuario(Integer auConsecutivo) {
         this.auConsecutivo = auConsecutivo;
     }
 
-    public Double getAuConsecutivo() {
+    public Integer getAuConsecutivo() {
         return auConsecutivo;
     }
 
-    public void setAuConsecutivo(Double auConsecutivo) {
+    public void setAuConsecutivo(Integer auConsecutivo) {
         this.auConsecutivo = auConsecutivo;
     }
 

@@ -1,0 +1,44 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+    <h:head>
+        <title>Lista de Responsables</title>
+    </h:head>
+        <h:body>
+            <h:form>
+                
+                        <img src="img\saf1.jpg" height="85" width="1250"/>
+                    
+                <br></br>
+                <p:dataTable var="i" value="#{JSFManaged.listaAfUsuarios}">
+                    <f:facet name="Titulo">
+                        <h:outputText value ="Lista del Personal"/>                                                    
+                    </f:facet>
+                    <p:column headerText="ID: " filterBy="#{i.auConsecutivo}" sortBy="#{i.auConsecutivo}">
+                        <h:outputText value="#{i.auConsecutivo}"/>
+                    </p:column> 
+                    
+                    <p:column headerText="Responsable: " filterBy="#{i.auNombre}" sortBy="#{i.auNombre}">
+                        <h:outputText value="#{i.auNombre}"/>
+                    </p:column>  
+                    
+                     <p:column filterBy="#{i.auApellido}" sortBy="#{i.auApellido}" headerText="Apellido">
+                        <h:outputText value="#{i.auApellido}"/>
+                    </p:column>
+                    
+                    <p:column sortBy="#{i.auCargo}" filterBy="#{i.auCargo}" headerText="Cargo">
+                        <h:outputText value="#{i.auCargo}"/>
+                    </p:column>
+                    
+                    <p:column sortBy="#{i.auCedula}" filterBy="#{i.auCedula}" headerText="Cedula">
+                        <h:outputText value="#{i.auCedula}"/>
+                    </p:column>
+                </p:dataTable>
+            </h:form>
+        </h:body>
+</html>
+

@@ -5,9 +5,7 @@
 package Entidades;
 
 import java.io.Serializable;
-import java.util.Collection;
 import javax.persistence.Basic;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -15,12 +13,10 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
-import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -42,20 +38,21 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "AfActivoFijo.findByAfFechaCreacion", query = "SELECT a FROM AfActivoFijo a WHERE a.afFechaCreacion = :afFechaCreacion")})
 public class AfActivoFijo implements Serializable {
     private static final long serialVersionUID = 1L;
-    // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Id
     @Basic(optional = false)
     @NotNull
     @Column(name = "af_consecutivo")
-    private Double afConsecutivo;
+    private Integer afConsecutivo;
+    @Size(max = 100)
     @Column(name = "af_estado")
-    private Character afEstado;
+    private String afEstado;
     @Size(max = 100)
     @Column(name = "af_marca")
     private String afMarca;
     @Size(max = 100)
     @Column(name = "af_modelo")
     private String afModelo;
+    // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Column(name = "af_valor")
     private Double afValor;
     @Column(name = "af_dep_acum")
@@ -64,39 +61,37 @@ public class AfActivoFijo implements Serializable {
     @Column(name = "af_codigo_barras")
     private String afCodigoBarras;
     @Column(name = "af_periodo_dep")
-    private Double afPeriodoDep;
+    private Integer afPeriodoDep;
     @Size(max = 100)
     @Column(name = "af_fecha_creacion")
     private String afFechaCreacion;
     @JoinColumn(name = "au_af_consecutivo", referencedColumnName = "au_consecutivo")
     @ManyToOne
     private AfUsuario auAfConsecutivo;
-    @JoinColumn(name = "ac_af_concepto", referencedColumnName = "ac_concepto")
+    @JoinColumn(name = "ac_af_concepto", referencedColumnName = "ac_consecutivo")
     @ManyToOne
     private AfConcepto acAfConcepto;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "afActivoFijo")
-    private Collection<AfHistorico> afHistoricoCollection;
 
     public AfActivoFijo() {
     }
 
-    public AfActivoFijo(Double afConsecutivo) {
+    public AfActivoFijo(Integer afConsecutivo) {
         this.afConsecutivo = afConsecutivo;
     }
 
-    public Double getAfConsecutivo() {
+    public Integer getAfConsecutivo() {
         return afConsecutivo;
     }
 
-    public void setAfConsecutivo(Double afConsecutivo) {
+    public void setAfConsecutivo(Integer afConsecutivo) {
         this.afConsecutivo = afConsecutivo;
     }
 
-    public Character getAfEstado() {
+    public String getAfEstado() {
         return afEstado;
     }
 
-    public void setAfEstado(Character afEstado) {
+    public void setAfEstado(String afEstado) {
         this.afEstado = afEstado;
     }
 
@@ -140,11 +135,11 @@ public class AfActivoFijo implements Serializable {
         this.afCodigoBarras = afCodigoBarras;
     }
 
-    public Double getAfPeriodoDep() {
+    public Integer getAfPeriodoDep() {
         return afPeriodoDep;
     }
 
-    public void setAfPeriodoDep(Double afPeriodoDep) {
+    public void setAfPeriodoDep(Integer afPeriodoDep) {
         this.afPeriodoDep = afPeriodoDep;
     }
 
@@ -170,15 +165,6 @@ public class AfActivoFijo implements Serializable {
 
     public void setAcAfConcepto(AfConcepto acAfConcepto) {
         this.acAfConcepto = acAfConcepto;
-    }
-
-    @XmlTransient
-    public Collection<AfHistorico> getAfHistoricoCollection() {
-        return afHistoricoCollection;
-    }
-
-    public void setAfHistoricoCollection(Collection<AfHistorico> afHistoricoCollection) {
-        this.afHistoricoCollection = afHistoricoCollection;
     }
 
     @Override
