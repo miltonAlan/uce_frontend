@@ -61,17 +61,18 @@ public class ManagedLogin implements Serializable {
  
     private String clave, usuario;
     
-    public void login (){
+    public String login (){
         AfUsuario userTemp = manejadorAfUsuario.iniciarSesion(clave, usuario);
                 if (userTemp != null) {
                                 FacesContext.getCurrentInstance().
                         addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Informacion", "Credenciales Correctas"));
+                         return "Menu.xhtml";       
                                 
                 }else {
             FacesContext.getCurrentInstance().
                     addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Informacion", "Las credenciales son inCorrectas"));
         }
-        
+        return null;
     }
 
     public String getClave() {
