@@ -384,6 +384,12 @@ public class ManagedDepreciacion implements Serializable {
     public void listarConceptos() {
         this.setListaAfConceptos(manejadorAfConcepto.findAll());
     }
+    public String getManualTexto(){
+        
+             System.out.println("this.textoBoton: " + this.textoBoton);
+       
+            return this.textoBoton; 
+    }
 
     @PostConstruct
     private void inicio() {
@@ -457,19 +463,25 @@ public class ManagedDepreciacion implements Serializable {
     }
 
     public void setTextoBoton(String textoBoton) {
+//        this.textoBoton = null;
         this.textoBoton = textoBoton;
     }
 
     public void setActivoTemp(AfActivoFijo activo, int filtro) {
         this.activoTemp = activo;
         this.setFiltro(filtro);
-        System.out.println("XX: filtro: " + filtro);
-        if (filtro == 0) {
-            this.textoBoton = "Depreciar";
+        
+        if (this.filtro == 0) {
+             this.textoBoton = "Depreciar";
+             System.out.println("this.textoBoton: " + this.textoBoton);
         }
-        if (filtro == 1) {
+        if (this.filtro == 1) {
             this.textoBoton = "Revalorizar";
+            System.out.println("this.textoBoton: " + this.textoBoton);
+//            this.setTextoBoton("Revalorizar"); 
         }
+        System.out.println("XX: filtro: " + filtro);
+
     }
 
     public String buscarUsuario(AfUsuario usuario) {

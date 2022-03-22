@@ -25,10 +25,11 @@ import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
+import org.primefaces.model.chart.PieChartModel;
 
-@ManagedBean(name = "ManagedDepreciacion")
+@ManagedBean(name = "ManagedHistorico")
 @SessionScoped
-public class ManagedDepreciacion implements Serializable {
+public class ManagedHistorico implements Serializable {
 
     @EJB
     private AfUsuarioFacadeLocal manejadorAfUsuario;
@@ -41,6 +42,32 @@ public class ManagedDepreciacion implements Serializable {
     private AfActivoFijo activoTemp;
     private String descDepre, descReva;
     public double valorDepreApre;
+    private PieChartModel pie;
+    private Map<String, Integer> mapHistorico = new HashMap<String, Integer>();
+
+    public Map<String, Integer> getMapHistorico() {
+        return mapHistorico;
+    }
+
+    public void setMapHistorico(Map<String, Integer> mapHistorico) {
+        this.mapHistorico = mapHistorico;
+    }
+
+    public PieChartModel getPie() {
+        return pie;
+    }
+
+    public void pintar() {
+        pie = new PieChartModel();
+        for (AfHistorico afhistorico1 : manejadorAfHistorico.findAll()) {
+            pie.set(afhistorico1.getAhMovimiento(), afhistorico1.getAfAhConsecutivo());
+        }
+
+    }
+
+    public void setPie(PieChartModel pie) {
+        this.pie = pie;
+    }
 
     public double getValorDepreApre() {
         return valorDepreApre;
@@ -259,6 +286,23 @@ public class ManagedDepreciacion implements Serializable {
     @EJB
     private AfHistoricoFacadeLocal manejadorAfHistorico;
     private AfHistorico afHistorico;
+    private List<AfHistorico> listaHistoricos;
+
+    public List<AfHistorico> getListaHistoricos() {
+        return listaHistoricos;
+    }
+
+    public void setListaHistoricos(List<AfHistorico> listaHistoricos) {
+        this.listaHistoricos = listaHistoricos;
+    }
+
+    public AfHistorico getAfHistorico() {
+        return afHistorico;
+    }
+
+    public void setAfHistorico(AfHistorico afHistorico) {
+        this.afHistorico = afHistorico;
+    }
 
     public String getTemp() {
         return temp;
@@ -271,7 +315,7 @@ public class ManagedDepreciacion implements Serializable {
     private double codActivoFijo;
     private String temp;
 
-    public ManagedDepreciacion() {
+    public ManagedHistorico() {
     }
 
     public void grabarAfUsuario() {
@@ -393,7 +437,10 @@ public class ManagedDepreciacion implements Serializable {
         listarActivosFijos();
         listarConceptos();
         listarUsuarios();
-        setNombresConceptos();
+        this.setListaHistoricos(manejadorAfHistorico.findAll());
+        System.out.println("");
+//        mapHistorico.put("sfd", 123);
+//        setNombresConceptos();
         setNombresUsuarios();
 //        System.out.println("XX: " + this.listaActivosFijos);
 
