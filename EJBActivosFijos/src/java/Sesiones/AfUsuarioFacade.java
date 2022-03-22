@@ -43,27 +43,22 @@ public class AfUsuarioFacade extends AbstractFacade<AfUsuario> implements AfUsua
     }
 
     @Override
-    public AfUsuario iniciarSesion(AfUsuario us) {
-
-
-        AfUsuario temp = null;
+    public AfUsuario iniciarSesion(String clave,String login) {
+        AfUsuario cli = null;
 
         try {
-            Query sql = em.createNamedQuery("AfUsuario.login");
-                //    .setParameter("au_login", us.getAuLogin())
-                  //  .setParameter("au_clave", us.getAuClave());
+            Query sql = em.createNamedQuery("AfUsuario.validarUsuario")
+                    .setParameter("auLogin", login)
+                    .setParameter("auClave", clave);
             List<AfUsuario> listaClientes = sql.getResultList();
 
             if (!listaClientes.isEmpty()) {
-                temp = listaClientes.get(0);
+                cli = listaClientes.get(0);
             }
-
         } catch (Exception e) {
-            System.out.println("xxxxxx: " + e);
-        } finally {
-            em.close();
+//            throw e;
         }
-        return temp;
+        return cli;
 
     }
 }
