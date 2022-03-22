@@ -11,9 +11,11 @@ import java.io.Serializable;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.RequestScoped;
 import javax.faces.bean.SessionScoped;
+import javax.faces.context.FacesContext;
 
 /**
  *
@@ -56,15 +58,35 @@ public class ManagedLogin implements Serializable {
     public void setListaAfUsuarios(List<AfUsuario> listaAfUsuarios) {
         this.listaAfUsuarios = listaAfUsuarios;
     }
+ 
+    private String clave, usuario;
     
-//    public void login (){
-//        AfUsuario us;
-//        String redireccion=null;
-//        System.out.println("xxxxxxxxxantes: " + afUsuario.getAuClave() + "separador " + afUsuario.getAuLogin());
-//        try {
-//            us = manejadorAfUsuario.iniciarSesion(this.afUsuario);
-//            System.out.println("xxxxxxxxxxxxdespues: " + us);
-//        } catch (Exception e) {
-//        }
-//    }
+    public void login (){
+        AfUsuario userTemp = manejadorAfUsuario.iniciarSesion(clave, usuario);
+                if (userTemp != null) {
+                                FacesContext.getCurrentInstance().
+                        addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Informacion", "Credenciales Correctas"));
+                                
+                }else {
+            FacesContext.getCurrentInstance().
+                    addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Informacion", "Las credenciales son inCorrectas"));
+        }
+        
+    }
+
+    public String getClave() {
+        return clave;
+    }
+
+    public void setClave(String clave) {
+        this.clave = clave;
+    }
+
+    public String getUsuario() {
+        return usuario;
+    }
+
+    public void setUsuario(String usuario) {
+        this.usuario = usuario;
+    }
 }

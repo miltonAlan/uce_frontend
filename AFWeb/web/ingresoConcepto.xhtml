@@ -8,16 +8,21 @@
     <h:outputStylesheet name="primeicons/primeicons.css" library="primefaces"/>
     <h:outputStylesheet name="primeicons/primeicons.css" library="primefaces" />
     <h:head>
-        <title>ingresoConcepto</title>
+        
+        <style>               
+            .Bimage{background-image:url("resources/images/bk2.jpg");}        
+        </style> 
+        
+        <title>ingreso de Concepto</title>
     </h:head>
 
-    <h:body>
+    <h:body styleClass="Bimage">
         <h:form>
 
             <p:toolbar>
 
                 <p:toolbarGroup>
-                    <img src="img\saf1.jpg" height="100" width="1250"/>
+                    <img src="img\ic.jpg" height="100" width="1250"/>
                     <br></br>
                     <p:commandButton type="reset" value="Nuevo" icon="ui-icon-plusthick" onclick="wdialogo.show()"
                                      update=":form:manage-product-content" oncomplete="PF('manageProductDialog').show()"
@@ -114,10 +119,13 @@
                 </p:dataTable>
 
             </div>
+
+            <p:dock position="bottom">
+                <p:menuitem value="Menú Principal" icon="img\cat.png" url="Menu.xhtml" />
+                <p:menuitem value="Ingreso A.F." icon="img\iconoaf.png" url="ingresoActivoFijo.xhtml" /> 
+            </p:dock>
         </h:form>
-        <p:dock position="bottom">
-            <p:menuitem value="Menú Principal" icon="img\cat.png" url="Menu.xhtml" />
-        </p:dock>      
+
 
     </h:body>
 </html>

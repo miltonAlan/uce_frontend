@@ -5,32 +5,45 @@
       xmlns:ui="http://java.sun.com/jsf/facelets"
       xmlns:p="http://primefaces.org/ui"
       xmlns:c="http://java.sun.com/jsp/jstl/core">
-    
+
     <f:view contentType="text/html">
         <h:head>
-            <f:facet name="first">
-                <meta content='text/html; charset=UTF-8' http-equiv="Content-Type"/>
+       <style>               
+            .Bimage{background-image:url("resources/images/q.jpeg");}        
+        </style> 
+        
                 <title>Login</title>
-            </f:facet>
         </h:head>
 
-        <h:body>
-
+        <h:body styleClass="Bimage" style="text-align:center">
+         
             <h:form>
                 <p:messages autoUpdate="true" showDetail="true" />
-                <h:panelGrid columns="2" >
+                
+                <p:panel id="loggin" header="inicio de Sesion" styleClass="panelCenter" style="width: 25%">
+                                       <img src="img\122.gif" height="200" width="200" > </img>
+
+                    <h:panelGrid columns="2" styleClass="panelGridCenter" >
+                    
                     <p:outputLabel for="txtUsuario" value="Usuario" />
-                    <p:inputText id="txtUsuario" value="#{ManagedLogin.afUsuario.auLogin}" required="true"/>
+                    <p:inputText id="txtUsuario" value="#{ManagedLogin.usuario}" required="true" requiredMessage="el usuario es requerido" style="width: 100%"/>
                     <p:outputLabel for="txtClave" value="Clave"/>
-                    <p:password id="txtClave" value="#{ManagedLogin.afUsuario.auClave}" required="true"/>   
+                    <p:password id="txtClave" value="#{ManagedLogin.clave}"  required="true" requiredMessage="la clave es requerido" style="width: 100%"/>   
                     <h:column/>
-                    <p:commandButton value="Iniciar Sesion" icon="ui-icon-key" action="#{ManagedLogin.login}"/>
+                    <p:commandButton value="Iniciar Sesion" icon="ui-icon-key"   action="Menu.xhtml" style="width: 100%"/>
 
                 </h:panelGrid>
-                <p:separator/>
+                    </p:panel>
+                
 
 
-               <!-- <p:button outcome="home.xhtml" value="REGRESAR" />                  -->
+               
+                
+                                            
+                        
+                    
+                
+                
             </h:form>
 
         </h:body>

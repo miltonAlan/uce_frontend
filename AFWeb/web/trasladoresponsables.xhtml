@@ -6,14 +6,19 @@
       xmlns:ui="http://java.sun.com/jsf/facelets"
       xmlns:p="http://primefaces.org/ui">
     <h:head>
-        <title>Traslado de Activos Fijos</title>
+
+        <style>               
+            .Bimage{background-image:url("resources/images/bk1.jpg");}        
+        </style> 
+
+        <title>Traslado de Responsable</title>
     </h:head>
-    <h:body>
+    <h:body styleClass="Bimage">
         <h:form>
             <p:panelGrid id ="panelConceptos" columns="2">
                 <f:facet name="header">
-                        <img src="img\saf1.jpg" height="100" width="1250"/>
-                    </f:facet>
+                    <img src="img\tdr.jpg" height="100" width="1250"/>
+                </f:facet>
                 <h:column>
                     <h:outputText id="idResponsableAnt" value="Responsable Actual"/>
                     <p:selectOneMenu   value="#{ManagedTraslado.nombreResponsableAnt}">
@@ -72,11 +77,12 @@
                     </p:commandButton>
                 </div>
             </div>
+            <p:dock position="bottom">
+            <p:menuitem value="Menú Principal" icon="img\cat.png" url="Menu.xhtml" />
+        </p:dock>    
         </h:form>
-                     <p:dock position="bottom">
-                <p:menuitem value="Menú Principal" icon="img\cat.png" url="Menu.xhtml" />
-            </p:dock>      
-        
+          
+
     </h:body>
 </html>
 
