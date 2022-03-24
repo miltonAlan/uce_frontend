@@ -151,7 +151,7 @@ public class ManagedDepreciacion implements Serializable {
             }
             if (filtro == 1) // Apreciación
             {
-                activoTemp.setAfDepAcum(activoTemp.getAfDepAcum() + valorDepreApre);
+//                activoTemp.setAfDepAcum(activoTemp.getAfDepAcum() + valorDepreApre);
                 activoTemp.setAfValor(activoTemp.getAfValor() + valorDepreApre);
             }
             System.out.println("XX: " + activoTemp.getAfDepAcum());

@@ -289,7 +289,7 @@ public class ManagedHistorico implements Serializable {
     private List<AfHistorico> listaHistoricos;
 
     public List<AfHistorico> getListaHistoricos() {
-        return listaHistoricos;
+        return manejadorAfHistorico.findAll();
     }
 
     public void setListaHistoricos(List<AfHistorico> listaHistoricos) {
@@ -428,6 +428,9 @@ public class ManagedHistorico implements Serializable {
     public void listarConceptos() {
         this.setListaAfConceptos(manejadorAfConcepto.findAll());
     }
+    public void listarHistorico(){
+    this.setListaHistoricos(manejadorAfHistorico.findAll());
+    }
 
     @PostConstruct
     private void inicio() {
@@ -437,7 +440,8 @@ public class ManagedHistorico implements Serializable {
         listarActivosFijos();
         listarConceptos();
         listarUsuarios();
-        this.setListaHistoricos(manejadorAfHistorico.findAll());
+        listarHistorico();
+//        this.setListaHistoricos(manejadorAfHistorico.findAll());
         System.out.println("");
 //        mapHistorico.put("sfd", 123);
 //        setNombresConceptos();

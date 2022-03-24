@@ -23,7 +23,7 @@
                 <f:facet name="Titulo">
                     <h:outputText value ="Lista del Personal"/>                                                    
                 </f:facet>
-                <p:column headerText="Movimiento: " filterBy="#{i.ahMovimiento}" sortBy="#{i.ahMovimiento}">
+                <p:column headerText="Descripción: " filterBy="#{i.ahMovimiento}" sortBy="#{i.ahMovimiento}">
                     <h:outputText value="#{i.ahMovimiento}"/>
                 </p:column> 
                 <p:column headerText="Fecha: " filterBy="#{i.ahFecha}" sortBy="#{i.ahFecha}">
@@ -31,7 +31,7 @@
                 </p:column> 
                 <p:column headerText="Valor: " filterBy="#{i.ahValor}" sortBy="#{i.ahValor}">
                     <h:outputText value="#{i.ahValor}"/>
-                </p:column> 
+                </p:column>
 
             </p:dataTable>
 

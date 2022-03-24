@@ -179,7 +179,7 @@ public class ManagedTraslado implements Serializable {
                     historicoTemp.setAhResponsableAct(nombreResponsableAct);
                     historicoTemp.setAhResponsableAnt(nombreResponsableAnt);
                     historicoTemp.setAhMovimiento("Traslado de responsable-" + "Activo Fijo: "
-                            + activoFijo.getAfMarca() + " " + activoFijo.getAfModelo());
+                            + activoFijo.getAfMarca() + " " + activoFijo.getAfModelo() + " desde: " + nombreResponsableAnt + " hacia: " +nombreResponsableAct );
                     historicoTemp.setAhPeriodo(0.0);
                     historicoTemp.setAhValor(0.0);
                     System.out.println("------------");
