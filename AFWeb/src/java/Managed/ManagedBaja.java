@@ -333,6 +333,28 @@ public class ManagedBaja implements Serializable {
         if (userTemp != null) {
             System.out.println("XX: " + userTemp.getAuNombre());
             System.out.println("XX: " + userTemp.getAuApellido());
+            SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+
+            AfHistorico historicoTemp = new AfHistorico();
+            asignarConsecutivoHistorico(historicoTemp);
+
+            historicoTemp.setAhFecha(sdf.format(new Date()));
+            historicoTemp.setAhResponsableAct(nombreResponsableAct);
+            historicoTemp.setAhResponsableAnt(nombreResponsableAnt);
+            historicoTemp.setAhMovimiento("Baja de Activo Fijo por: " + motivo+ " "  
+                    + activoTemp.getAfMarca() + " " + activoTemp.getAfModelo());
+            historicoTemp.setAhPeriodo(0.0);
+            historicoTemp.setAhValor(0.0);
+            System.out.println("------------");
+            System.out.println("XX:historicoTemp getAfAhConsecutivo" + historicoTemp.getAfAhConsecutivo());
+            System.out.println("XX:historicoTemp getAhFecha" + historicoTemp.getAhFecha());
+            System.out.println("XX:historicoTemp getAhMovimiento" + historicoTemp.getAhMovimiento());
+            System.out.println("XX:historicoTemp getAhPeriodo" + historicoTemp.getAhPeriodo());
+            System.out.println("XX:historicoTemp getAhValor" + historicoTemp.getAhValor());
+            System.out.println("XX:historicoTemp getAhResponsableAct" + historicoTemp.getAhResponsableAct());
+            System.out.println("XX:historicoTemp getAhResponsableAnt" + historicoTemp.getAhResponsableAnt());
+            System.out.println("------------");
+            manejadorAfHistorico.create(historicoTemp);
             System.out.println("XX:activoTemp " + activoTemp);
 //            activoTemp.setAfEstado("Dado de Baja por: " + userTemp.getAuNombre() + " " + userTemp.getAuApellido());
             if (activoTemp.getAfEstado().equalsIgnoreCase("Dado de Baja")) {

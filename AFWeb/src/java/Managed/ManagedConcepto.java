@@ -69,7 +69,7 @@ public class ManagedConcepto implements Serializable {
             addMessage(FacesMessage.SEVERITY_INFO, "Informacion", "Registro guardado exitosamente");
 
         } else {
-            addMessage(FacesMessage.SEVERITY_WARN, "Advertencia", "Un concepto con la misma descripción ya existe mamaverga");
+            addMessage(FacesMessage.SEVERITY_WARN, "Advertencia", "Un concepto con la misma descripción ya existe");
         }
     }
 
