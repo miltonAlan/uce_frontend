@@ -1,0 +1,54 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html  xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+
+   
+    
+    <f:view contentType="text/html">
+        <h:head>
+            <f:facet name="first">
+                <meta content='text/html; charset=UTF-8' http-equiv="Content-Type"/>
+                <title>Menu Usuario</title>
+            </f:facet>
+        </h:head>
+
+        <h:body>
+
+            <p:layout fullPage="true">
+                <p:layoutUnit position="north" size="110" resizable="true" closable="true" collapsible="true">
+                    <img src="img\saf1.jpg" height="89" width="1260" > </img>
+                </p:layoutUnit>
+
+                <p:layoutUnit position="south" size="100" closable="true" collapsible="true">
+                    <div style="height: 68px; background-color:hsl(201, 57%, 35%);">
+                        <h1  style="text-align: center ; color: #ffffff; font-size: 20px"> Quito-Ecuador           ® 2022 Soluciones A.F.          All rights reserved</h1>
+                    </div>
+                </p:layoutUnit>
+
+                <p:layoutUnit position="west" size="275" header="Ocultar Menú" collapsible="true">
+                    <p:menu>
+                        <p:submenu label="MENÚ PRINCIPAL">
+                            <p:menuitem value="Consulta General de Activos Fijos" outcome="listarActivosFijos.xhtml" />
+                                               
+                        </p:submenu>
+
+                    </p:menu>
+                </p:layoutUnit>
+                
+                
+                 <p:layoutUnit position="center">
+                   <img src="img\fasd.gif" height="671" width="975" > </img>
+                </p:layoutUnit>  
+
+            </p:layout>
+
+
+        </h:body>
+
+    </f:view>
+</html>
