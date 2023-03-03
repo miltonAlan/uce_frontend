@@ -6,12 +6,13 @@
       xmlns:ui="http://java.sun.com/jsf/facelets"
       xmlns:p="http://primefaces.org/ui">
     <h:head>
-        
+
         <style>               
             .Bimage{background-image:url("resources/images/bk2.jpg");}        
         </style> 
-        
+
         <title>Lista de Responsables</title>
+        <f:event type="preRenderView" listener="#{ManagedSesion.validarSesion()}" />
     </h:head>
     <h:body styleClass="Bimage">
         <h:form>

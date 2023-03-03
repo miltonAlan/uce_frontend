@@ -12,6 +12,7 @@
         </style> 
 
         <title>Ingreso Activos Fijos</title>
+        <f:event type="preRenderView" listener="#{ManagedSesion.validarSesion()}" />
     </h:head>
     <h:body styleClass="Bimage"> 
         <h:form>
@@ -178,7 +179,7 @@
 
 
 
- 
+
 
             <p:dock position="bottom">
                 <p:menuitem value="Menú Principal" icon="img\cat.png" url="Menu.xhtml" />

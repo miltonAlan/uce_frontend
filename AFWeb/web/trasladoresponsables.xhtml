@@ -12,6 +12,7 @@
         </style> 
 
         <title>Traslado de Responsable</title>
+        <f:event type="preRenderView" listener="#{ManagedSesion.validarSesion()}" />
     </h:head>
     <h:body styleClass="Bimage">
         <h:form>
@@ -78,10 +79,10 @@
                 </div>
             </div>
             <p:dock position="bottom">
-            <p:menuitem value="Menú Principal" icon="img\cat.png" url="Menu.xhtml" />
-        </p:dock>    
+                <p:menuitem value="Menú Principal" icon="img\cat.png" url="Menu.xhtml" />
+            </p:dock>    
         </h:form>
-          
+
 
     </h:body>
 </html>

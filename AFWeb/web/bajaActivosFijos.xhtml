@@ -10,9 +10,9 @@
         <style>               
             .Bimage{background-image:url("resources/images/bk1.jpg");}        
         </style> 
-        
-        <title>Baja de Activos Fijos</title>
 
+        <title>Baja de Activos Fijos</title>
+        <f:event type="preRenderView" listener="#{ManagedSesion.validarSesion()}" />
     </h:head>
     <h:body styleClass="Bimage"> <h:form>
 
