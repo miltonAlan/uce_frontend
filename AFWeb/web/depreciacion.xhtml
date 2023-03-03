@@ -10,6 +10,7 @@
             .Bimage{background-image:url("resources/images/bk1.jpg");}        
         </style> 
         <title>Depreciación de Activos Fijos</title>
+        <f:event type="preRenderView" listener="#{ManagedSesion.validarSesion()}" />
     </h:head>
     <h:body styleClass="Bimage">  
         <img src="img\dyr.jpg" height="85" width="1270"/>
@@ -21,7 +22,7 @@
                             <p:outputLabel value="Depreciación/Revalorización manual"/>    
                         </h:column>
                         <h:column>
-                            
+
                         </h:column>
                         <h:column>
                             <p:outputLabel value="Usuario"/>    

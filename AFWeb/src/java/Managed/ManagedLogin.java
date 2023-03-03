@@ -4,7 +4,6 @@
  */
 package Managed;
 
-import Entidades.AfConcepto;
 import Entidades.AfUsuario;
 import Sesiones.AfUsuarioFacadeLocal;
 import java.io.Serializable;
@@ -13,21 +12,15 @@ import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.RequestScoped;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 
-/**
- *
- * @author alejo
- */
 @ManagedBean(name = "ManagedLogin")
 @SessionScoped
 public class ManagedLogin implements Serializable {
 
-    /**
-     * Creates a new instance of ManagedLogin
-     */
+    public static String usuarioSesion = "usuarioSesion";
+
     public ManagedLogin() {
     }
     @EJB
@@ -62,6 +55,10 @@ public class ManagedLogin implements Serializable {
     public String login() {
         AfUsuario userTemp = manejadorAfUsuario.iniciarSesion(clave, usuario);
         if (userTemp != null) {
+
+            // almacenamiento sesion usuario
+            FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put(usuarioSesion, userTemp);
+            
             FacesContext.getCurrentInstance().
                     addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Informacion", "Credenciales Correctas"));
             return "Menu.xhtml";

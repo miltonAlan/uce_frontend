@@ -6,15 +6,16 @@
       xmlns:ui="http://java.sun.com/jsf/facelets"
       xmlns:p="http://primefaces.org/ui">
     <h:head>
-        
+
         <style>               
             .Bimage{background-image:url("resources/images/bk1.jpg");}        
         </style> 
-        
+
         <title>Consulta General de Activos Fijos</title>
+        <f:event type="preRenderView" listener="#{ManagedSesion.validarSesion()}" />
     </h:head>
     <h:body styleClass="Bimage"> <h:form>
-            
+
             <img src="img\laf.jpg" height="85" width="1250"/>
 
             <br></br>

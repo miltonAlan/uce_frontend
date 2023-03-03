@@ -8,12 +8,13 @@
     <h:outputStylesheet name="primeicons/primeicons.css" library="primefaces"/>
     <h:outputStylesheet name="primeicons/primeicons.css" library="primefaces" />
     <h:head>
-        
+
         <style>               
             .Bimage{background-image:url("resources/images/bk2.jpg");}        
         </style> 
-        
+
         <title>ingreso de Concepto</title>
+        <f:event type="preRenderView" listener="#{ManagedSesion.validarSesion()}" />
     </h:head>
 
     <h:body styleClass="Bimage">

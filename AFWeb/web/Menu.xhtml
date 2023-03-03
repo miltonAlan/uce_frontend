@@ -2,19 +2,20 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
 <html  xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:h="http://java.sun.com/jsf/html"
-      xmlns:f="http://java.sun.com/jsf/core"
-      xmlns:ui="http://java.sun.com/jsf/facelets"
-      xmlns:p="http://primefaces.org/ui">
+       xmlns:h="http://java.sun.com/jsf/html"
+       xmlns:f="http://java.sun.com/jsf/core"
+       xmlns:ui="http://java.sun.com/jsf/facelets"
+       xmlns:p="http://primefaces.org/ui">
 
-   
-    
+
+
     <f:view contentType="text/html">
         <h:head>
             <f:facet name="first">
                 <meta content='text/html; charset=UTF-8' http-equiv="Content-Type"/>
                 <title>Menu Principal</title>
             </f:facet>
+            <f:event type="preRenderView" listener="#{ManagedSesion.validarSesion()}" />
         </h:head>
 
         <h:body>
@@ -45,10 +46,10 @@
 
                     </p:menu>
                 </p:layoutUnit>
-                
-                
-                 <p:layoutUnit position="center">
-                   <img src="img\fasd.gif" height="671" width="975" > </img>
+
+
+                <p:layoutUnit position="center">
+                    <img src="img\fasd.gif" height="671" width="975" > </img>
                 </p:layoutUnit>  
 
             </p:layout>
