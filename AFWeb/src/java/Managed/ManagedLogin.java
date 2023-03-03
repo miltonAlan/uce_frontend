@@ -30,17 +30,16 @@ public class ManagedLogin implements Serializable {
      */
     public ManagedLogin() {
     }
-    
     @EJB
     private AfUsuarioFacadeLocal manejadorAfUsuario;
     private AfUsuario afUsuario;
     private List<AfUsuario> listaAfUsuarios;
-    
+
     @PostConstruct
     private void inicio() {
-     
-    afUsuario = new AfUsuario();
-        
+
+        afUsuario = new AfUsuario();
+
     }
 
     public AfUsuario getAfUsuario() {
@@ -58,21 +57,24 @@ public class ManagedLogin implements Serializable {
     public void setListaAfUsuarios(List<AfUsuario> listaAfUsuarios) {
         this.listaAfUsuarios = listaAfUsuarios;
     }
- 
     private String clave, usuario;
-    
-    public String login (){
+
+    public String login() {
         AfUsuario userTemp = manejadorAfUsuario.iniciarSesion(clave, usuario);
-                if (userTemp != null) {
-                                FacesContext.getCurrentInstance().
-                        addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Informacion", "Credenciales Correctas"));
-                         return "Menu.xhtml";       
-                                
-                }else {
+        if (userTemp != null) {
+            FacesContext.getCurrentInstance().
+                    addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Informacion", "Credenciales Correctas"));
+            return "Menu.xhtml";
+
+        } else {
             FacesContext.getCurrentInstance().
                     addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Informacion", "Las credenciales son inCorrectas"));
         }
         return null;
+    }
+
+    public String login2() {
+        return "MenuUsuario.xhtml";
     }
 
     public String getClave() {
