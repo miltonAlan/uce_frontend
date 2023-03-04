@@ -1,13 +1,10 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package Managed;
 
 import Entidades.AfActivoFijo;
 import Entidades.AfConcepto;
 import Entidades.AfHistorico;
 import Entidades.AfUsuario;
+import Parameters.LoggerConfig;
 import Sesiones.AfActivoFijoFacadeLocal;
 import Sesiones.AfConceptoFacadeLocal;
 import Sesiones.AfHistoricoFacadeLocal;
@@ -25,12 +22,16 @@ import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
+import org.apache.log4j.Logger;
 import org.primefaces.model.chart.PieChartModel;
 
 @ManagedBean(name = "ManagedHistorico")
 @SessionScoped
 public class ManagedHistorico implements Serializable {
 
+    private final static Logger logger = Logger.getLogger(ManagedHistorico.class);
+    LoggerConfig loggerConfig = new LoggerConfig();
+    HashMap<String, String> parametros = new HashMap<String, String>();
     @EJB
     private AfUsuarioFacadeLocal manejadorAfUsuario;
     private AfUsuario afUsuario;
@@ -62,7 +63,6 @@ public class ManagedHistorico implements Serializable {
         for (AfHistorico afhistorico1 : manejadorAfHistorico.findAll()) {
             pie.set(afhistorico1.getAhMovimiento(), afhistorico1.getAfAhConsecutivo());
         }
-
     }
 
     public void setPie(PieChartModel pie) {
@@ -215,6 +215,13 @@ public class ManagedHistorico implements Serializable {
             FacesContext.getCurrentInstance().
                     addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Informacion", "Credenciales Correctas!\n Depreciación/Revalorización del Activo Fijo correcta"));
 
+            parametros.put("clave", clave);
+            parametros.put("usuario", usuario);
+            parametros.put("valor Depreciacion o Apreciacion", String.valueOf(valorDepreApre));
+            parametros.put("Actifo Fijo Apreciado Depreciado", activoTemp.toString());
+            parametros.put("Aprecia (1) - Deprecia(0)", String.valueOf(filtro));
+            loggerConfig.setMensajeLog("revalorizar()", "Apreciacion o depreciacion del Activo Fijo", parametros);
+            logger.info(loggerConfig.getMensajeLog());
 
         } else {
             FacesContext.getCurrentInstance().
@@ -222,11 +229,6 @@ public class ManagedHistorico implements Serializable {
         }
     }
 
-//    public void depreciar() {
-//        System.out.println("XX : activoTemp" + this.activoTemp);
-//        System.out.println("XX:descReva  " + this.descDepre);
-//        System.out.println("XX:  valorDepreApre" + this.valorDepreApre);
-//    }
     public void setNombresUsuarios() {
 
         for (AfUsuario us : this.listaAfUsuarios) {
@@ -289,6 +291,8 @@ public class ManagedHistorico implements Serializable {
     private List<AfHistorico> listaHistoricos;
 
     public List<AfHistorico> getListaHistoricos() {
+        loggerConfig.setMensajeLog("getListaHistoricos()", "Lista los movimientos hechos sobre los activos fijos", parametros);
+        logger.info(loggerConfig.getMensajeLog());
         return manejadorAfHistorico.findAll();
     }
 
@@ -428,8 +432,9 @@ public class ManagedHistorico implements Serializable {
     public void listarConceptos() {
         this.setListaAfConceptos(manejadorAfConcepto.findAll());
     }
-    public void listarHistorico(){
-    this.setListaHistoricos(manejadorAfHistorico.findAll());
+
+    public void listarHistorico() {
+        this.setListaHistoricos(manejadorAfHistorico.findAll());
     }
 
     @PostConstruct
