@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package Entidades;
 
 import java.io.Serializable;
@@ -16,10 +12,6 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 
-/**
- *
- * @author mpaucar
- */
 @Entity
 @Table(name = "af_historico")
 @XmlRootElement
@@ -152,7 +144,6 @@ public class AfHistorico implements Serializable {
 
     @Override
     public String toString() {
-        return "Entidades.AfHistorico[ afAhConsecutivo=" + afAhConsecutivo + " ]";
+        return "AfHistorico{" + "afAhConsecutivo=" + afAhConsecutivo + ", ahFecha=" + ahFecha + ", ahMovimiento=" + ahMovimiento + ", ahValor=" + ahValor + ", ahPeriodo=" + ahPeriodo + ", ahResponsableAnt=" + ahResponsableAnt + ", ahResponsableAct=" + ahResponsableAct + '}';
     }
-    
 }

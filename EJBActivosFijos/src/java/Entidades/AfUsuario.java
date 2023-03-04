@@ -172,6 +172,6 @@ public class AfUsuario implements Serializable {
 
     @Override
     public String toString() {
-        return "Entidades.AfUsuario[ auConsecutivo=" + auConsecutivo + " ]";
+        return "AfUsuario{" + "auConsecutivo=" + auConsecutivo + ", auNombre=" + auNombre + ", auApellido=" + auApellido + ", auFechaNacimiento=" + auFechaNacimiento + ", auClave=" + auClave + ", auLogin=" + auLogin + ", auCedula=" + auCedula + ", auCargo=" + auCargo + ", afActivoFijoCollection=" + afActivoFijoCollection + '}';
     }
 }

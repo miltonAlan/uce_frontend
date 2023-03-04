@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package Entidades;
 
 import java.io.Serializable;
@@ -16,10 +12,6 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 
-/**
- *
- * @author mpaucar
- */
 @Entity
 @Table(name = "af_variables")
 @XmlRootElement
@@ -30,6 +22,7 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "AfVariables.findByAvDescripcion", query = "SELECT a FROM AfVariables a WHERE a.avDescripcion = :avDescripcion"),
     @NamedQuery(name = "AfVariables.findByAvValor", query = "SELECT a FROM AfVariables a WHERE a.avValor = :avValor")})
 public class AfVariables implements Serializable {
+
     private static final long serialVersionUID = 1L;
     // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Id
@@ -108,7 +101,6 @@ public class AfVariables implements Serializable {
 
     @Override
     public String toString() {
-        return "Entidades.AfVariables[ avConsecutivo=" + avConsecutivo + " ]";
+        return "AfVariables{" + "avConsecutivo=" + avConsecutivo + ", avVariable=" + avVariable + ", avDescripcion=" + avDescripcion + ", avValor=" + avValor + '}';
     }
-    
 }
