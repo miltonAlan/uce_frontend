@@ -1,11 +1,8 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package Managed;
 
 import Entidades.AfUsuario;
 import Sesiones.AfUsuarioFacadeLocal;
+import java.io.File;
 import java.io.Serializable;
 import java.util.List;
 import javax.annotation.PostConstruct;
@@ -14,12 +11,16 @@ import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
+import org.apache.log4j.Logger;
+import org.apache.log4j.PropertyConfigurator;
 
 @ManagedBean(name = "ManagedLogin")
 @SessionScoped
 public class ManagedLogin implements Serializable {
 
     public static String usuarioSesion = "usuarioSesion";
+    private final static String archivoPropertiesLog4j = "log4j.properties";
+    private final static Logger logger = Logger.getLogger(ManagedLogin.class);
 
     public ManagedLogin() {
     }
@@ -30,7 +31,6 @@ public class ManagedLogin implements Serializable {
 
     @PostConstruct
     private void inicio() {
-
         afUsuario = new AfUsuario();
 
     }
@@ -52,7 +52,13 @@ public class ManagedLogin implements Serializable {
     }
     private String clave, usuario;
 
+    private void configLogger() {
+        File log4jfile = new File(archivoPropertiesLog4j);
+        PropertyConfigurator.configure(log4jfile.getAbsolutePath());
+    }
+
     public String login() {
+        configLogger();
         AfUsuario userTemp = manejadorAfUsuario.iniciarSesion(clave, usuario);
         String mensajeLog = "";
         String claveEncriptada = "";
@@ -64,11 +70,9 @@ public class ManagedLogin implements Serializable {
             for (int i = 0; i < clave.length(); i++) {
                 claveEncriptada += "*";
             }
-            mensajeLog = "Metodo: login()" + ", Parametros: usuario:" + usuario + " clave:" + claveEncriptada;
+            mensajeLog = "Metodo:login()" + ", Parametros: usuario:" + usuario + " clave:" + claveEncriptada;
 
-            // llamado al log INFO (1)
-            LoggerMaster.logger(mensajeLog, 1);
-
+            logger.info(mensajeLog);
             FacesContext.getCurrentInstance().
                     addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Informacion", "Credenciales Correctas"));
             return "Menu.xhtml";
@@ -76,8 +80,7 @@ public class ManagedLogin implements Serializable {
         } else {
             FacesContext.getCurrentInstance().
                     addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Informacion", "Las credenciales son inCorrectas"));
-            // llamado al log ERROR (2)
-            LoggerMaster.logger("Las credenciales son inCorrectas", 2);
+            logger.error("Las credenciales son inCorrectas - Metodo:login()");
         }
         return null;
     }
