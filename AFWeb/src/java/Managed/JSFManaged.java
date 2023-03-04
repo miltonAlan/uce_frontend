@@ -60,9 +60,9 @@ public class JSFManaged implements Serializable {
     }
 
     public void grabarAfUsuario() {
-        SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
-        String date = sdf.format(fecha);
-        afUsuario.setAuFechaNacimiento(date);
+        //SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
+        //String date = sdf.format(fecha);
+        //afUsuario.setAuFechaNacimiento(date);
 
         try {
             if (manejadorAfUsuario.buscarPorUsuario(afUsuario.getAuCedula()) == null) {
