@@ -1,20 +1,17 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package Managed;
 
 import Entidades.AfActivoFijo;
 import Entidades.AfConcepto;
 import Entidades.AfHistorico;
 import Entidades.AfUsuario;
+import Parameters.LoggerConfig;
 import Sesiones.AfActivoFijoFacadeLocal;
 import Sesiones.AfConceptoFacadeLocal;
 import Sesiones.AfHistoricoFacadeLocal;
 import Sesiones.AfUsuarioFacadeLocal;
 import java.io.Serializable;
-import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
@@ -22,13 +19,15 @@ import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
-import org.primefaces.event.CellEditEvent;
-import org.primefaces.event.RowEditEvent;
+import org.apache.log4j.Logger;
 
 @ManagedBean(name = "JSFManaged")
 @SessionScoped
 public class JSFManaged implements Serializable {
 
+    private final static Logger logger = Logger.getLogger(JSFManaged.class);
+    LoggerConfig loggerConfig = new LoggerConfig();
+    HashMap<String, String> parametros = new HashMap<String, String>();
     @EJB
     private AfUsuarioFacadeLocal manejadorAfUsuario;
     private AfUsuario afUsuario;
@@ -155,6 +154,12 @@ public class JSFManaged implements Serializable {
     }
 
     public List<AfUsuario> getListaAfUsuarios() {
+
+        parametros.put("responsablesActivosFijos", listaAfUsuarios.toString());
+        parametros.put("cantidadResponsables", String.valueOf(listaAfUsuarios.size()));
+        loggerConfig.setMensajeLog("getListaAfUsuarios()", "Obtiene todos los responsables de los Activos Fijos", parametros);
+        logger.info(loggerConfig.getMensajeLog());
+        parametros.clear();
         return listaAfUsuarios;
     }
 

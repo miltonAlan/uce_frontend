@@ -19,7 +19,7 @@ public class LoggerConfig {
 
     public void setMensajeLog(String metodo, String descMetodo, HashMap<String, String> parametros) {
         AfUsuario afUsuario = (AfUsuario) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get(ManagedLogin.usuarioSesion);
-        String login = afUsuario == null ? "Usuario o Clave Incorrectos" : afUsuario.getAuLogin();
+        String login = afUsuario == null ? "Usuario o Clave Incorrectos o es un Invitado" : afUsuario.getAuLogin();
         this.mensajeLog = "Metodo:" + metodo + " -Descripcion Metodo:" + descMetodo + " -UsuarioLogin:" + login + " - Parametros:" + parametros;
     }
 
