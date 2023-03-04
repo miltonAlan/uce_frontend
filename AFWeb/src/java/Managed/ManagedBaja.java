@@ -1,13 +1,10 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package Managed;
 
 import Entidades.AfActivoFijo;
 import Entidades.AfConcepto;
 import Entidades.AfHistorico;
 import Entidades.AfUsuario;
+import Parameters.LoggerConfig;
 import Sesiones.AfActivoFijoFacadeLocal;
 import Sesiones.AfConceptoFacadeLocal;
 import Sesiones.AfHistoricoFacadeLocal;
@@ -19,18 +16,21 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Timer;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
+import org.apache.log4j.Logger;
 
 @ManagedBean(name = "ManagedBaja")
 @SessionScoped
 public class ManagedBaja implements Serializable {
 
+    private final static Logger logger = Logger.getLogger(ManagedBaja.class);
+    LoggerConfig loggerConfig = new LoggerConfig();
+    HashMap<String, String> parametros = new HashMap<String, String>();
     @EJB
     private AfUsuarioFacadeLocal manejadorAfUsuario;
     private AfUsuario afUsuario;
@@ -102,11 +102,6 @@ public class ManagedBaja implements Serializable {
 
     public List<String> getNombresUsuarios() {
         return nombresUsuarios;
-    }
-
-    public void test() {
-//        System.out.println("XX: nombreResponsableAct" + temp);
-//        System.out.println("XX: nombreResponsableAnt" + nombreResponsableAnt);
     }
 
     public void setNombresUsuarios() {
@@ -203,26 +198,6 @@ public class ManagedBaja implements Serializable {
 
     public void listarActivosFijos() {
         this.setListaActivosFijos(manejadorAfActivoFijo.findAll());
-    }
-
-    public void buscarResponsable() {
-//        nombreResponsableAnt = temp;
-        System.out.println("XX: " + temp);
-//        int tempuser = mapUsuarios.get(nombreResponsableAnt);
-//        System.out.println("XX:tempuser " + tempuser);
-        System.out.println("XX:nombreResponsableAnt " + nombreResponsableAnt);
-//        System.out.println("XX:nombreResponsableAct " + nombreResponsableAct);
-//        System.out.println("XX: " + this.listaAfUsuarios);
-//        List<AfActivoFijo> listaTemp = manejadorAfActivoFijo.findAll();
-//        listaAntResponsables = new ArrayList<AfActivoFijo>();
-//        for (AfActivoFijo afActivoFijo1 : listaTemp) {
-//            if (afActivoFijo1.getAuAfConsecutivo().getAuConsecutivo() == tempuser) {
-//                listaAntResponsables.add(afActivoFijo1);
-//            }
-//        }
-//        this.listaActivosFijos = listaAntResponsables;
-        System.out.println("XX:listaActivosFijos " + listaActivosFijos);
-        System.out.println("XX:listaAntResponsables " + listaAntResponsables);
     }
 
     public void asignarConsecutivoHistorico(AfHistorico historico) {
@@ -341,7 +316,7 @@ public class ManagedBaja implements Serializable {
             historicoTemp.setAhFecha(sdf.format(new Date()));
             historicoTemp.setAhResponsableAct(nombreResponsableAct);
             historicoTemp.setAhResponsableAnt(nombreResponsableAnt);
-            historicoTemp.setAhMovimiento("Baja de Activo Fijo por: " + motivo+ " "  
+            historicoTemp.setAhMovimiento("Baja de Activo Fijo por: " + motivo + " "
                     + activoTemp.getAfMarca() + " " + activoTemp.getAfModelo());
             historicoTemp.setAhPeriodo(0.0);
             historicoTemp.setAhValor(0.0);
@@ -360,21 +335,38 @@ public class ManagedBaja implements Serializable {
             if (activoTemp.getAfEstado().equalsIgnoreCase("Dado de Baja")) {
                 FacesContext.getCurrentInstance().
                         addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Informacion", "No puede dar de baja un Activo Fijo nuevamente"));
+                parametros.put("motivoBaja", motivo);
+                parametros.put("ERRORMSG", "No puede dar de baja un Activo Fijo nuevamente");
+                parametros.put("activoFijoNODadoDeBaja", activoTemp.toString());
+                loggerConfig.setMensajeLog("validaBaja()", "Da de baja un Activo Fijo por algun motivo", parametros);
+                logger.error(loggerConfig.getMensajeLog());
+                parametros.clear();
             } else {
                 activoTemp.setAfEstado("Dado de Baja");
                 manejadorAfActivoFijo.edit(activoTemp);
                 FacesContext.getCurrentInstance().
                         addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Informacion", "Credenciales Correctas!\n\n Activo dado de baja correctamente"));
+
+                parametros.put("motivoBaja", motivo);
+                parametros.put("activoFijoDadoDeBaja", activoTemp.toString());
+                loggerConfig.setMensajeLog("validaBaja()", "Da de baja un Activo Fijo por algun motivo", parametros);
+                logger.info(loggerConfig.getMensajeLog());
+                parametros.clear();
             }
 
         } else {
             FacesContext.getCurrentInstance().
                     addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Informacion", "Credenciales incorrectas \n Usted no tiene privilegios para realizar la baja de un Activo Fijo"));
+            parametros.put("motivoBaja", motivo);
+            parametros.put("ERRORMSG", "Credenciales incorrectas \n Usted no tiene privilegios para realizar la baja de un Activo Fijo");
+            parametros.put("activoFijoNODadoDeBaja", activoTemp.toString());
+            loggerConfig.setMensajeLog("validaBaja()", "Da de baja un Activo Fijo por algun motivo", parametros);
+            logger.error(loggerConfig.getMensajeLog());
+            parametros.clear();
         }
     }
 
     public void setActivoTemp(AfActivoFijo activo) {
-//        System.out.println("setActivoTemp: " + activo);
         this.activoTemp = activo;
     }
 
