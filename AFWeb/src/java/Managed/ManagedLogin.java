@@ -54,11 +54,21 @@ public class ManagedLogin implements Serializable {
 
     public String login() {
         AfUsuario userTemp = manejadorAfUsuario.iniciarSesion(clave, usuario);
+        String mensajeLog = "";
+        String claveEncriptada = "";
         if (userTemp != null) {
 
             // almacenamiento sesion usuario
+            // este valor se usara para llenar los archivos de log
             FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put(usuarioSesion, userTemp);
-            
+            for (int i = 0; i < clave.length(); i++) {
+                claveEncriptada += "*";
+            }
+            mensajeLog = "Metodo: login()" + ", Parametros: usuario:" + usuario + " clave:" + claveEncriptada;
+
+            // llamado al log INFO (1)
+            LoggerMaster.logger(mensajeLog, 1);
+
             FacesContext.getCurrentInstance().
                     addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Informacion", "Credenciales Correctas"));
             return "Menu.xhtml";
@@ -66,6 +76,8 @@ public class ManagedLogin implements Serializable {
         } else {
             FacesContext.getCurrentInstance().
                     addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Informacion", "Las credenciales son inCorrectas"));
+            // llamado al log ERROR (2)
+            LoggerMaster.logger("Las credenciales son inCorrectas", 2);
         }
         return null;
     }
