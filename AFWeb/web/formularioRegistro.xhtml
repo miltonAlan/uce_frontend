@@ -1,0 +1,63 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+    <h:head>
+
+        <style>               
+            .Bimage{background-image:url("resources/images/bk2.jpg");}        
+        </style> 
+
+        <title>Formulario Registro de Datos</title>
+
+        <f:event type="preRenderView" listener="#{ManagedSesion.validarSesion()}" />
+
+
+    </h:head>
+    <h:body styleClass="Bimage">
+        <p:layout fullPage="true">
+            <p:layoutUnit position="north" size="110" resizable="true" closable="true" collapsible="true">
+                <img src="img\saf1.jpg" height="89" width="1260" > </img>
+            </p:layoutUnit>
+
+            <p:layoutUnit position="west" size="200" >
+            </p:layoutUnit>
+            <p:layoutUnit position="east" size="200" >
+            </p:layoutUnit>
+            <p:layoutUnit position="center" size="1000">
+                <h:form styleClass="centered-form">
+                    <p:messages autoUpdate="true" showDetail="true" />
+                    <center>
+                        <h:panelGrid columns="2" styleClass="panelGridCenter">
+                            <p:outputLabel for="txtNombre" value="Nombre" />
+                            <p:inputText id="txtNombre" value="#{JSFManaged.afUsuario.auNombre}" style="width: 100%"/>
+                            <p:outputLabel for="txtApellido" value="Apellido"/>
+                            <p:inputText id="txtApellido" value="#{JSFManaged.afUsuario.auApellido}" style="width: 100%"/>
+                            <p:outputLabel for="txtFecha" value="Fecha de nacimiento (dd/mm/yyyy)"/>
+                            <p:inputText id="txtFecha" value="#{JSFManaged.afUsuario.auFechaNacimiento}" style="width: 100%"/>
+                            <p:outputLabel for="txtClave" value="Clave"/>
+                            <p:password id="txtClave" value="#{JSFManaged.afUsuario.auClave}" style="width: 100%"/>
+                            <p:outputLabel for="txtLogin" value="Usuario" />
+                            <p:inputText id="txtLogin" value="#{JSFManaged.afUsuario.auLogin}" style="width: 100%"/>
+                            <p:outputLabel for="txtCedula" value="Cedula"/>
+                            <p:inputText id="txtCedula" value="#{JSFManaged.afUsuario.auCedula}" style="width: 100%"/>
+                            <p:outputLabel for="txtCargo" value="Cargo"/>
+                            <p:inputText id="txtCargo" value="#{JSFManaged.afUsuario.auCargo}" style="width: 100%"/>
+                            <h:column/>
+                            <p:commandButton value="Guardar datos" id="btnGrabar" actionListener ="#{JSFManaged.grabarAfUsuario()}" icon="ui-icon-check"></p:commandButton>
+                        </h:panelGrid>
+
+                        <p:dock position="bottom">
+                            <p:menuitem value="Menú Principal" icon="img\cat.png" url="Menu.xhtml" />
+                        </p:dock>
+                    </center>
+                </h:form>
+            </p:layoutUnit>  
+
+        </p:layout>
+    </h:body>
+</html>
+
