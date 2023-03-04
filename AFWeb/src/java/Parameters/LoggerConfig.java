@@ -11,6 +11,7 @@ public class LoggerConfig {
 
     private final static String archivoPropertiesLog4j = "log4j.properties";
     private String mensajeLog;
+    public final static String dateFormat = "E, dd MMM yyyy HH:mm:ss z";
 
     private void configLogger() {
         File log4jfile = new File(archivoPropertiesLog4j);

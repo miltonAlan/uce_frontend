@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package Entidades;
 
 import java.io.Serializable;
@@ -18,10 +14,6 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 
-/**
- *
- * @author mpaucar
- */
 @Entity
 @Table(name = "af_activo_fijo")
 @XmlRootElement
@@ -37,6 +29,7 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "AfActivoFijo.findByAfPeriodoDep", query = "SELECT a FROM AfActivoFijo a WHERE a.afPeriodoDep = :afPeriodoDep"),
     @NamedQuery(name = "AfActivoFijo.findByAfFechaCreacion", query = "SELECT a FROM AfActivoFijo a WHERE a.afFechaCreacion = :afFechaCreacion")})
 public class AfActivoFijo implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
@@ -189,7 +182,6 @@ public class AfActivoFijo implements Serializable {
 
     @Override
     public String toString() {
-        return "Entidades.AfActivoFijo[ afConsecutivo=" + afConsecutivo + " ]";
+        return "AfActivoFijo{" + "afConsecutivo=" + afConsecutivo + ", afEstado=" + afEstado + ", afMarca=" + afMarca + ", afModelo=" + afModelo + ", afValor=" + afValor + ", afDepAcum=" + afDepAcum + ", afCodigoBarras=" + afCodigoBarras + ", afPeriodoDep=" + afPeriodoDep + ", afFechaCreacion=" + afFechaCreacion + ", auAfConsecutivo=" + auAfConsecutivo + ", acAfConcepto=" + acAfConcepto + '}';
     }
-    
 }

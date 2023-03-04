@@ -153,7 +153,7 @@ public class ManagedActivoFijo implements Serializable {
             afActivoFijo.setAfEstado("Vigente");
             afActivoFijo.setAfDepAcum(0.0);
             afActivoFijo.setAfPeriodoDep(0);
-            SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+            SimpleDateFormat sdf = new SimpleDateFormat(LoggerConfig.dateFormat);
             afActivoFijo.setAfFechaCreacion(sdf.format(new Date()));
             System.out.println("afActivoFijo.getAfCodigoBarras " + afActivoFijo.getAfCodigoBarras());
             System.out.println("afActivoFijo.getAfEstado" + afActivoFijo.getAfEstado());

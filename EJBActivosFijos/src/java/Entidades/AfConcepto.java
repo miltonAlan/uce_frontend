@@ -1,7 +1,3 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package Entidades;
 
 import java.io.Serializable;
@@ -19,10 +15,6 @@ import javax.validation.constraints.Size;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlTransient;
 
-/**
- *
- * @author mpaucar
- */
 @Entity
 @Table(name = "af_concepto")
 @XmlRootElement
@@ -33,6 +25,7 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "AfConcepto.findByAcDepreciable", query = "SELECT a FROM AfConcepto a WHERE a.acDepreciable = :acDepreciable"),
     @NamedQuery(name = "AfConcepto.findByAcEstado", query = "SELECT a FROM AfConcepto a WHERE a.acEstado = :acEstado")})
 public class AfConcepto implements Serializable {
+
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
@@ -121,7 +114,6 @@ public class AfConcepto implements Serializable {
 
     @Override
     public String toString() {
-        return "Entidades.AfConcepto[ acConsecutivo=" + acConsecutivo + " ]";
+        return "AfConcepto{" + "acConsecutivo=" + acConsecutivo + ", acConcepto=" + acConcepto + ", acDepreciable=" + acDepreciable + ", acEstado=" + acEstado + ", afActivoFijoCollection=" + afActivoFijoCollection + '}';
     }
-    
 }

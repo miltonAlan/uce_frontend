@@ -59,22 +59,28 @@ public class JSFManaged implements Serializable {
     }
 
     public void grabarAfUsuario() {
-        //SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
-        //String date = sdf.format(fecha);
-        //afUsuario.setAuFechaNacimiento(date);
-
         try {
             if (manejadorAfUsuario.buscarPorUsuario(afUsuario.getAuCedula()) == null) {
 
                 asignarConsecutivo();
                 manejadorAfUsuario.create(afUsuario);
                 this.setListaAfUsuarios(manejadorAfUsuario.findAll());
+                parametros.put("usuarioRegistrado", afUsuario.toString());
+                loggerConfig.setMensajeLog("grabarAfUsuario()", "Ingresa un usuario/responsable nuevo al sistema", parametros);
+                logger.info(loggerConfig.getMensajeLog());
+                parametros.clear();
                 afUsuario = new AfUsuario();
                 FacesContext.getCurrentInstance().addMessage(null,
                         new FacesMessage(FacesMessage.SEVERITY_INFO, "Informacion", "Registro guardado exitosamente"));
+
             } else {
                 FacesContext.getCurrentInstance().addMessage(null,
                         new FacesMessage(FacesMessage.SEVERITY_ERROR, "Advertencia!", "El registro ya existe"));
+                parametros.put("usuarioRegistrado", afUsuario.toString());
+                parametros.put("ERRORMSG", "El registro ya existe");
+                loggerConfig.setMensajeLog("grabarAfUsuario()", "Ingresa un usuario/responsable nuevo al sistema", parametros);
+                logger.error(loggerConfig.getMensajeLog());
+                parametros.clear();
             }
 
         } catch (Exception e) {

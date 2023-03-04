@@ -183,7 +183,7 @@ public class ManagedHistorico implements Serializable {
             }
             System.out.println("XX: " + activoTemp.getAfDepAcum());
             manejadorAfActivoFijo.edit(activoTemp);
-            SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+            SimpleDateFormat sdf = new SimpleDateFormat(LoggerConfig.dateFormat);
 
             AfHistorico historicoTemp = new AfHistorico();
             asignarConsecutivoHistorico(historicoTemp);
@@ -377,7 +377,7 @@ public class ManagedHistorico implements Serializable {
                 List<AfActivoFijo> listaTemp = manejadorAfActivoFijo.findAll();
                 for (AfActivoFijo activoFijo : listaAntResponsables) {
                     activoFijo.setAuAfConsecutivo(nuevoResponsable);
-                    SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+                    SimpleDateFormat sdf = new SimpleDateFormat(LoggerConfig.dateFormat);
 
                     AfHistorico historicoTemp = new AfHistorico();
                     asignarConsecutivoHistorico(historicoTemp);
