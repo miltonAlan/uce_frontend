@@ -1,12 +1,10 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package Managed;
 
 import Entidades.AfUsuario;
+import Parameters.LoggerConfig;
 import Sesiones.AfUsuarioFacadeLocal;
 import java.io.Serializable;
+import java.util.HashMap;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
@@ -14,12 +12,16 @@ import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
+import org.apache.log4j.Logger;
 
 @ManagedBean(name = "ManagedLogin")
 @SessionScoped
 public class ManagedLogin implements Serializable {
 
     public static String usuarioSesion = "usuarioSesion";
+    private final static Logger logger = Logger.getLogger(ManagedLogin.class);
+    LoggerConfig loggerConfig = new LoggerConfig();
+    HashMap<String, String> parametros = new HashMap<String, String>();
 
     public ManagedLogin() {
     }
@@ -30,7 +32,6 @@ public class ManagedLogin implements Serializable {
 
     @PostConstruct
     private void inicio() {
-
         afUsuario = new AfUsuario();
 
     }
@@ -54,20 +55,21 @@ public class ManagedLogin implements Serializable {
 
     public String login() {
         AfUsuario userTemp = manejadorAfUsuario.iniciarSesion(clave, usuario);
-        String mensajeLog = "";
         String claveEncriptada = "";
+        for (int i = 0; i < clave.length(); i++) {
+            claveEncriptada += "*";
+        }
+
+        parametros.put("clave", claveEncriptada);
         if (userTemp != null) {
 
             // almacenamiento sesion usuario
             // este valor se usara para llenar los archivos de log
             FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put(usuarioSesion, userTemp);
-            for (int i = 0; i < clave.length(); i++) {
-                claveEncriptada += "*";
-            }
-            mensajeLog = "Metodo: login()" + ", Parametros: usuario:" + usuario + " clave:" + claveEncriptada;
 
-            // llamado al log INFO (1)
-            LoggerMaster.logger(mensajeLog, 1);
+            loggerConfig.setMensajeLog("login()", "Log hacia el sistema", parametros);
+
+            logger.info(loggerConfig.getMensajeLog());
 
             FacesContext.getCurrentInstance().
                     addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Informacion", "Credenciales Correctas"));
@@ -76,13 +78,18 @@ public class ManagedLogin implements Serializable {
         } else {
             FacesContext.getCurrentInstance().
                     addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Informacion", "Las credenciales son inCorrectas"));
-            // llamado al log ERROR (2)
-            LoggerMaster.logger("Las credenciales son inCorrectas", 2);
+            loggerConfig.setMensajeLog("login()", "Falla al tratar de loguear al sistema", parametros);
+
+            logger.error(loggerConfig.getMensajeLog());
         }
         return null;
     }
 
     public String login2() {
+        loggerConfig.setMensajeLog("login2()", "Log hacia el sistema como invitado", parametros);
+
+        logger.info(loggerConfig.getMensajeLog());
+        
         return "MenuUsuario.xhtml";
     }
 

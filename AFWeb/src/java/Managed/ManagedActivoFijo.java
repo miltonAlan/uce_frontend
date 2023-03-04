@@ -1,13 +1,10 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package Managed;
 
 import Entidades.AfActivoFijo;
 import Entidades.AfConcepto;
 import Entidades.AfHistorico;
 import Entidades.AfUsuario;
+import Parameters.LoggerConfig;
 import Sesiones.AfActivoFijoFacadeLocal;
 import Sesiones.AfConceptoFacadeLocal;
 import Sesiones.AfHistoricoFacadeLocal;
@@ -25,12 +22,16 @@ import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
+import org.apache.log4j.Logger;
 import org.primefaces.model.chart.PieChartModel;
 
 @ManagedBean(name = "ManagedActivoFijo")
 @SessionScoped
 public class ManagedActivoFijo implements Serializable {
 
+    private final static Logger logger = Logger.getLogger(ManagedActivoFijo.class);
+    LoggerConfig loggerConfig = new LoggerConfig();
+    HashMap<String, String> parametros = new HashMap<String, String>();
     @EJB
     private AfUsuarioFacadeLocal manejadorAfUsuario;
     private AfUsuario afUsuario;
@@ -55,16 +56,16 @@ public class ManagedActivoFijo implements Serializable {
     public String getNombreResponsable() {
         return nombreResponsable;
     }
-    
-    public void graficar(){
-    torta=new PieChartModel();
-    
+
+    public void graficar() {
+        torta = new PieChartModel();
+
         // for(AfActivoFijo afa: afFacade.listar()){
-           for(AfActivoFijo afa: manejadorAfActivoFijo.findAll()){
-         torta.set(afa.getAfMarca(), afa.getAfConsecutivo());
-               System.out.println("xxxxx :" + afa);
-           }
-        
+        for (AfActivoFijo afa : manejadorAfActivoFijo.findAll()) {
+            torta.set(afa.getAfMarca(), afa.getAfConsecutivo());
+            System.out.println("xxxxx :" + afa);
+        }
+
         //torta.set("Estadistica de concepto");
     }
 
@@ -100,7 +101,7 @@ public class ManagedActivoFijo implements Serializable {
     }
 
     public void setNombresConceptos() {
-         this.setListaAfConceptos(manejadorAfConcepto.findAll());
+        this.setListaAfConceptos(manejadorAfConcepto.findAll());
         for (AfConcepto afConcepto : this.listaAfConceptos) {
             nombresConceptos.add(afConcepto.getAcConcepto());
             mapConceptos.put(afConcepto.getAcConcepto(), afConcepto.getAcConsecutivo());
@@ -168,8 +169,18 @@ public class ManagedActivoFijo implements Serializable {
             this.manejadorAfActivoFijo.create(afActivoFijo);
             this.setListaActivosFijos(manejadorAfActivoFijo.findAll());
             addMessage(FacesMessage.SEVERITY_INFO, "Informacion", "Registro guardado exitosamente");
+
+            parametros.put("activoFijoCreado", afActivoFijo.toString());
+            loggerConfig.setMensajeLog("grabarActivoFijo()", "Graba un nuevo Activos Fijo", parametros);
+            logger.info(loggerConfig.getMensajeLog());
+            parametros.clear();
         } catch (Exception e) {
             addMessage(FacesMessage.SEVERITY_ERROR, "Informacion", "Falló el ingreso del Activo Fijo \n Consulte con el administrador");
+            parametros.put("activoFijoNOCreado", afActivoFijo.toString());
+            parametros.put("ERRORMSG", "Falló el ingreso del Activo Fijo \\n Consulte con el administrador");
+            loggerConfig.setMensajeLog("grabarActivoFijo()", "Graba un nuevo Activos Fijo", parametros);
+            logger.error(loggerConfig.getMensajeLog());
+            parametros.clear();
         }
     }
 
@@ -214,9 +225,18 @@ public class ManagedActivoFijo implements Serializable {
             manejadorAfActivoFijo.edit(activo);
             FacesContext.getCurrentInstance().
                     addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Informacion", "Registro modificado exitosamente"));
+            parametros.put("activoFijoEditado", activo.toString());
+            loggerConfig.setMensajeLog("editarActivo()", "Edita un Activos Fijo", parametros);
+            logger.info(loggerConfig.getMensajeLog());
+            parametros.clear();
         } catch (Exception e) {
             FacesContext.getCurrentInstance().
                     addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Informacion", "Falló el la edición del Activo Fijo \n Consulte con el administrador"));
+            parametros.put("activoFijoNOEditado", activo.toString());
+            parametros.put("ERRORMSG", "Falló la edicion del Activo Fijo \\n Consulte con el administrador");
+            loggerConfig.setMensajeLog("editarActivo()", "Edita un nuevo Activos Fijo", parametros);
+            logger.error(loggerConfig.getMensajeLog());
+            parametros.clear();
         }
 
 

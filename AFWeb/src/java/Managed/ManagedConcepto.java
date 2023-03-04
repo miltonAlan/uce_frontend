@@ -8,11 +8,13 @@ import Entidades.AfActivoFijo;
 import Entidades.AfConcepto;
 import Entidades.AfHistorico;
 import Entidades.AfUsuario;
+import Parameters.LoggerConfig;
 import Sesiones.AfActivoFijoFacadeLocal;
 import Sesiones.AfConceptoFacadeLocal;
 import Sesiones.AfHistoricoFacadeLocal;
 import Sesiones.AfUsuarioFacadeLocal;
 import java.io.Serializable;
+import java.util.HashMap;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
@@ -20,11 +22,15 @@ import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
+import org.apache.log4j.Logger;
 
 @ManagedBean(name = "ManagedConcepto")
 @SessionScoped
 public class ManagedConcepto implements Serializable {
 
+    private final static Logger logger = Logger.getLogger(ManagedConcepto.class);
+    LoggerConfig loggerConfig = new LoggerConfig();
+    HashMap<String, String> parametros = new HashMap<String, String>();
     @EJB
     private AfUsuarioFacadeLocal manejadorAfUsuario;
     private AfUsuario afUsuario;
@@ -63,6 +69,10 @@ public class ManagedConcepto implements Serializable {
         if (manejadorAfConcepto.buscarPorConcepto(afConcepto.getAcConcepto()) == null) {
             afConcepto.setAcEstado("Vigente");
             asignarConsecutivo();
+            parametros.put("conceptoGuardado", afConcepto.toString());
+            loggerConfig.setMensajeLog("grabarAfConcepto()", "Graba un nuevo concepto de para los Activos Fijos", parametros);
+            logger.info(loggerConfig.getMensajeLog());
+            parametros.clear();
             manejadorAfConcepto.create(afConcepto);
             this.setListaAfConceptos(manejadorAfConcepto.findAll());
             afConcepto = new AfConcepto();
@@ -70,6 +80,11 @@ public class ManagedConcepto implements Serializable {
 
         } else {
             addMessage(FacesMessage.SEVERITY_WARN, "Advertencia", "Un concepto con la misma descripción ya existe");
+            parametros.put("conceptoNOGuardado", afConcepto.toString());
+            parametros.put("ERRORMSG", "Un concepto con la misma descripción ya existe");
+            loggerConfig.setMensajeLog("grabarAfConcepto()", "Graba un nuevo concepto de para los Activos Fijos", parametros);
+            logger.error(loggerConfig.getMensajeLog());
+            parametros.clear();
         }
     }
 
@@ -84,7 +99,6 @@ public class ManagedConcepto implements Serializable {
 //        this.afHistorico.setAfActivoFijo(manejadorAfActivoFijo.find(codActivoFijo));
 //        this.manejadorAfHistorico.create(afHistorico);
 //    }
-
     public void listarAfUsuarios() {
         setListaAfUsuarios(manejadorAfUsuario.findAll());
     }
@@ -97,6 +111,10 @@ public class ManagedConcepto implements Serializable {
         manejadorAfConcepto.edit(concepto);
         FacesContext.getCurrentInstance().
                 addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Informacion", "Registro modificado exitosamente"));
+        parametros.put("conceptoEditado", concepto.toString());
+        loggerConfig.setMensajeLog("editarConcepto()", "Edita la informacion de los conceptos de Activos Fijos", parametros);
+        logger.info(loggerConfig.getMensajeLog());
+        parametros.clear();
 
     }
 

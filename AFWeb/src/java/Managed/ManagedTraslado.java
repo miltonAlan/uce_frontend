@@ -1,13 +1,10 @@
-/*
- * To change this template, choose Tools | Templates
- * and open the template in the editor.
- */
 package Managed;
 
 import Entidades.AfActivoFijo;
 import Entidades.AfConcepto;
 import Entidades.AfHistorico;
 import Entidades.AfUsuario;
+import Parameters.LoggerConfig;
 import Sesiones.AfActivoFijoFacadeLocal;
 import Sesiones.AfConceptoFacadeLocal;
 import Sesiones.AfHistoricoFacadeLocal;
@@ -19,18 +16,21 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Timer;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
+import org.apache.log4j.Logger;
 
 @ManagedBean(name = "ManagedTraslado")
 @SessionScoped
 public class ManagedTraslado implements Serializable {
 
+    private final static Logger logger = Logger.getLogger(ManagedTraslado.class);
+    LoggerConfig loggerConfig = new LoggerConfig();
+    HashMap<String, String> parametros = new HashMap<String, String>();
     @EJB
     private AfUsuarioFacadeLocal manejadorAfUsuario;
     private AfUsuario afUsuario;
@@ -154,6 +154,11 @@ public class ManagedTraslado implements Serializable {
                 listaAntResponsables.add(afActivoFijo1);
             }
         }
+        parametros.put("nombreResponsableActual", nombreResponsableAnt);
+//        parametros.put("cantidadActivosFijosACargo",String.valueOf(listaAntResponsables.size()));
+        loggerConfig.setMensajeLog("buscarResponsable()", "Consulta de Activos Fijos asignados a cierto responsable", parametros);
+        logger.info(loggerConfig.getMensajeLog());
+
         this.listaActivosFijos = listaAntResponsables;
     }
 
@@ -179,18 +184,9 @@ public class ManagedTraslado implements Serializable {
                     historicoTemp.setAhResponsableAct(nombreResponsableAct);
                     historicoTemp.setAhResponsableAnt(nombreResponsableAnt);
                     historicoTemp.setAhMovimiento("Traslado de responsable-" + "Activo Fijo: "
-                            + activoFijo.getAfMarca() + " " + activoFijo.getAfModelo() + " desde: " + nombreResponsableAnt + " hacia: " +nombreResponsableAct );
+                            + activoFijo.getAfMarca() + " " + activoFijo.getAfModelo() + " desde: " + nombreResponsableAnt + " hacia: " + nombreResponsableAct);
                     historicoTemp.setAhPeriodo(0.0);
                     historicoTemp.setAhValor(0.0);
-                    System.out.println("------------");
-                    System.out.println("XX:historicoTemp getAfAhConsecutivo" + historicoTemp.getAfAhConsecutivo());
-                    System.out.println("XX:historicoTemp getAhFecha" + historicoTemp.getAhFecha());
-                    System.out.println("XX:historicoTemp getAhMovimiento" + historicoTemp.getAhMovimiento());
-                    System.out.println("XX:historicoTemp getAhPeriodo" + historicoTemp.getAhPeriodo());
-                    System.out.println("XX:historicoTemp getAhValor" + historicoTemp.getAhValor());
-                    System.out.println("XX:historicoTemp getAhResponsableAct" + historicoTemp.getAhResponsableAct());
-                    System.out.println("XX:historicoTemp getAhResponsableAnt" + historicoTemp.getAhResponsableAnt());
-                    System.out.println("------------");
                     manejadorAfHistorico.create(historicoTemp);
                     manejadorAfActivoFijo.edit(activoFijo);
 
@@ -210,14 +206,29 @@ public class ManagedTraslado implements Serializable {
                 FacesContext.getCurrentInstance().
                         addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Información", "Traslado realizado exitosamente"));
 
-
+                parametros.put("nombreResponsableActual", nombreResponsableAnt);
+                parametros.put("nombreResponsableNuevo", nombreResponsableAct);
+                loggerConfig.setMensajeLog("trasladarResponsable()", "Traslada los activos fijos a cargo de una persona hacia otra", parametros);
+                logger.info(loggerConfig.getMensajeLog());
+                parametros.clear();
             } else {
                 FacesContext.getCurrentInstance().
                         addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Aviso", "El responsable no puede ser el mismo"));
+                parametros.put("ERRORMSG", "El responsable no puede ser el mismo");
+                parametros.put("nombreResponsableActual", nombreResponsableAnt);
+                parametros.put("nombreResponsableNuevo", nombreResponsableAct);
+                loggerConfig.setMensajeLog("trasladarResponsable()", "Traslada los activos fijos a cargo de una persona hacia otra", parametros);
+                logger.error(loggerConfig.getMensajeLog());
+                parametros.clear();
             }
         } else {
             FacesContext.getCurrentInstance().
                     addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Aviso", "El responsable no tiene Activos Fijos asignados"));
+            parametros.put("ERRORMSG", "El responsable no tiene Activos Fijos asignados");
+            parametros.put("nombreResponsableActual", nombreResponsableAnt);
+            loggerConfig.setMensajeLog("trasladarResponsable()", "Traslada los activos fijos a cargo de una persona hacia otra", parametros);
+            logger.error(loggerConfig.getMensajeLog());
+            parametros.clear();
         }
 
     }
