@@ -5,6 +5,7 @@
 package Sesiones;
 
 import Entidades.AfActivoFijo;
+import Entidades.AfUsuario;
 import java.util.List;
 import javax.ejb.Local;
 
@@ -28,5 +29,6 @@ public interface AfActivoFijoFacadeLocal {
     List<AfActivoFijo> findRange(int[] range);
 
     int count();
-    
+
+    List<AfActivoFijo> buscarPorConsecutivo(AfUsuario usuario);
 }

@@ -12,7 +12,7 @@
         </style> 
 
         <title>Consulta General de Activos Fijos</title>
- 
+
     </h:head>
     <h:body styleClass="Bimage"> <h:form>
 
@@ -23,7 +23,7 @@
         <h:form id="formPrincipal">
             <div class="card crud-demo">
                 <p:growl id="msgs" showDetail="true" autoUpdate="true"/>
-                <p:dataTable id="tableActivos" widgetVar="dtProducts" var="activos" value="#{ManagedActivoFijo.listaActivosFijos}"
+                <p:dataTable id="tableActivos" widgetVar="dtProducts" var="activos" value="#{ManagedActivoFijo.listaActivosFijosACargo}"
                              styleClass="products-table" 
                              paginator="true"
                              rows="15"  paginatorPosition="bottom" editable="true" sortBy="#{activos.auAfConsecutivo.auConsecutivo}"
@@ -34,12 +34,15 @@
                     </p:column>
                     <p:column headerText="Concepto" filterBy="#{ManagedActivoFijo.buscarConcepto(activos.acAfConcepto)}" 
                               sortBy="#{ManagedActivoFijo.buscarConcepto(activos.acAfConcepto)}" width="100">
+                        <h:outputText value="#{ManagedActivoFijo.buscarConcepto(activos.acAfConcepto)}"/>
                     </p:column>
                     <p:column headerText="Descipción" filterBy="#{activos.afModelo}" 
                               sortBy="#{activos.afModelo}" width="200">
+                        <h:outputText value="#{activos.afModelo}"/>
                     </p:column>
                     <p:column headerText="Marca" filterBy="#{activos.afMarca}" 
                               sortBy="#{activos.afMarca}" width="100">
+                        <h:outputText value="#{activos.afMarca}"/>
                     </p:column>
                     <p:column headerText="Valor" filterBy="#{activos.afValor}" 
                               sortBy="#{activos.afValor}" width="100">
@@ -59,10 +62,14 @@
                     </p:column>
                 </p:dataTable>
             </div>
+            <h:panelGrid>
+                <p:commandButton value="Cerrar Sesion" id="logout" action="#{JSFManaged.logout()}"
+                                 styleClass="p-mr-2" icon="ui-icon-key"/>
+            </h:panelGrid>
             <p:dock position="bottom">
                 <p:menuitem value="Menú Principal" icon="img\cat.png" url="MenuUsuario.xhtml" />
             </p:dock>
-            
+
         </h:form>
     </h:body>
 </html>

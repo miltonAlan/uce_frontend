@@ -19,6 +19,7 @@ import org.apache.log4j.Logger;
 public class ManagedLogin implements Serializable {
 
     public static String usuarioSesion = "usuarioSesion";
+    public static String usuarioSesionInvitado = "usuarioSesionInvitado";
     private final static Logger logger = Logger.getLogger(ManagedLogin.class);
     LoggerConfig loggerConfig = new LoggerConfig();
     HashMap<String, String> parametros = new HashMap<String, String>();
@@ -86,6 +87,9 @@ public class ManagedLogin implements Serializable {
     }
 
     public String login2() {
+        AfUsuario userTemp = new AfUsuario();
+        userTemp.setAuLogin(usuario);
+        FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put(usuarioSesionInvitado, userTemp);
         loggerConfig.setMensajeLog("login2()", "Log hacia el sistema como invitado", parametros);
 
         logger.info(loggerConfig.getMensajeLog());

@@ -27,9 +27,9 @@ import javax.xml.bind.annotation.XmlRootElement;
     @NamedQuery(name = "AfActivoFijo.findByAfDepAcum", query = "SELECT a FROM AfActivoFijo a WHERE a.afDepAcum = :afDepAcum"),
     @NamedQuery(name = "AfActivoFijo.findByAfCodigoBarras", query = "SELECT a FROM AfActivoFijo a WHERE a.afCodigoBarras = :afCodigoBarras"),
     @NamedQuery(name = "AfActivoFijo.findByAfPeriodoDep", query = "SELECT a FROM AfActivoFijo a WHERE a.afPeriodoDep = :afPeriodoDep"),
-    @NamedQuery(name = "AfActivoFijo.findByAfFechaCreacion", query = "SELECT a FROM AfActivoFijo a WHERE a.afFechaCreacion = :afFechaCreacion")})
+    @NamedQuery(name = "AfActivoFijo.findByau_af_consecutivo", query = "SELECT a FROM AfActivoFijo a WHERE a.auAfConsecutivo = :au_af_consecutivo")})
 public class AfActivoFijo implements Serializable {
-
+ 
     private static final long serialVersionUID = 1L;
     @Id
     @Basic(optional = false)
