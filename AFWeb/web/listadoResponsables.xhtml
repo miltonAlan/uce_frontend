@@ -12,15 +12,22 @@
         </style> 
 
         <title>Lista de Responsables</title>
-        <f:event type="preRenderView" listener="#{ManagedSesion.validarSesion()}" />
     </h:head>
     <h:body styleClass="Bimage">
-        <h:form>
+
+        <p:commandButton value="Reporte de Responsables" type="button"  styleClass="shadow-1 mb-3 mr-2">
+            <p:printer target="report"/>
+        </p:commandButton>
+
+        <h:form id="report">
 
             <img src="img\lr.jpg" height="85" width="1250"/>
 
             <br></br>
-            <p:dataTable var="i" value="#{JSFManaged.listaAfUsuarios}">
+
+
+
+            <p:dataTable id="DT" var="i" value="#{JSFManaged.listaAfUsuarios}">
                 <f:facet name="Titulo">
                     <h:outputText value ="Lista del Personal"/>                                                    
                 </f:facet>
@@ -45,10 +52,13 @@
                 </p:column>
             </p:dataTable>
 
-            <p:dock position="bottom">
-                <p:menuitem value="Menú Principal" icon="img\cat.png" url="Menu.xhtml" />
-            </p:dock>
+
+
         </h:form>
+
+        <p:dock position="bottom">
+            <p:menuitem value="Menú Principal" icon="img\cat.png" url="Menu.xhtml" />
+        </p:dock>
     </h:body>
 </html>
 
