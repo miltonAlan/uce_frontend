@@ -73,7 +73,7 @@
                 <p:dataTable id="conceptos" widgetVar="dtProducts" var="concepto" value="#{ManagedConcepto.listaAfConceptos}"
                              styleClass="products-table" 
                              paginator="true"
-                             rows="10"  paginatorPosition="bottom" editable="true" sortBy="#{concepto.acConsecutivo}">
+                             rows="7"  paginatorPosition="bottom" editable="true" sortBy="#{concepto.acConsecutivo}">
 
 
                     <p:column headerText="Consecutivo" filterBy="#{concepto.acConsecutivo}" sortBy="#{concepto.acConsecutivo}"
@@ -120,6 +120,10 @@
                 </p:dataTable>
 
             </div>
+            <h:panelGrid>
+                <p:commandButton value="Cerrar Sesion" id="logout" action="#{JSFManaged.logout()}"
+                                 styleClass="p-mr-2" icon="ui-icon-key"/>
+            </h:panelGrid>
 
             <p:dock position="bottom">
                 <p:menuitem value="Menú Principal" icon="img\cat.png" url="Menu.xhtml" />

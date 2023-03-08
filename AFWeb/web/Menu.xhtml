@@ -41,9 +41,8 @@
                             <p:menuitem value="Responsables de los Activos Fijos" outcome="listadoResponsables.xhtml" />
                             <p:menuitem value="Traslado de Responsable" outcome="trasladoresponsables.xhtml" />                            
                             <p:menuitem value="Depreciación/Revalorización" outcome="depreciacion.xhtml" />                            
-
+                            <p:menuitem value="Auditoria" outcome="historico.xhtml" />                            
                         </p:submenu>
-
                     </p:menu>
                 </p:layoutUnit>
 
@@ -53,8 +52,9 @@
                 </p:layoutUnit>  
 
             </p:layout>
-
-
+            <p:dock position="bottom">
+                <p:commandButton type="button" title="s" onclick="#{JSFManaged.logout()}"/>
+            </p:dock>
         </h:body>
 
     </f:view>

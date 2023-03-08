@@ -136,6 +136,11 @@ public class JSFManaged implements Serializable {
         listarAfConceptos();
     }
 
+    public String logout() {
+        FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
+        return "login.xhtml";
+    }
+
     public void asignarConsecutivo() {
 
         this.afUsuario

@@ -49,7 +49,12 @@
                             <h:column/>
                             <p:commandButton value="Guardar datos" id="btnGrabar" actionListener ="#{JSFManaged.grabarAfUsuario()}" icon="ui-icon-check"></p:commandButton>
                         </h:panelGrid>
-
+                        <h:panelGrid> <h:column></h:column></h:panelGrid>
+                        <h:panelGrid> <h:column></h:column></h:panelGrid>
+                        <h:panelGrid>
+                            <p:commandButton value="Cerrar Sesion" id="logout" action="#{JSFManaged.logout()}"
+                                             styleClass="p-mr-2" icon="ui-icon-key"/>
+                        </h:panelGrid>
                         <p:dock position="bottom">
                             <p:menuitem value="Menú Principal" icon="img\cat.png" url="Menu.xhtml" />
                         </p:dock>
