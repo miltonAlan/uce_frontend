@@ -96,6 +96,9 @@ public class ManagedLogin implements Serializable {
         
         return "MenuUsuario.xhtml";
     }
+    public String login3() {
+        return "Princ.xhtml";
+    }
 
     public String getClave() {
         return clave;

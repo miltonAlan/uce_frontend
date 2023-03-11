@@ -217,7 +217,6 @@ public class ManagedBaja implements Serializable {
 
                     AfHistorico historicoTemp = new AfHistorico();
                     asignarConsecutivoHistorico(historicoTemp);
-
                     historicoTemp.setAhFecha(sdf.format(new Date()));
                     historicoTemp.setAhResponsableAct(nombreResponsableAct);
                     historicoTemp.setAhResponsableAnt(nombreResponsableAnt);
@@ -225,15 +224,6 @@ public class ManagedBaja implements Serializable {
                             + activoFijo.getAfMarca() + " " + activoFijo.getAfModelo());
                     historicoTemp.setAhPeriodo(0.0);
                     historicoTemp.setAhValor(0.0);
-                    System.out.println("------------");
-                    System.out.println("XX:historicoTemp getAfAhConsecutivo" + historicoTemp.getAfAhConsecutivo());
-                    System.out.println("XX:historicoTemp getAhFecha" + historicoTemp.getAhFecha());
-                    System.out.println("XX:historicoTemp getAhMovimiento" + historicoTemp.getAhMovimiento());
-                    System.out.println("XX:historicoTemp getAhPeriodo" + historicoTemp.getAhPeriodo());
-                    System.out.println("XX:historicoTemp getAhValor" + historicoTemp.getAhValor());
-                    System.out.println("XX:historicoTemp getAhResponsableAct" + historicoTemp.getAhResponsableAct());
-                    System.out.println("XX:historicoTemp getAhResponsableAnt" + historicoTemp.getAhResponsableAnt());
-                    System.out.println("------------");
                     manejadorAfHistorico.create(historicoTemp);
                     manejadorAfActivoFijo.edit(activoFijo);
 
