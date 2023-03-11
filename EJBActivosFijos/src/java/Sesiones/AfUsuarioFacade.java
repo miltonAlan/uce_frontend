@@ -43,7 +43,7 @@ public class AfUsuarioFacade extends AbstractFacade<AfUsuario> implements AfUsua
     }
 
     @Override
-    public AfUsuario iniciarSesion(String clave,String login) {
+    public AfUsuario iniciarSesion(String clave, String login) {
         AfUsuario cli = null;
 
         try {
@@ -60,5 +60,17 @@ public class AfUsuarioFacade extends AbstractFacade<AfUsuario> implements AfUsua
         }
         return cli;
 
+    }
+
+    @Override
+    public AfUsuario buscarPorLogin(String login) {
+        AfUsuario afUsuario = null;
+        try {
+            afUsuario = (AfUsuario) em.createNamedQuery("AfUsuario.findByAuLogin", AfUsuario.class)
+                    .setParameter("auLogin", login).getSingleResult();
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+        return afUsuario;
     }
 }

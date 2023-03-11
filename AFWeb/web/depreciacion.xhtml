@@ -67,8 +67,8 @@
                 <p:dataTable id="tableActivos" widgetVar="dtProducts" var="activos" value="#{ManagedDepreciacion.listaActivosFijos}"
                              styleClass="products-table" 
                              paginator="true"
-                             rows="15"  paginatorPosition="bottom" editable="true" sortBy="#{activos.auAfConsecutivo.auConsecutivo}"
-                             scrollable="true" scrollRows="3" scrollHeight="250" scrollWidth="1300">
+                             rows="7"  paginatorPosition="bottom" editable="true" sortBy="#{activos.auAfConsecutivo.auConsecutivo}"
+                             scrollable="true" scrollRows="3" scrollHeight="350" scrollWidth="1300">
                     <p:column headerText="Revalorización"  width="110" >
                         <p:commandButton icon=" ui-icon-plusthick"  action ="#{ManagedDepreciacion.setActivoTemp(activos,1)}"
                                          onclick="wdialogo.show()"/>
@@ -115,20 +115,13 @@
                             <f:convertNumber type="currency" currencySymbol="$"/>
                         </h:outputText>    
                     </p:column>
-                    <p:column headerText="Dep. Acumulada" filterBy="#{activos.afDepAcum}" 
-                              sortBy="#{activos.afDepAcum}" width="120">
-                        <h:outputText value="#{activos.afDepAcum}">
-                            <f:convertNumber type="currency" currencySymbol="$"/>
-                        </h:outputText>    
-                    </p:column>
-                    <p:column headerText="Período" filterBy="#{activos.afPeriodoDep}" 
-                              sortBy="#{activos.afPeriodoDep}" width="100">
-                        <h:outputText value="#{activos.afPeriodoDep}">                            
-                        </h:outputText>    
-                    </p:column>
                 </p:dataTable>
 
             </div>
+            <h:panelGrid>
+                <p:commandButton value="Cerrar Sesion" id="logout" action="#{JSFManaged.logout()}"
+                                 styleClass="p-mr-2" icon="ui-icon-key"/>
+            </h:panelGrid>  
             <p:dock position="bottom">
                 <p:menuitem value="Menú Principal" icon="img\cat.png" url="Menu.xhtml" />
             </p:dock>

@@ -76,6 +76,11 @@
                     <p:message for="clave2" />
 
                 </h:panelGrid>
+                <h:panelGrid>
+                    <p:commandButton value="Grabar" id="btnGrabar" actionListener ="#{JSFManaged.grabarAfUsuario()}"
+                                     update="growl" 
+                                     styleClass="p-mr-2"/>
+                </h:panelGrid>
 
             </p:fieldset>
 

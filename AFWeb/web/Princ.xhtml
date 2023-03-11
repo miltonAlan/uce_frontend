@@ -2,18 +2,18 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
 <html  xmlns="http://www.w3.org/1999/xhtml"
-       xmlns:h="http://java.sun.com/jsf/html"
-       xmlns:f="http://java.sun.com/jsf/core"
-       xmlns:ui="http://java.sun.com/jsf/facelets"
-       xmlns:p="http://primefaces.org/ui">
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
 
-
-
+   
+    
     <f:view contentType="text/html">
         <h:head>
             <f:facet name="first">
                 <meta content='text/html; charset=UTF-8' http-equiv="Content-Type"/>
-                <title>Menu Usuario</title>
+                <title>Menu Principal</title>
             </f:facet>
         </h:head>
 
@@ -33,23 +33,24 @@
                 <p:layoutUnit position="west" size="275" header="Ocultar Menú" collapsible="true">
                     <p:menu>
                         <p:submenu label="MENÚ PRINCIPAL">
-                            <p:menuitem value="Consulta General de Activos Fijos a cargo" outcome="listarActivosFijosUsuario.xhtml" />
-                            <p:menuitem value="Reportes Activos Fijos" outcome="Reportes.xhtml" />
-                            <p:menuitem value="Cerrar Sesión" outcome="login.xhtml" />
-
+                            <p:menuitem value="Acerca de Nosotros" outcome="Infor.xhtml" />
+                            <p:menuitem value="Login" outcome="login.xhtml" />
+                            
+                            
                         </p:submenu>
 
                     </p:menu>
                 </p:layoutUnit>
-
-
-                <p:layoutUnit position="center">
-                    <img src="img\1234.gif" height="671" width="975" > </img>
+                
+                
+                 <p:layoutUnit position="center">
+                   <img src="img\fasd.gif" height="671" width="975" > </img>
                 </p:layoutUnit>  
 
             </p:layout>
 
+
         </h:body>
-        
+
     </f:view>
 </html>

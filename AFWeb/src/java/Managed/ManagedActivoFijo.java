@@ -120,9 +120,10 @@ public class ManagedActivoFijo implements Serializable {
     private double codCliente;
     private double codConcepto;
     private List<AfActivoFijo> listaActivosFijos;
+    private List<AfActivoFijo> listaActivosFijosACargo;
 
     public List<AfActivoFijo> getListaActivosFijos() {
-        return listaActivosFijos;
+        return manejadorAfActivoFijo.findAll();
     }
 
     public void setListaActivosFijos(List<AfActivoFijo> listaActivosFijos) {
@@ -195,7 +196,17 @@ public class ManagedActivoFijo implements Serializable {
 
     public void listarActivosFijos() {
         this.setListaActivosFijos(manejadorAfActivoFijo.findAll());
+    }
 
+    public void listarActivosFijosACargo() {
+        FacesContext facesContext = FacesContext.getCurrentInstance();
+        AfUsuario afUsuarioSesion = (AfUsuario) facesContext.getExternalContext().getSessionMap().get(ManagedLogin.usuarioSesionInvitado);
+        System.out.println("XXXXXXX: " + afUsuarioSesion);
+        System.out.println("XXXXXXXXXXXXxxafUsuarioSesion: " + afUsuarioSesion.getAuLogin());
+        AfUsuario afUsuarioEncontrado = manejadorAfUsuario.buscarPorLogin(afUsuarioSesion.getAuLogin());
+        System.out.println("XXXXXXX: " + afUsuarioEncontrado);
+        System.out.println("XXXXlistaActivosACargo" + manejadorAfActivoFijo.buscarPorConsecutivo(afUsuarioEncontrado));
+        this.setListaActivosFijosACargo(manejadorAfActivoFijo.buscarPorConsecutivo(afUsuarioEncontrado));
     }
 
     public void listarConceptos() {
@@ -210,13 +221,18 @@ public class ManagedActivoFijo implements Serializable {
         listarUsuarios();
         setNombresConceptos();
         setNombresUsuarios();
-
+        FacesContext facesContext = FacesContext.getCurrentInstance();
+        AfUsuario afUsuarioSesion = (AfUsuario) facesContext.getExternalContext().getSessionMap().get(ManagedLogin.usuarioSesionInvitado);
+        if (afUsuarioSesion != null) {
+            listarActivosFijosACargo(); 
+        }
     }
 
     public String buscarConcepto(AfConcepto concepto) {
         String retult = null;
         retult = manejadorAfConcepto.find(concepto.getAcConsecutivo()).getAcConcepto();
-        return retult;
+//        return retult;
+        return manejadorAfConcepto.find(concepto.getAcConsecutivo()).getAcConcepto();
     }
 
     public void editarActivo(AfActivoFijo activo) {
@@ -283,5 +299,22 @@ public class ManagedActivoFijo implements Serializable {
 
     public void setCodActivoFijo(double codActivoFijo) {
         this.codActivoFijo = codActivoFijo;
+    }
+
+    public List<AfActivoFijo> getListaActivosFijosACargo() {
+        FacesContext facesContext = FacesContext.getCurrentInstance();
+        AfUsuario afUsuarioSesion = (AfUsuario) facesContext.getExternalContext().getSessionMap().get(ManagedLogin.usuarioSesionInvitado);
+        System.out.println("XXXXXXX: " + afUsuarioSesion);
+        System.out.println("XXXXXXXXXXXXxxafUsuarioSesion: " + afUsuarioSesion.getAuLogin());
+        AfUsuario afUsuarioEncontrado = manejadorAfUsuario.buscarPorLogin(afUsuarioSesion.getAuLogin());
+        System.out.println("XXXXXXX: " + afUsuarioEncontrado);
+        System.out.println("XXXXlistaActivosACargo" + manejadorAfActivoFijo.buscarPorConsecutivo(afUsuarioEncontrado));
+        this.setListaActivosFijosACargo(manejadorAfActivoFijo.buscarPorConsecutivo(afUsuarioEncontrado));
+//        return listaActivosFijosACargo;
+        return manejadorAfActivoFijo.buscarPorConsecutivo(afUsuarioEncontrado);
+    }
+
+    public void setListaActivosFijosACargo(List<AfActivoFijo> listaActivosFijosACargo) {
+        this.listaActivosFijosACargo = listaActivosFijosACargo;
     }
 }

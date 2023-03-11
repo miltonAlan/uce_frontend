@@ -68,8 +68,8 @@
                 <p:dataTable id="tableActivos" widgetVar="dtProducts" var="activos" value="#{ManagedBaja.listaActivosFijos}"
                              styleClass="products-table" 
                              paginator="true"
-                             rows="15"  paginatorPosition="bottom" editable="true" sortBy="#{activos.auAfConsecutivo.auConsecutivo}"
-                             scrollable="true" scrollRows="3" scrollHeight="250" scrollWidth="1300">
+                             rows="12"  paginatorPosition="bottom" editable="true" sortBy="#{activos.auAfConsecutivo.auConsecutivo}"
+                             scrollable="false" scrollRows="3" scrollHeight="350" scrollWidth="1300">
                     <p:column headerText="Dar de baja"  width="100">
                         <p:commandButton icon="ui-icon-circle-arrow-s" value=" "  action ="#{ManagedBaja.setActivoTemp(activos)}"
                                          onclick="wdialogo.show()"
@@ -127,7 +127,10 @@
                 </p:dataTable>
 
             </div>
-
+            <h:panelGrid>
+                <p:commandButton value="Cerrar Sesion" id="logout" action="#{JSFManaged.logout()}"
+                                 styleClass="p-mr-2" icon="ui-icon-key"/>
+            </h:panelGrid>
             <p:dock position="bottom">
                 <p:menuitem value="Menú Principal" icon="img\cat.png" url="Menu.xhtml" />
             </p:dock>
