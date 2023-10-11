@@ -18,3 +18,12 @@ Este proyecto es una aplicación de gestión de activos fijos que permite a las 
 
 Asegúrate de tener Java y las dependencias necesarias para PrimeFaces configuradas en tu entorno de desarrollo. Además, debes contar con la base de datos configurada y accesible.
 
+
+
+## Vista previa
+![Vista previa](https://raw.githubusercontent.com/miltonAlan/uce_frontend/master/capture1.png "Vista previa 1")
+![Vista previa](https://raw.githubusercontent.com/miltonAlan/uce_frontend/master/capture2.png "Vista previa 2")
+![Vista previa](https://raw.githubusercontent.com/miltonAlan/uce_frontend/master/capture3.png "Vista previa 3")
+![Vista previa](https://raw.githubusercontent.com/miltonAlan/uce_frontend/master/capture4.png "Vista previa 4")
+![Vista previa](https://raw.githubusercontent.com/miltonAlan/uce_frontend/master/capture5.png "Vista previa 5")
+![Vista previa](https://raw.githubusercontent.com/miltonAlan/uce_frontend/master/capture6.png "Vista previa 6")
