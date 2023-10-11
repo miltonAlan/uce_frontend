@@ -18,7 +18,8 @@ Este proyecto es una aplicación de gestión de activos fijos que permite a las 
 
 Asegúrate de tener Java y las dependencias necesarias para PrimeFaces configuradas en tu entorno de desarrollo. Además, debes contar con la base de datos configurada y accesible.
 
-
+Configura las dependencias según el repositorio de backend antes de compilar la aplicación. 
+Puedes obtener la aplicación en el siguiente repositorio: [https://github.com/miltonAlan/uce_backend](https://github.com/miltonAlan/uce_backend).
 
 ## Vista previa
 ![Vista previa](https://raw.githubusercontent.com/miltonAlan/uce_frontend/master/capture1.png "Vista previa 1")
